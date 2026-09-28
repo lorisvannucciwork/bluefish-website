@@ -90,7 +90,7 @@ export default function GalleryHero() {
               >
                 <SkeletonOverlay loaded={circleLoaded} className="rounded-full" />
                 <Image
-                  src="/wp-content/uploads/2026/01/SS-SG_INTERIOR-006-1.jpg"
+                  src="/images/gallery/gallery-1.jpg"
                   alt="Blue Fish Port Ghalib Seaview Dining"
                   fill
                   sizes="(max-width: 768px) 260px, 420px"

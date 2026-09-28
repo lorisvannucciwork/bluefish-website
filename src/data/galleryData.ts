@@ -54,13 +54,4 @@ export const galleryImages: GalleryImage[] = [
     location: "VIP Sunset Salon",
     aspect: "wide",
   },
-  {
-    id: "6",
-    src: "/images/hero/hero.webp",
-    title: "Port Ghalib Marina Waterfront",
-    desc: "The open boardwalk and luxury yacht marina under the golden sunset of the Red Sea.",
-    category: "waterfront",
-    location: "Boardwalk Boardwalk",
-    aspect: "landscape",
-  },
 ];

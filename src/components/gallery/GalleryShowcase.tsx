@@ -113,15 +113,28 @@ export default function GalleryShowcase() {
         </div>
 
         {/* Gallery Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
-          {galleryImages.map((image, idx) => (
-            <ShowcaseCard
-              key={image.id || idx}
-              image={image}
-              idx={idx}
-              onClick={() => setLightboxIndex(idx)}
-            />
-          ))}
+        <div className="space-y-6 sm:space-y-8">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
+            {galleryImages.slice(0, 3).map((image, idx) => (
+              <ShowcaseCard
+                key={image.id || idx}
+                image={image}
+                idx={idx}
+                onClick={() => setLightboxIndex(idx)}
+              />
+            ))}
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8">
+            {galleryImages.slice(3, 5).map((image, idx) => (
+              <ShowcaseCard
+                key={image.id || idx + 3}
+                image={image}
+                idx={idx + 3}
+                onClick={() => setLightboxIndex(idx + 3)}
+              />
+            ))}
+          </div>
         </div>
       </div>
 
