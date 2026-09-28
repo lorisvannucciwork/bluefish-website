@@ -2,7 +2,7 @@ export interface MenuItem {
   name: string;
   category: string;
   price: string;
-  desc: string;
+  desc?: string;
   image?: string;
   tag?: string;
   badgeColor?: string;
@@ -11,6 +11,14 @@ export interface MenuItem {
 export interface MenuCategory {
   id: string;
   name: string;
+}
+
+export interface MenuSection {
+  id: string;
+  categoryId: string;
+  title: string;
+  subtitle?: string;
+  items: MenuItem[];
 }
 
 export interface GalleryImage {

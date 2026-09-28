@@ -7,7 +7,7 @@ import Footer from "@/components/layout/Footer";
 export const metadata: Metadata = {
   title: "Menu | Blue Fish Seafood • Sushi • Seaview Dining",
   description:
-    "Explore our coastal Mediterranean & Japanese sushi menu: Antipasti, Primi, Secondi, and Chef's Sushi Selection along the Port Ghalib Marina boardwalk.",
+    "Explore BlueFish menu: Appetizers, Soups, Salads, Nigiri, Sashimi, Special Rolls, Dynamite, Chef's Mix Plates, Cocktails, and Wines along the Port Ghalib Marina waterfront.",
 };
 
 export default function MenuPage() {

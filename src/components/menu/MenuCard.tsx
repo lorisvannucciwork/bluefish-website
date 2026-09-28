@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import { menuSectionsData, menuCategories } from "@/data/menuData";
+import { menuSectionsData, menuCategories, POLICY_NOTE } from "@/data/menuData";
 import { MenuItem } from "@/types";
 import { SkeletonOverlay } from "@/components/ui/ImageSkeleton";
 
@@ -26,10 +26,10 @@ function DishImage({ src, alt }: { src: string; alt: string }) {
 }
 
 export default function MenuCard() {
-  const [activeCategory, setActiveCategory] = useState("antipasti");
+  const [activeCategory, setActiveCategory] = useState("starters-bowls");
 
   const displayedSections = menuSectionsData.filter(
-    (sec) => sec.id === activeCategory
+    (sec) => sec.categoryId === activeCategory
   );
 
   return (
@@ -138,11 +138,10 @@ export default function MenuCard() {
           {/* ---------------------------------------------------- */}
           {/* Card Footnote in 1st Font                            */}
           {/* ---------------------------------------------------- */}
-          <div className="mt-14 sm:mt-16 pt-8 border-t border-[#C68B59]/25 flex flex-col sm:flex-row items-center justify-between gap-3 text-lg sm:text-xl text-[#0B203B]/75">
-            <div className="flex items-center gap-2">
-              <span>🌿</span>
-              <span>Coperto 2,50€</span>
-            </div>
+          <div className="mt-14 sm:mt-16 pt-8 border-t border-[#C68B59]/25 flex flex-col sm:flex-row items-center justify-between gap-3 text-sm sm:text-base text-[#0B203B]/75">
+            <p className="italic font-sans">
+              * {POLICY_NOTE}
+            </p>
             <p className="text-[#C68B59] text-base sm:text-lg">
               Port Ghalib Marina • Fresh Catch Daily
             </p>
