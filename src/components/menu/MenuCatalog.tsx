@@ -49,7 +49,7 @@ const catAccent: Record<string, string> = {
 
 
 export default function MenuCatalog() {
-  const [activeCategory, setActiveCategory] = useState("all");
+  const [activeCategory, setActiveCategory] = useState("antipasti");
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
@@ -90,12 +90,10 @@ export default function MenuCatalog() {
   }, []);
 
   const filteredItems = useMemo(() => {
-    if (activeCategory === "all") return allItemsWithSection;
     return allItemsWithSection.filter((item) => item.category === activeCategory);
   }, [allItemsWithSection, activeCategory]);
 
   const displayedSections = useMemo(() => {
-    if (activeCategory === "all") return menuSectionsData;
     return menuSectionsData.filter((sec) => sec.id === activeCategory);
   }, [activeCategory]);
 
@@ -213,17 +211,6 @@ export default function MenuCatalog() {
                       "0 18px 45px rgba(11,32,59,0.2), 0 4px 14px rgba(139,80,40,0.1)",
                   }}
                 >
-                  <div
-                    className="px-3 py-1.5 text-[0.65rem] tracking-[0.18em] uppercase font-semibold border-b mb-1.5"
-                    style={{
-                      color: "#C68B59",
-                      borderColor: "rgba(198,139,89,0.15)",
-                      fontFamily: "var(--font-montserrat), sans-serif",
-                    }}
-                  >
-                    Select Category
-                  </div>
-
                   <div className="space-y-1">
                     {menuCategories.map((cat) => {
                       const isActive = activeCategory === cat.id;
@@ -336,7 +323,7 @@ export default function MenuCatalog() {
               No dishes matched.
             </p>
             <button
-              onClick={() => setActiveCategory("all")}
+              onClick={() => setActiveCategory("antipasti")}
               className="px-7 py-3 rounded-full font-sans text-base transition-all duration-300"
               style={{ background: "#0B203B", color: "white", border: "2px solid transparent" }}
               onMouseEnter={(e) => {

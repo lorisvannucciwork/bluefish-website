@@ -1,7 +1,6 @@
 import { MenuCategory, MenuItem } from "@/types";
 
 export const menuCategories: MenuCategory[] = [
-  { id: "all", name: "All Menu" },
   { id: "antipasti", name: "Antipasti" },
   { id: "primi", name: "Primi" },
   { id: "secondi", name: "Secondi" },

@@ -26,12 +26,11 @@ function DishImage({ src, alt }: { src: string; alt: string }) {
 }
 
 export default function MenuCard() {
-  const [activeCategory, setActiveCategory] = useState("all");
+  const [activeCategory, setActiveCategory] = useState("antipasti");
 
-  const displayedSections =
-    activeCategory === "all"
-      ? menuSectionsData
-      : menuSectionsData.filter((sec) => sec.id === activeCategory);
+  const displayedSections = menuSectionsData.filter(
+    (sec) => sec.id === activeCategory
+  );
 
   return (
     <div className="relative py-12 sm:py-20 overflow-hidden bg-[#FAF6F0] font-sans">
