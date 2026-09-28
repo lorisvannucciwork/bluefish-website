@@ -14,7 +14,7 @@ export default function Logo({ variant = "header-transparent", className = "" }:
       ? "border-[#0B203B]/20 min-[1100px]:border-r min-[1100px]:border-l min-[1100px]:px-4"
       : "border-white/30 min-[1100px]:border-r min-[1100px]:border-l min-[1100px]:px-4";
 
-  const logoSrc = variant === "header-transparent" ? "/logo-hero.png" : "/logo.png";
+  const logoSrc = variant === "header-transparent" ? "/logo-hero.webp" : "/logo.webp";
 
   return (
     <div className={`flex items-center border-x-0 px-0 py-1 transition-colors ${borderClasses} ${className}`}>

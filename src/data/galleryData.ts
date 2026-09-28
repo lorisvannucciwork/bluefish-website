@@ -56,7 +56,7 @@ export const galleryImages: GalleryImage[] = [
   },
   {
     id: "6",
-    src: "/images/hero/hero.png",
+    src: "/images/hero/hero.webp",
     title: "Port Ghalib Marina Waterfront",
     desc: "The open boardwalk and luxury yacht marina under the golden sunset of the Red Sea.",
     category: "waterfront",

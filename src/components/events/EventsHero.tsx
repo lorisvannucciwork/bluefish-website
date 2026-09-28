@@ -14,7 +14,7 @@ export default function EventsHero() {
       <SkeletonOverlay loaded={heroBg.loaded} variant="dark" />
       <img
         alt="Blue Fish Port Ghalib Marina Waterfront"
-        src="/images/hero/hero.png"
+        src="/images/hero/hero.webp"
         className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-700 ${
           heroBg.loaded ? "opacity-100" : "opacity-0"
         }`}
@@ -89,7 +89,7 @@ export default function EventsHero() {
 
               {/* Singer Cutout Image */}
               <img
-                src="/images/elements/singer.png"
+                src="/images/elements/singer.webp"
                 alt="Live Acoustic Performance at Blue Fish Sunset Sessions"
                 className={`relative z-10 w-[350px] sm:w-[420px] md:w-[480px] lg:w-[560px] xl:w-[650px] 2xl:w-[740px] max-h-[68vh] sm:max-h-[74vh] lg:max-h-[88vh] xl:max-h-[92vh] object-contain object-bottom transition-all duration-700 hover:scale-[1.02] pointer-events-auto ${singer.loaded ? 'opacity-100' : 'opacity-0'}`}
                 style={{

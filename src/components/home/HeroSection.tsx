@@ -19,7 +19,7 @@ export default function HeroSection() {
       <SkeletonOverlay loaded={loaded} variant="dark" />
       <img
         alt="Blue Fish Port Ghalib Marina Waterfront"
-        src="/images/hero/hero.png"
+        src="/images/hero/hero.webp"
         className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-700 ${
           loaded ? "opacity-100" : "opacity-0"
         }`}

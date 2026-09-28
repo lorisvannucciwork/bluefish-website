@@ -31,7 +31,7 @@ export const metadata: Metadata = {
     "Experience the finest seafood, sushi, and sunset dining with panoramic seaviews at Blue Fish Port Ghalib Marina.",
   keywords: ["Blue Fish", "Sushi", "Seafood", "Seaview", "Fine Dining", "Port Ghalib", "Marina"],
   icons: {
-    icon: "/logo.png",
+    icon: "/logo.webp",
   },
 };
 

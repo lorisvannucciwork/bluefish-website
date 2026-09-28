@@ -69,7 +69,7 @@ export default function MenuCard() {
             <div className="flex flex-col items-center justify-center">
               <div className="flex items-center justify-center mb-3">
                 <Image
-                  src="/logo.png"
+                  src="/logo.webp"
                   alt="Blue Fish Logo"
                   width={280}
                   height={90}

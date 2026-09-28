@@ -14,7 +14,7 @@ export default function MenuHero() {
       <SkeletonOverlay loaded={heroBg.loaded} variant="dark" />
       <img
         alt="Blue Fish Port Ghalib Marina Waterfront"
-        src="/images/hero/hero.png"
+        src="/images/hero/hero.webp"
         className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-700 ${
           heroBg.loaded ? "opacity-100" : "opacity-0"
         }`}
@@ -79,7 +79,7 @@ export default function MenuHero() {
             <div className="relative w-64 h-64 sm:w-80 sm:h-80 lg:w-[350px] lg:h-[350px] xl:w-[420px] xl:h-[420px] drop-shadow-[0_25px_40px_rgba(0,0,0,0.6)]">
               <SkeletonOverlay loaded={plate.loaded} className="rounded-full" />
               <img
-                src="/images/elements/plate.png"
+                src="/images/elements/plate.webp"
                 alt="Blue Fish Artisanal Plate"
                 className="w-full h-full object-contain pointer-events-none select-none transition-transform duration-700 hover:scale-105"
                 onLoad={plate.onLoad}
