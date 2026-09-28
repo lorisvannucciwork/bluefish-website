@@ -10,6 +10,30 @@ import {
 } from "lucide-react";
 import { menuSectionsData, menuCategories } from "@/data/menuData";
 import { MenuItem } from "@/types";
+import { SkeletonOverlay } from "@/components/ui/ImageSkeleton";
+
+function CatalogPlate({ src, alt }: { src: string; alt: string }) {
+  const [loaded, setLoaded] = useState(false);
+  return (
+    <div className="relative w-full h-full transition-transform duration-500 group-hover:scale-105">
+      <SkeletonOverlay loaded={loaded} className="rounded-full" variant="plate" />
+      <Image
+        src={src}
+        alt={alt}
+        fill
+        sizes="(max-width: 768px) 160px, 180px"
+        className={`object-contain transition-opacity duration-500 ${
+          loaded ? "opacity-100" : "opacity-0"
+        }`}
+        style={{
+          filter:
+            "drop-shadow(0 14px 22px rgba(11, 32, 59, 0.22)) drop-shadow(0 4px 10px rgba(139, 80, 40, 0.16))",
+        }}
+        onLoad={() => setLoaded(true)}
+      />
+    </div>
+  );
+}
 
 
 
@@ -375,18 +399,7 @@ export default function MenuCatalog() {
                       />
 
                       {/* Plate Image with realistic drop shadow */}
-                      <div className="relative w-full h-full transition-transform duration-500 group-hover:scale-105">
-                        <Image
-                          src={item.image}
-                          alt={item.name}
-                          fill
-                          sizes="(max-width: 768px) 160px, 180px"
-                          className="object-contain"
-                          style={{
-                            filter: "drop-shadow(0 14px 22px rgba(11, 32, 59, 0.22)) drop-shadow(0 4px 10px rgba(139, 80, 40, 0.16))",
-                          }}
-                        />
-                      </div>
+                      <CatalogPlate src={item.image} alt={item.name} />
 
                     </div>
                   )}

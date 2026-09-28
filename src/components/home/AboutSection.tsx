@@ -1,7 +1,11 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
+import { SkeletonOverlay, useImageLoaded } from "@/components/ui/ImageSkeleton";
 
 export default function AboutSection() {
+  const logo = useImageLoaded();
   return (
     <section
       id="about"
@@ -55,10 +59,14 @@ export default function AboutSection() {
           <div className="lg:col-span-6 relative flex flex-col items-center justify-center mt-8 lg:mt-0">
             {/* Main Arched Photo / Logo Showcase */}
             <div className="relative w-full max-w-md aspect-[3/4] rounded-t-full rounded-b-3xl overflow-hidden border-4 border-white shadow-2xl bg-[#E5E7EB] flex items-center justify-center">
+              <SkeletonOverlay loaded={logo.loaded} className="rounded-t-full rounded-b-3xl" />
               <img
                 src="/logo.png"
                 alt="Blue Fish Logo"
-                className="w-full h-full object-contain p-10 sm:p-14 bg-[#E5E7EB] transition-transform duration-700 hover:scale-105"
+                className={`w-full h-full object-contain p-10 sm:p-14 bg-[#E5E7EB] transition-all duration-700 hover:scale-105 ${
+                  logo.loaded ? "opacity-100" : "opacity-0"
+                }`}
+                onLoad={logo.onLoad}
               />
             </div>
 

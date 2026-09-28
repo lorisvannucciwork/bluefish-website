@@ -1,5 +1,43 @@
+"use client";
+
+import { useState } from "react";
 import Image from "next/image";
 import { eventExperiences } from "@/data/eventsData";
+import { SkeletonOverlay } from "@/components/ui/ImageSkeleton";
+
+function ExperienceImage({ src, alt }: { src: string; alt: string }) {
+  const [loaded, setLoaded] = useState(false);
+  return (
+    <>
+      <SkeletonOverlay loaded={loaded} />
+      <Image
+        src={src}
+        alt={alt}
+        fill
+        sizes="(max-width: 1024px) 100vw, 50vw"
+        className="object-cover transition-transform duration-700 group-hover:scale-105"
+        onLoad={() => setLoaded(true)}
+      />
+    </>
+  );
+}
+
+function GalleryThumbnail({ src, alt }: { src: string; alt: string }) {
+  const [loaded, setLoaded] = useState(false);
+  return (
+    <>
+      <SkeletonOverlay loaded={loaded} />
+      <Image
+        src={src}
+        alt={alt}
+        fill
+        sizes="(max-width: 768px) 33vw, 350px"
+        className="object-cover transition-transform duration-700 group-hover:scale-108"
+        onLoad={() => setLoaded(true)}
+      />
+    </>
+  );
+}
 
 export default function EventExperiences() {
   return (
@@ -58,13 +96,7 @@ export default function EventExperiences() {
                   >
                     {/* Photo Side */}
                     <div className="w-full lg:w-1/2 relative h-72 sm:h-96 rounded-2xl sm:rounded-3xl overflow-hidden shadow-lg group">
-                      <Image
-                        src={exp.image}
-                        alt={exp.title}
-                        fill
-                        sizes="(max-width: 1024px) 100vw, 50vw"
-                        className="object-cover transition-transform duration-700 group-hover:scale-105"
-                      />
+                      <ExperienceImage src={exp.image} alt={exp.title} />
                       <div
                         className="absolute inset-0 pointer-events-none"
                         style={{
@@ -88,7 +120,7 @@ export default function EventExperiences() {
                       </h3>
 
                       <p className="text-sm sm:text-base italic text-[#C68B59] font-serif">
-                        “{exp.tagline}”
+                        &ldquo;{exp.tagline}&rdquo;
                       </p>
 
                       <p
@@ -107,13 +139,7 @@ export default function EventExperiences() {
                         key={gIdx}
                         className="relative h-28 sm:h-40 lg:h-48 rounded-xl sm:rounded-2xl overflow-hidden shadow-md group cursor-pointer"
                       >
-                        <Image
-                          src={galleryImg}
-                          alt={`${exp.title} photo ${gIdx + 1}`}
-                          fill
-                          sizes="(max-width: 768px) 33vw, 350px"
-                          className="object-cover transition-transform duration-700 group-hover:scale-108"
-                        />
+                        <GalleryThumbnail src={galleryImg} alt={`${exp.title} photo ${gIdx + 1}`} />
                         <div
                           className="absolute inset-0 pointer-events-none transition-opacity duration-300 group-hover:opacity-0"
                           style={{

@@ -1,15 +1,26 @@
+"use client";
+
+import { useState } from "react";
 import Image from "next/image";
+import { SkeletonOverlay } from "@/components/ui/ImageSkeleton";
 
 export default function GalleryHero() {
+  const [heroBgLoaded, setHeroBgLoaded] = useState(false);
+  const [circleLoaded, setCircleLoaded] = useState(false);
+
   return (
     <section
       className="relative overflow-hidden font-sans min-h-screen min-h-svh w-full flex flex-col justify-between pt-24 sm:pt-28"
     >
       {/* Background Hero Image */}
+      <SkeletonOverlay loaded={heroBgLoaded} variant="dark" />
       <img
         alt="Blue Fish Port Ghalib Marina Waterfront"
         src="/images/hero/hero.png"
-        className="absolute inset-0 w-full h-full object-cover"
+        className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-700 ${
+          heroBgLoaded ? "opacity-100" : "opacity-0"
+        }`}
+        onLoad={() => setHeroBgLoaded(true)}
       />
 
       {/* Dark overlay for contrast & readability */}
@@ -77,6 +88,7 @@ export default function GalleryHero() {
                   boxShadow: "inset 0 2px 10px rgba(0,0,0,0.3), 0 20px 50px rgba(0,0,0,0.5)",
                 }}
               >
+                <SkeletonOverlay loaded={circleLoaded} className="rounded-full" />
                 <Image
                   src="/wp-content/uploads/2026/01/SS-SG_INTERIOR-006-1.jpg"
                   alt="Blue Fish Port Ghalib Seaview Dining"
@@ -84,6 +96,7 @@ export default function GalleryHero() {
                   sizes="(max-width: 768px) 260px, 420px"
                   className="object-cover"
                   priority
+                  onLoad={() => setCircleLoaded(true)}
                 />
                 <div
                   className="absolute inset-0 pointer-events-none"

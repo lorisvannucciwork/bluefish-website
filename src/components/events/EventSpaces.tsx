@@ -1,6 +1,27 @@
+"use client";
+
+import { useState } from "react";
 import Image from "next/image";
 import { eventSpaces } from "@/data/eventsData";
 import { Users, Maximize2, Check, Sparkles } from "lucide-react";
+import { SkeletonOverlay } from "@/components/ui/ImageSkeleton";
+
+function SpaceImage({ src, alt }: { src: string; alt: string }) {
+  const [loaded, setLoaded] = useState(false);
+  return (
+    <>
+      <SkeletonOverlay loaded={loaded} />
+      <Image
+        src={src}
+        alt={alt}
+        fill
+        sizes="(max-width: 1024px) 100vw, 33vw"
+        className="object-cover transition-transform duration-700 group-hover:scale-108"
+        onLoad={() => setLoaded(true)}
+      />
+    </>
+  );
+}
 
 export default function EventSpaces() {
   return (
@@ -72,13 +93,7 @@ export default function EventSpaces() {
             >
               {/* Space Photo */}
               <div className="relative w-full h-64 sm:h-72 overflow-hidden">
-                <Image
-                  src={space.image}
-                  alt={space.name}
-                  fill
-                  sizes="(max-width: 1024px) 100vw, 33vw"
-                  className="object-cover transition-transform duration-700 group-hover:scale-108"
-                />
+                <SpaceImage src={space.image} alt={space.name} />
 
                 {/* Subtle gradient overlay */}
                 <div
