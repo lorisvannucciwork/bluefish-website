@@ -26,6 +26,7 @@ export const menuSectionsData: MenuSection[] = [
         category: "starters-bowls",
         price: "€5.00",
         desc: "Sea salt or sweet sherry sauce",
+        image: "/images/menu/edamame.jpeg",
       },
       {
         name: "Crackers",
@@ -87,6 +88,7 @@ export const menuSectionsData: MenuSection[] = [
         category: "starters-bowls",
         price: "€15.00",
         desc: "Shrimps, calamari, mussels, cheddar cheese, garlic & ginger",
+        image: "/images/menu/mix-seafood.png",
       },
       {
         name: "Coconut Milk",

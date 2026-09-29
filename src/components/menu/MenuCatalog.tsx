@@ -11,27 +11,59 @@ import {
 import { menuSectionsData, menuCategories, POLICY_NOTE } from "@/data/menuData";
 import { SkeletonOverlay, useImageLoaded } from "@/components/ui/ImageSkeleton";
 
-function CatalogPlate({ src, alt }: { src: string; alt: string }) {
+function CatalogDishVisual({
+  src,
+  alt,
+}: {
+  src?: string;
+  alt: string;
+}) {
   const { loaded, onLoad, onError, setNode } = useImageLoaded();
+  const isPng = src?.endsWith(".png");
+
+  if (!src) return null;
+
   return (
-    <div className="relative w-full h-full transition-transform duration-500 group-hover:scale-105">
-      <SkeletonOverlay loaded={loaded} className="rounded-full" variant="plate" />
+    <div
+      className="relative w-full aspect-[4/3] rounded-[1.4rem] overflow-hidden"
+      style={{
+        background: "linear-gradient(135deg, #F8F3EC 0%, #EDE6DC 100%)",
+        border: "1px solid rgba(198, 139, 89, 0.25)",
+        boxShadow: "inset 0 2px 6px rgba(11,32,59,0.04)",
+      }}
+    >
+      <SkeletonOverlay loaded={loaded} className="rounded-[1.4rem]" />
       <Image
         ref={setNode}
         src={src}
         alt={alt}
         fill
-        sizes="(max-width: 768px) 160px, 180px"
-        className={`object-contain transition-opacity duration-500 ${
+        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+        className={`transition-all duration-700 ease-out group-hover:scale-105 ${
           loaded ? "opacity-100" : "opacity-0"
-        }`}
-        style={{
-          filter:
-            "drop-shadow(0 14px 22px rgba(11, 32, 59, 0.22)) drop-shadow(0 4px 10px rgba(139, 80, 40, 0.16))",
-        }}
+        } ${isPng ? "object-contain p-4" : "object-cover"}`}
+        style={
+          isPng
+            ? {
+                filter:
+                  "drop-shadow(0 14px 20px rgba(11, 32, 59, 0.2)) drop-shadow(0 4px 8px rgba(139, 80, 40, 0.14))",
+              }
+            : undefined
+        }
         onLoad={onLoad}
         onError={onError}
       />
+
+      {/* Gentle gradient wash on bottom edge for seamless integration */}
+      {!isPng && (
+        <div
+          className="absolute inset-x-0 bottom-0 h-16 pointer-events-none opacity-35 group-hover:opacity-15 transition-opacity duration-500"
+          style={{
+            background:
+              "linear-gradient(to top, rgba(11, 32, 59, 0.4) 0%, transparent 100%)",
+          }}
+        />
+      )}
     </div>
   );
 }
@@ -355,90 +387,61 @@ export default function MenuCatalog() {
 
                 {/* Grid */}
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
-                  {section.items.map((item, idx) => {
-                    const cardBg = "linear-gradient(145deg, #FFFDF9, #F8F0E5)";
+                  {section.items.map((item, idx) => (
+                    <div
+                      key={idx}
+                      className="group relative flex flex-col justify-between transition-all duration-500 rounded-[2rem] overflow-hidden"
+                      style={{
+                        background:
+                          "linear-gradient(165deg, #FFFFFF 0%, #FDFBF7 60%, #FAF5ED 100%)",
+                        border: "1px solid rgba(198,139,89,0.22)",
+                        boxShadow:
+                          "0 10px 30px -10px rgba(11,32,59,0.07), 0 2px 6px rgba(198,139,89,0.03)",
+                        padding: item.image ? "0.875rem" : "1.75rem 1.5rem",
+                      }}
+                      onMouseEnter={(e) => {
+                        (e.currentTarget as HTMLElement).style.transform = "translateY(-6px)";
+                        (e.currentTarget as HTMLElement).style.boxShadow =
+                          "0 24px 50px -12px rgba(11,32,59,0.16), 0 0 0 1px rgba(198,139,89,0.45)";
+                      }}
+                      onMouseLeave={(e) => {
+                        (e.currentTarget as HTMLElement).style.transform = "translateY(0)";
+                        (e.currentTarget as HTMLElement).style.boxShadow =
+                          "0 10px 30px -10px rgba(11,32,59,0.07), 0 2px 6px rgba(198,139,89,0.03)";
+                      }}
+                    >
+                      {/* Top: Visual Image Showcase (only if image exists) */}
+                      {item.image && (
+                        <CatalogDishVisual
+                          src={item.image}
+                          alt={item.name}
+                        />
+                      )}
 
-                    return (
-                      <div
-                        key={idx}
-                        className="group relative flex flex-col items-center text-center justify-between transition-all duration-500"
-                        style={{
-                          background: cardBg,
-                          border: "1px solid rgba(198,139,89,0.2)",
-                          borderRadius: "2.5rem",
-                          padding: "2rem 1.5rem 1.75rem",
-                          boxShadow: "0 8px 32px rgba(139,80,40,0.06), 0 2px 8px rgba(139,80,40,0.04)",
-                        }}
-                        onMouseEnter={(e) => {
-                          (e.currentTarget as HTMLElement).style.transform = "translateY(-6px)";
-                          (e.currentTarget as HTMLElement).style.boxShadow =
-                            "0 24px 64px rgba(139,80,40,0.15), 0 8px 24px rgba(139,80,40,0.08)";
-                          (e.currentTarget as HTMLElement).style.borderColor = "rgba(198,139,89,0.5)";
-                        }}
-                        onMouseLeave={(e) => {
-                          (e.currentTarget as HTMLElement).style.transform = "translateY(0)";
-                          (e.currentTarget as HTMLElement).style.boxShadow =
-                            "0 8px 32px rgba(139,80,40,0.06), 0 2px 8px rgba(139,80,40,0.04)";
-                          (e.currentTarget as HTMLElement).style.borderColor = "rgba(198,139,89,0.2)";
-                        }}
-                      >
-
-                        {/* Realistic Plate with Shadow (if image exists) */}
-                        {item.image && (
-                          <div
-                            className="relative mb-6 flex items-center justify-center"
-                            style={{ width: "180px", height: "180px" }}
-                          >
-                            <div
-                              className="absolute pointer-events-none rounded-full"
-                              style={{
-                                bottom: "4px",
-                                left: "50%",
-                                transform: "translateX(-50%)",
-                                width: "140px",
-                                height: "24px",
-                                background:
-                                  "radial-gradient(ellipse at center, rgba(11,32,59,0.3) 0%, rgba(139,80,40,0.18) 40%, transparent 75%)",
-                                filter: "blur(8px)",
-                              }}
-                            />
-                            <CatalogPlate src={item.image} alt={item.name} />
-                          </div>
-                        )}
-
-                        {/* Dish Details */}
-                        <div className="flex-1 w-full flex flex-col justify-center space-y-2">
-                          <h4
-                            className="font-sans transition-colors duration-300 group-hover:text-[#C68B59]"
-                            style={{
-                              fontSize: "clamp(1.15rem, 2.5vw, 1.45rem)",
-                              color: "#0B203B",
-                              lineHeight: 1.25,
-                            }}
-                          >
-                            {item.name}
-                          </h4>
-
-                          <div>
-                            <span
-                              className="font-sans font-normal tracking-wide"
-                              style={{
-                                fontSize: "1.35rem",
-                                color: "#0084D1",
-                              }}
-                            >
+                      {/* Bottom: Dish Content */}
+                      <div className={`flex flex-col justify-between flex-1 ${item.image ? "p-4 sm:p-5 pt-4" : "p-0"}`}>
+                        <div>
+                          {/* Title & Price Header */}
+                          <div className="flex items-start justify-between gap-3">
+                            <h4 className="font-sans text-xl sm:text-2xl font-normal tracking-tight text-[#0B203B] group-hover:text-[#C68B59] transition-colors duration-300 leading-snug">
+                              {item.name}
+                            </h4>
+                            <span className="shrink-0 font-sans font-medium text-lg sm:text-xl text-[#0084D1] tracking-tight">
                               {item.price}
                             </span>
                           </div>
 
+                          {/* Delicate Golden Accent Line */}
+                          <div
+                            className="w-7 h-[1.5px] rounded-full my-3 transition-all duration-500 group-hover:w-14"
+                            style={{ background: "rgba(198,139,89,0.35)" }}
+                          />
+
+                          {/* Description */}
                           {item.desc && (
                             <p
+                              className="text-xs sm:text-sm text-[#0B203B]/65 font-light leading-relaxed line-clamp-2 group-hover:text-[#0B203B]/80 transition-colors"
                               style={{
-                                fontSize: "0.85rem",
-                                color: "rgba(11,32,59,0.6)",
-                                lineHeight: 1.55,
-                                maxWidth: "260px",
-                                margin: "0 auto",
                                 fontFamily: "var(--font-montserrat), sans-serif",
                                 fontWeight: 300,
                               }}
@@ -448,8 +451,8 @@ export default function MenuCatalog() {
                           )}
                         </div>
                       </div>
-                    );
-                  })}
+                    </div>
+                  ))}
                 </div>
               </div>
             ))}
@@ -509,7 +512,7 @@ export default function MenuCatalog() {
                   {section.items.map((item, idx) => (
                     <div
                       key={idx}
-                      className="group flex items-center justify-between gap-5 px-8 sm:px-12 py-5 transition-all duration-200"
+                      className="group flex items-center justify-between gap-5 px-6 sm:px-10 py-4 sm:py-5 transition-all duration-300"
                       style={{ borderBottom: "1px solid rgba(198,139,89,0.08)" }}
                       onMouseEnter={(e) => {
                         (e.currentTarget as HTMLElement).style.background = "rgba(198,139,89,0.05)";
@@ -518,38 +521,58 @@ export default function MenuCatalog() {
                         (e.currentTarget as HTMLElement).style.background = "transparent";
                       }}
                     >
-                      {/* Text */}
-                      <div className="flex-1 min-w-0 pr-4">
-                        <div className="flex items-center gap-3 flex-wrap">
+                      <div className="flex items-center gap-4 sm:gap-6 flex-1 min-w-0 pr-4">
+                        {/* Optional Thumbnail in List View */}
+                        {item.image && (
+                          <div
+                            className="relative w-16 h-16 sm:w-20 sm:h-20 rounded-2xl overflow-hidden shrink-0 border border-[#C68B59]/25 shadow-sm group-hover:border-[#C68B59] transition-all"
+                            style={{ background: "#FAF6F0" }}
+                          >
+                            <Image
+                              src={item.image}
+                              alt={item.name}
+                              fill
+                              sizes="80px"
+                              className={`transition-transform duration-500 group-hover:scale-110 ${
+                                item.image.endsWith(".png")
+                                  ? "object-contain p-1.5"
+                                  : "object-cover"
+                              }`}
+                            />
+                          </div>
+                        )}
+
+                        {/* Text */}
+                        <div className="flex-1 min-w-0">
                           <h4
                             className="font-sans transition-colors duration-200 group-hover:text-[#C68B59]"
                             style={{
-                              fontSize: "clamp(1rem, 2vw, 1.3rem)",
+                              fontSize: "clamp(1.05rem, 2vw, 1.35rem)",
                               color: "#0B203B",
                               lineHeight: 1.3,
                             }}
                           >
                             {item.name}
                           </h4>
+                          {item.desc && (
+                            <p
+                              style={{
+                                fontSize: "0.82rem",
+                                color: "rgba(11,32,59,0.6)",
+                                lineHeight: 1.5,
+                                marginTop: "3px",
+                                fontFamily: "var(--font-montserrat), sans-serif",
+                                fontWeight: 300,
+                              }}
+                            >
+                              {item.desc}
+                            </p>
+                          )}
                         </div>
-                        {item.desc && (
-                          <p
-                            style={{
-                              fontSize: "0.82rem",
-                              color: "rgba(11,32,59,0.55)",
-                              lineHeight: 1.5,
-                              marginTop: "2px",
-                              fontFamily: "var(--font-montserrat), sans-serif",
-                              fontWeight: 300,
-                            }}
-                          >
-                            {item.desc}
-                          </p>
-                        )}
                       </div>
 
                       {/* Price */}
-                      <div className="flex items-center shrink-0">
+                      <div className="flex items-center gap-3 shrink-0">
                         <span
                           className="font-sans font-medium"
                           style={{

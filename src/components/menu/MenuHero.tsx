@@ -26,9 +26,8 @@ export default function MenuHero() {
         ref={setHeroNode}
         alt="Blue Fish Port Ghalib Marina Waterfront"
         src="/images/hero/hero.webp"
-        className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-700 ${
-          heroLoaded ? "opacity-100" : "opacity-0"
-        }`}
+        className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-700 ${heroLoaded ? "opacity-100" : "opacity-0"
+          }`}
         onLoad={onHeroLoad}
         onError={onHeroError}
       />
@@ -81,7 +80,7 @@ export default function MenuHero() {
                   letterSpacing: "0.15em",
                 }}
               >
-                xxxxxx
+                Mix SeaFood
               </span>
             </p>
           </div>
@@ -94,9 +93,8 @@ export default function MenuHero() {
                 ref={setPlateNode}
                 src="/images/elements/plate.webp"
                 alt="Blue Fish Artisanal Plate"
-                className={`w-full h-full object-contain pointer-events-none select-none transition-transform duration-700 hover:scale-105 ${
-                  plateLoaded ? "opacity-100" : "opacity-0"
-                }`}
+                className={`w-full h-full object-contain pointer-events-none select-none transition-transform duration-700 hover:scale-105 ${plateLoaded ? "opacity-100" : "opacity-0"
+                  }`}
                 onLoad={onPlateLoad}
                 onError={onPlateError}
               />
