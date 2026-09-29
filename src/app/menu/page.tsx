@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 
 export default function MenuPage() {
   return (
-    <div className="min-h-screen text-[#0B203B] flex flex-col justify-between font-sans" style={{ background: "#F5EFE7", userSelect: "none" }}>
+    <div className="min-h-screen text-[#4c6f92] flex flex-col justify-between font-sans" style={{ background: "#F5EFE7", userSelect: "none" }}>
       <Navbar variant="solid" />
       <main className="flex-grow">
         <MenuHero />

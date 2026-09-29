@@ -15,7 +15,6 @@ export const menuCategories: MenuCategory[] = [
 ];
 
 export const menuSectionsData: MenuSection[] = [
-  // ─── PAGE 1: Appetizers, Soups, Salads, Noodles & Poke Bowl ─────────────────
   {
     id: "appetizers",
     categoryId: "starters-bowls",
@@ -25,20 +24,29 @@ export const menuSectionsData: MenuSection[] = [
         name: "Edamame",
         category: "starters-bowls",
         price: "€5.00",
-        desc: "Sea salt or sweet sherry sauce",
-        image: "/images/menu/edamame.jpeg",
+        desc: "Sea salt",
+        image: "/images/menu/edamame4.jpg",
+      },
+      {
+        name: "Edamame",
+        category: "starters-bowls",
+        price: "€5.00",
+        desc: "sweet sherry sauce",
+        image: "/images/menu/edamame-sweet-sherry.JPEG",
       },
       {
         name: "Crackers",
         category: "starters-bowls",
         price: "€2.00",
         desc: "With teriyaki sauce",
+        image: "/images/menu/Crackers.png",
       },
       {
         name: "Panko (Tuna or Shrimp or Salmon)",
         category: "starters-bowls",
         price: "€8.00",
         desc: "Green onion & spicy/ouzo sauce",
+        image: "/images/menu/panko-salmon.png",
       },
       {
         name: "Tempura Shrimps",
@@ -108,24 +116,30 @@ export const menuSectionsData: MenuSection[] = [
         category: "starters-bowls",
         price: "€8.00",
         desc: "Shrimps, avocado, cucumber, caviar & spicy/classic mayo",
+        image: "/images/menu/crab-salad.JPEG",
+
       },
       {
-        name: "Ceviche (Seftch)",
+        name: "Ceviche",
         category: "starters-bowls",
         price: "€10.00",
         desc: "Tuna or salmon, red onion, coriander, cucumber, avocado, cherry tomatoes & hot pepper",
+        image: "/images/menu/ceviche.JPEG",
+
       },
       {
         name: "Taco",
         category: "starters-bowls",
         price: "€6.00",
         desc: "Octopus, avocado, coriander, cherry tomatoes & balsamic vinegar",
+        image: "/images/menu/taco.JPEG",
       },
       {
         name: "Seaweed & Sesame Mix",
         category: "starters-bowls",
         price: "€6.00",
         desc: "Fresh seaweed salad tossed with toasted sesame mix",
+        image: "/images/menu/sea-weed.JPEG",
       },
     ],
   },
@@ -139,18 +153,21 @@ export const menuSectionsData: MenuSection[] = [
         category: "starters-bowls",
         price: "€12.00",
         desc: "Bell peppers, carrots, white onion",
+        image: "/images/menu/shrimp-noodles.JPEG",
       },
       {
         name: "Vegetables Noodles",
         category: "starters-bowls",
         price: "€8.00",
         desc: "Bell peppers, carrots & white onion",
+        image: "/images/menu/vegetables-noodles.JPEG",
       },
       {
         name: "Ramen",
         category: "starters-bowls",
         price: "€10.00",
         desc: "Shrimps, garlic, ginger, mushrooms and cream",
+        image: "/images/menu/ramen.JPEG",
       },
     ],
   },
@@ -168,7 +185,6 @@ export const menuSectionsData: MenuSection[] = [
     ],
   },
 
-  // ─── PAGE 2: Nigiri, Sashimi & Ura Maki ─────────────────────────────────────
   {
     id: "nigiri",
     categoryId: "sushi-classics",
@@ -340,7 +356,6 @@ export const menuSectionsData: MenuSection[] = [
     ],
   },
 
-  // ─── PAGE 3: Hoso Maki, Fried Rolls, Temaki, Vegetarian, Dynamite & Combos ───
   {
     id: "hoso-maki",
     categoryId: "rolls-combos",

@@ -205,7 +205,7 @@ export default function MenuCatalog() {
               >
                 <span
                   className="font-sans text-sm sm:text-base font-semibold tracking-wide"
-                  style={{ color: "#0B203B" }}
+                  style={{ color: "#4c6f92" }}
                 >
                   {currentCategory.name}
                 </span>
@@ -215,7 +215,7 @@ export default function MenuCatalog() {
                   style={{
                     width: "16px",
                     height: "16px",
-                    color: "rgba(11,32,59,0.6)",
+                    color: "#4c6f92",
                     transform: isDropdownOpen ? "rotate(180deg)" : "rotate(0deg)",
                   }}
                 />
@@ -273,7 +273,7 @@ export default function MenuCatalog() {
                           <span
                             className="font-sans text-sm sm:text-base truncate"
                             style={{
-                              color: isActive ? accent : "#0B203B",
+                              color: isActive ? accent : "#4c6f92",
                               fontWeight: isActive ? 600 : 500,
                             }}
                           >
@@ -315,11 +315,11 @@ export default function MenuCatalog() {
                   title={label}
                   className="p-2.5 rounded-xl cursor-pointer transition-all duration-300"
                   style={{
-                    background: viewMode === mode ? "#0B203B" : "transparent",
-                    color: viewMode === mode ? "white" : "rgba(11,32,59,0.5)",
+                    background: viewMode === mode ? "#4c6f92" : "transparent",
+                    color: viewMode === mode ? "white" : "#4c6f92",
                     border:
                       viewMode === mode
-                        ? "1px solid #0B203B"
+                        ? "1px solid #4c6f92"
                         : "1px solid transparent",
                   }}
                 >
@@ -341,18 +341,18 @@ export default function MenuCatalog() {
               border: "1px solid rgba(198,139,89,0.2)",
             }}
           >
-            <p className="font-sans text-3xl" style={{ color: "#0B203B" }}>
+            <p className="font-sans text-3xl" style={{ color: "#4c6f92" }}>
               No dishes matched.
             </p>
             <button
               onClick={() => setActiveCategory("starters-bowls")}
               className="px-7 py-3 rounded-full font-sans text-base transition-all duration-300 cursor-pointer"
-              style={{ background: "#0B203B", color: "white", border: "2px solid transparent" }}
+              style={{ background: "#4c6f92", color: "white", border: "2px solid transparent" }}
               onMouseEnter={(e) => {
                 (e.currentTarget as HTMLElement).style.background = "#C68B59";
               }}
               onMouseLeave={(e) => {
-                (e.currentTarget as HTMLElement).style.background = "#0B203B";
+                (e.currentTarget as HTMLElement).style.background = "#4c6f92";
               }}
             >
               Reset Filters
@@ -370,14 +370,14 @@ export default function MenuCatalog() {
                   <div>
                     <h3
                       className="font-sans text-2xl sm:text-3xl lg:text-4xl tracking-wide"
-                      style={{ color: "#0B203B" }}
+                      style={{ color: "#4c6f92" }}
                     >
                       {section.title}
                     </h3>
                     {section.subtitle && (
                       <p
-                        className="text-sm text-[#0B203B]/65 italic mt-1"
-                        style={{ fontFamily: "var(--font-montserrat), sans-serif" }}
+                        className="text-sm italic mt-1"
+                        style={{ color: "#4c6f92", fontFamily: "var(--font-montserrat), sans-serif" }}
                       >
                         {section.subtitle}
                       </p>
@@ -423,10 +423,10 @@ export default function MenuCatalog() {
                         <div>
                           {/* Title & Price Header */}
                           <div className="flex items-start justify-between gap-3">
-                            <h4 className="font-sans text-xl sm:text-2xl font-normal tracking-tight text-[#0B203B] group-hover:text-[#C68B59] transition-colors duration-300 leading-snug">
+                            <h4 className="font-sans text-xl sm:text-2xl font-normal tracking-tight text-[#4c6f92] group-hover:text-[#C68B59] transition-colors duration-300 leading-snug">
                               {item.name}
                             </h4>
-                            <span className="shrink-0 font-sans font-medium text-lg sm:text-xl text-[#0084D1] tracking-tight">
+                            <span className="shrink-0 font-sans font-medium text-lg sm:text-xl text-[#4c6f92] tracking-tight">
                               {item.price}
                             </span>
                           </div>
@@ -440,8 +440,9 @@ export default function MenuCatalog() {
                           {/* Description */}
                           {item.desc && (
                             <p
-                              className="text-xs sm:text-sm text-[#0B203B]/65 font-light leading-relaxed line-clamp-2 group-hover:text-[#0B203B]/80 transition-colors"
+                              className="text-xs sm:text-sm font-light leading-relaxed line-clamp-2 transition-colors"
                               style={{
+                                color: "#4c6f92",
                                 fontFamily: "var(--font-montserrat), sans-serif",
                                 fontWeight: 300,
                               }}
@@ -489,7 +490,7 @@ export default function MenuCatalog() {
                         className="font-sans"
                         style={{
                           fontSize: "clamp(1.4rem, 3vw, 2rem)",
-                          color: "#0B203B",
+                          color: "#4c6f92",
                           letterSpacing: "0.05em",
                         }}
                       >
@@ -497,8 +498,8 @@ export default function MenuCatalog() {
                       </h3>
                       {section.subtitle && (
                         <p
-                          className="text-xs sm:text-sm text-[#0B203B]/65 italic mt-0.5"
-                          style={{ fontFamily: "var(--font-montserrat), sans-serif" }}
+                          className="text-xs sm:text-sm italic mt-0.5"
+                          style={{ color: "#4c6f92", fontFamily: "var(--font-montserrat), sans-serif" }}
                         >
                           {section.subtitle}
                         </p>
@@ -548,7 +549,7 @@ export default function MenuCatalog() {
                             className="font-sans transition-colors duration-200 group-hover:text-[#C68B59]"
                             style={{
                               fontSize: "clamp(1.05rem, 2vw, 1.35rem)",
-                              color: "#0B203B",
+                              color: "#4c6f92",
                               lineHeight: 1.3,
                             }}
                           >
@@ -558,7 +559,7 @@ export default function MenuCatalog() {
                             <p
                               style={{
                                 fontSize: "0.82rem",
-                                color: "rgba(11,32,59,0.6)",
+                                color: "#4c6f92",
                                 lineHeight: 1.5,
                                 marginTop: "3px",
                                 fontFamily: "var(--font-montserrat), sans-serif",
@@ -577,7 +578,7 @@ export default function MenuCatalog() {
                           className="font-sans font-medium"
                           style={{
                             fontSize: "1.35rem",
-                            color: "#0084D1",
+                            color: "#4c6f92",
                           }}
                         >
                           {item.price}
@@ -603,8 +604,8 @@ export default function MenuCatalog() {
           }}
         >
           <p
-            className="text-xs sm:text-sm text-[#0B203B]/70 italic tracking-wide"
-            style={{ fontFamily: "var(--font-montserrat), sans-serif" }}
+            className="text-xs sm:text-sm italic tracking-wide"
+            style={{ color: "#4c6f92", fontFamily: "var(--font-montserrat), sans-serif" }}
           >
             * Policy note: {POLICY_NOTE}
           </p>

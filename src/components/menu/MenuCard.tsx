@@ -52,8 +52,8 @@ export default function MenuCard() {
               onClick={() => setActiveCategory(cat.id)}
               className={`px-6 py-2.5 rounded-full text-lg sm:text-xl font-normal transition-all duration-300 cursor-pointer whitespace-nowrap ${
                 activeCategory === cat.id
-                  ? "bg-[#0B203B] text-white shadow-md"
-                  : "bg-white/85 text-[#0B203B]/80 hover:bg-white hover:text-[#0B203B] border border-[#C68B59]/30 shadow-sm"
+                  ? "bg-[#4c6f92] text-white shadow-md"
+                  : "bg-white/85 text-[#4c6f92] hover:bg-white hover:text-[#4c6f92] border border-[#C68B59]/30 shadow-sm"
               }`}
             >
               {cat.name}
@@ -80,9 +80,9 @@ export default function MenuCard() {
               </div>
 
               {/* Subtitle in 1st Font with Ocean Blue Dots */}
-              <p className="text-xl sm:text-2xl tracking-[0.15em] text-[#0B203B] uppercase font-normal mt-1">
-                SEAFOOD<span className="text-[#0084D1] mx-1.5">•</span>SUSHI
-                <span className="text-[#0084D1] mx-1.5">•</span>VISTA MARE
+              <p className="text-xl sm:text-2xl tracking-[0.15em] text-[#4c6f92] uppercase font-normal mt-1">
+                SEAFOOD<span className="text-[#4c6f92] mx-1.5">•</span>SUSHI
+                <span className="text-[#4c6f92] mx-1.5">•</span>VISTA MARE
               </p>
             </div>
           </div>
@@ -97,7 +97,7 @@ export default function MenuCard() {
                 <div className="flex flex-col items-center justify-center text-center">
                   <div className="w-full flex items-center justify-center gap-4">
                     <div className="flex-1 h-px bg-[#C68B59]/35 max-w-[80px] sm:max-w-[150px]"></div>
-                    <h2 className="text-3xl sm:text-4xl text-[#0B203B] font-normal tracking-[0.1em]">
+                    <h2 className="text-3xl sm:text-4xl text-[#4c6f92] font-normal tracking-[0.1em]">
                       {section.title}
                     </h2>
                     <div className="flex-1 h-px bg-[#C68B59]/35 max-w-[80px] sm:max-w-[150px]"></div>
@@ -117,16 +117,16 @@ export default function MenuCard() {
                       {/* Dish Details */}
                       <div className="flex-1 min-w-0 flex flex-col justify-center">
                         <div className="flex items-baseline justify-between gap-3">
-                          <h3 className="text-xl sm:text-2xl md:text-3xl font-normal text-[#0B203B] tracking-wide group-hover:text-[#0084D1] transition-colors">
+                          <h3 className="text-xl sm:text-2xl md:text-3xl font-normal text-[#4c6f92] tracking-wide group-hover:text-[#C68B59] transition-colors">
                             {item.name}
                           </h3>
-                          <span className="text-xl sm:text-2xl md:text-3xl font-normal text-[#0084D1] shrink-0">
+                          <span className="text-xl sm:text-2xl md:text-3xl font-normal text-[#4c6f92] shrink-0">
                             {item.price}
                           </span>
                         </div>
 
                         {/* Ingredients / Description */}
-                        <p className="text-base sm:text-lg md:text-xl text-[#0B203B]/75 leading-tight mt-0.5">
+                        <p className="text-base sm:text-lg md:text-xl text-[#4c6f92] leading-tight mt-0.5">
                           {item.desc}
                         </p>
                       </div>
@@ -140,7 +140,7 @@ export default function MenuCard() {
           {/* ---------------------------------------------------- */}
           {/* Card Footnote in 1st Font                            */}
           {/* ---------------------------------------------------- */}
-          <div className="mt-14 sm:mt-16 pt-8 border-t border-[#C68B59]/25 flex flex-col sm:flex-row items-center justify-between gap-3 text-sm sm:text-base text-[#0B203B]/75">
+          <div className="mt-14 sm:mt-16 pt-8 border-t border-[#C68B59]/25 flex flex-col sm:flex-row items-center justify-between gap-3 text-sm sm:text-base text-[#4c6f92]">
             <p className="italic font-sans">
               * {POLICY_NOTE}
             </p>
