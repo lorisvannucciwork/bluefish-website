@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useCallback, useState } from "react";
+import { useEffect, useCallback, useState, useRef } from "react";
 import Image from "next/image";
 import { GalleryImage } from "@/types";
 import { X, ChevronLeft, ChevronRight } from "lucide-react";
@@ -22,9 +22,14 @@ export default function GalleryLightbox({
   const isOpen = currentIndex !== null && currentIndex >= 0 && currentIndex < images.length;
   const currentImage = isOpen ? images[currentIndex] : null;
   const [loaded, setLoaded] = useState(false);
+  const imgRef = useRef<HTMLImageElement | null>(null);
 
   useEffect(() => {
-    setLoaded(false);
+    if (imgRef.current?.complete) {
+      setLoaded(true);
+    } else {
+      setLoaded(false);
+    }
   }, [currentIndex]);
 
   const handlePrev = useCallback(() => {
@@ -130,6 +135,7 @@ export default function GalleryLightbox({
         >
           <SkeletonOverlay loaded={loaded} variant="dark" />
           <Image
+            ref={imgRef}
             src={currentImage.src}
             alt={currentImage.title}
             fill
@@ -139,6 +145,7 @@ export default function GalleryLightbox({
             }`}
             priority
             onLoad={() => setLoaded(true)}
+            onError={() => setLoaded(true)}
           />
           <div
             className="absolute inset-0 pointer-events-none"

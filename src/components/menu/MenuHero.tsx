@@ -3,22 +3,34 @@
 import { SkeletonOverlay, useImageLoaded } from "@/components/ui/ImageSkeleton";
 
 export default function MenuHero() {
-  const heroBg = useImageLoaded();
-  const plate = useImageLoaded();
+  const {
+    loaded: heroLoaded,
+    onLoad: onHeroLoad,
+    onError: onHeroError,
+    setNode: setHeroNode,
+  } = useImageLoaded();
+  const {
+    loaded: plateLoaded,
+    onLoad: onPlateLoad,
+    onError: onPlateError,
+    setNode: setPlateNode,
+  } = useImageLoaded();
 
   return (
     <section
       className="relative overflow-hidden font-sans min-h-screen min-h-svh w-full flex flex-col justify-between pt-24 sm:pt-28"
     >
       {/* Background Hero Image */}
-      <SkeletonOverlay loaded={heroBg.loaded} variant="dark" />
+      <SkeletonOverlay loaded={heroLoaded} variant="dark" />
       <img
+        ref={setHeroNode}
         alt="Blue Fish Port Ghalib Marina Waterfront"
         src="/images/hero/hero.webp"
         className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-700 ${
-          heroBg.loaded ? "opacity-100" : "opacity-0"
+          heroLoaded ? "opacity-100" : "opacity-0"
         }`}
-        onLoad={heroBg.onLoad}
+        onLoad={onHeroLoad}
+        onError={onHeroError}
       />
 
       {/* Dark overlay for contrast & readability */}
@@ -77,12 +89,16 @@ export default function MenuHero() {
           {/* Right: Plate Element */}
           <div className="lg:col-span-5 flex items-center justify-center lg:justify-end">
             <div className="relative w-64 h-64 sm:w-80 sm:h-80 lg:w-[350px] lg:h-[350px] xl:w-[420px] xl:h-[420px] drop-shadow-[0_25px_40px_rgba(0,0,0,0.6)]">
-              <SkeletonOverlay loaded={plate.loaded} className="rounded-full" />
+              <SkeletonOverlay loaded={plateLoaded} className="rounded-full" />
               <img
+                ref={setPlateNode}
                 src="/images/elements/plate.webp"
                 alt="Blue Fish Artisanal Plate"
-                className="w-full h-full object-contain pointer-events-none select-none transition-transform duration-700 hover:scale-105"
-                onLoad={plate.onLoad}
+                className={`w-full h-full object-contain pointer-events-none select-none transition-transform duration-700 hover:scale-105 ${
+                  plateLoaded ? "opacity-100" : "opacity-0"
+                }`}
+                onLoad={onPlateLoad}
+                onError={onPlateError}
               />
             </div>
           </div>

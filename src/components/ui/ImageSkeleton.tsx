@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useCallback } from "react";
 
 interface SkeletonOverlayProps {
   loaded: boolean;
@@ -49,9 +49,26 @@ export function SkeletonOverlay({
 
 export function useImageLoaded(initial = false) {
   const [loaded, setLoaded] = useState(initial);
+
+  const onLoad = useCallback(() => {
+    setLoaded(true);
+  }, []);
+
+  const onError = useCallback(() => {
+    setLoaded(true);
+  }, []);
+
+  const setNode = useCallback((node: HTMLImageElement | null) => {
+    if (node && node.complete) {
+      setLoaded(true);
+    }
+  }, []);
+
   return {
     loaded,
-    onLoad: () => setLoaded(true),
+    onLoad,
+    onError,
     setLoaded,
+    setNode,
   };
 }

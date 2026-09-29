@@ -1,21 +1,24 @@
 "use client";
 
-import { useState } from "react";
 import { galleryImages } from "@/data/galleryData";
-import { SkeletonOverlay } from "@/components/ui/ImageSkeleton";
+import { SkeletonOverlay, useImageLoaded } from "@/components/ui/ImageSkeleton";
 
 function GalleryCard({ img, aspect }: { img: typeof galleryImages[0]; aspect: string }) {
-  const [loaded, setLoaded] = useState(false);
+  const { loaded, onLoad, onError, setNode } = useImageLoaded();
   return (
     <div
       className={`group relative ${aspect} rounded-[2rem] overflow-hidden border border-[#0084D1]/20 shadow-sm bg-[#EEF5FB]`}
     >
       <SkeletonOverlay loaded={loaded} className="rounded-[2rem]" />
       <img
+        ref={setNode}
         src={img.src}
         alt={img.title}
-        className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-        onLoad={() => setLoaded(true)}
+        className={`w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 ${
+          loaded ? "opacity-100" : "opacity-0"
+        }`}
+        onLoad={onLoad}
+        onError={onError}
       />
       <div className="absolute inset-0 bg-gradient-to-t from-[#0B203B]/90 via-[#0B203B]/30 to-transparent opacity-80 group-hover:opacity-100 transition-opacity p-6 flex flex-col justify-end text-white">
         <h3 className="text-base font-semibold tracking-wider text-white uppercase">{img.title}</h3>

@@ -9,14 +9,15 @@ import {
   Check,
 } from "lucide-react";
 import { menuSectionsData, menuCategories, POLICY_NOTE } from "@/data/menuData";
-import { SkeletonOverlay } from "@/components/ui/ImageSkeleton";
+import { SkeletonOverlay, useImageLoaded } from "@/components/ui/ImageSkeleton";
 
 function CatalogPlate({ src, alt }: { src: string; alt: string }) {
-  const [loaded, setLoaded] = useState(false);
+  const { loaded, onLoad, onError, setNode } = useImageLoaded();
   return (
     <div className="relative w-full h-full transition-transform duration-500 group-hover:scale-105">
       <SkeletonOverlay loaded={loaded} className="rounded-full" variant="plate" />
       <Image
+        ref={setNode}
         src={src}
         alt={alt}
         fill
@@ -28,7 +29,8 @@ function CatalogPlate({ src, alt }: { src: string; alt: string }) {
           filter:
             "drop-shadow(0 14px 22px rgba(11, 32, 59, 0.22)) drop-shadow(0 4px 10px rgba(139, 80, 40, 0.16))",
         }}
-        onLoad={() => setLoaded(true)}
+        onLoad={onLoad}
+        onError={onError}
       />
     </div>
   );
@@ -380,27 +382,6 @@ export default function MenuCatalog() {
                           (e.currentTarget as HTMLElement).style.borderColor = "rgba(198,139,89,0.2)";
                         }}
                       >
-                        {/* Tag Badge */}
-                        {item.tag && (
-                          <div className="mb-3">
-                            <span
-                              className="px-3 py-1 rounded-full text-xs font-semibold tracking-wider uppercase"
-                              style={{
-                                background:
-                                  item.tag === "Coming Soon"
-                                    ? "rgba(11,32,59,0.08)"
-                                    : "rgba(198,139,89,0.15)",
-                                color: item.tag === "Coming Soon" ? "#0B203B" : "#C68B59",
-                                border:
-                                  item.tag === "Coming Soon"
-                                    ? "1px solid rgba(11,32,59,0.2)"
-                                    : "1px solid rgba(198,139,89,0.3)",
-                              }}
-                            >
-                              {item.tag}
-                            </span>
-                          </div>
-                        )}
 
                         {/* Realistic Plate with Shadow (if image exists) */}
                         {item.image && (
@@ -550,20 +531,6 @@ export default function MenuCatalog() {
                           >
                             {item.name}
                           </h4>
-                          {item.tag && (
-                            <span
-                              className="px-2.5 py-0.5 rounded-full text-xs font-semibold uppercase tracking-wider"
-                              style={{
-                                background:
-                                  item.tag === "Coming Soon"
-                                    ? "rgba(11,32,59,0.08)"
-                                    : "rgba(198,139,89,0.15)",
-                                color: item.tag === "Coming Soon" ? "#0B203B" : "#C68B59",
-                              }}
-                            >
-                              {item.tag}
-                            </span>
-                          )}
                         </div>
                         {item.desc && (
                           <p

@@ -1,39 +1,42 @@
 "use client";
 
-import { useState } from "react";
 import Image from "next/image";
 import { eventExperiences } from "@/data/eventsData";
-import { SkeletonOverlay } from "@/components/ui/ImageSkeleton";
+import { SkeletonOverlay, useImageLoaded } from "@/components/ui/ImageSkeleton";
 
 function ExperienceImage({ src, alt }: { src: string; alt: string }) {
-  const [loaded, setLoaded] = useState(false);
+  const { loaded, onLoad, onError, setNode } = useImageLoaded();
   return (
     <>
       <SkeletonOverlay loaded={loaded} />
       <Image
+        ref={setNode}
         src={src}
         alt={alt}
         fill
         sizes="(max-width: 1024px) 100vw, 50vw"
         className="object-cover transition-transform duration-700 group-hover:scale-105"
-        onLoad={() => setLoaded(true)}
+        onLoad={onLoad}
+        onError={onError}
       />
     </>
   );
 }
 
 function GalleryThumbnail({ src, alt }: { src: string; alt: string }) {
-  const [loaded, setLoaded] = useState(false);
+  const { loaded, onLoad, onError, setNode } = useImageLoaded();
   return (
     <>
       <SkeletonOverlay loaded={loaded} />
       <Image
+        ref={setNode}
         src={src}
         alt={alt}
         fill
         sizes="(max-width: 768px) 33vw, 350px"
         className="object-cover transition-transform duration-700 group-hover:scale-108"
-        onLoad={() => setLoaded(true)}
+        onLoad={onLoad}
+        onError={onError}
       />
     </>
   );

@@ -3,22 +3,34 @@
 import { SkeletonOverlay, useImageLoaded } from "@/components/ui/ImageSkeleton";
 
 export default function EventsHero() {
-  const heroBg = useImageLoaded();
-  const singer = useImageLoaded();
+  const {
+    loaded: heroLoaded,
+    onLoad: onHeroLoad,
+    onError: onHeroError,
+    setNode: setHeroNode,
+  } = useImageLoaded();
+  const {
+    loaded: singerLoaded,
+    onLoad: onSingerLoad,
+    onError: onSingerError,
+    setNode: setSingerNode,
+  } = useImageLoaded();
 
   return (
     <section
       className="relative overflow-hidden font-sans min-h-screen min-h-svh w-full flex flex-col justify-between pt-24 sm:pt-28"
     >
       {/* Background Hero Image */}
-      <SkeletonOverlay loaded={heroBg.loaded} variant="dark" />
+      <SkeletonOverlay loaded={heroLoaded} variant="dark" />
       <img
+        ref={setHeroNode}
         alt="Blue Fish Port Ghalib Marina Waterfront"
         src="/images/hero/hero.webp"
         className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-700 ${
-          heroBg.loaded ? "opacity-100" : "opacity-0"
+          heroLoaded ? "opacity-100" : "opacity-0"
         }`}
-        onLoad={heroBg.onLoad}
+        onLoad={onHeroLoad}
+        onError={onHeroError}
       />
 
       {/* Dark overlay for contrast & readability */}
@@ -89,14 +101,16 @@ export default function EventsHero() {
 
               {/* Singer Cutout Image */}
               <img
+                ref={setSingerNode}
                 src="/images/elements/singer.webp"
                 alt="Live Acoustic Performance at Blue Fish Sunset Sessions"
-                className={`relative z-10 w-[350px] sm:w-[420px] md:w-[480px] lg:w-[560px] xl:w-[650px] 2xl:w-[740px] max-h-[68vh] sm:max-h-[74vh] lg:max-h-[88vh] xl:max-h-[92vh] object-contain object-bottom transition-all duration-700 hover:scale-[1.02] pointer-events-auto ${singer.loaded ? 'opacity-100' : 'opacity-0'}`}
+                className={`relative z-10 w-[350px] sm:w-[420px] md:w-[480px] lg:w-[560px] xl:w-[650px] 2xl:w-[740px] max-h-[68vh] sm:max-h-[74vh] lg:max-h-[88vh] xl:max-h-[92vh] object-contain object-bottom transition-all duration-700 hover:scale-[1.02] pointer-events-auto ${singerLoaded ? 'opacity-100' : 'opacity-0'}`}
                 style={{
                   filter:
                     "drop-shadow(0 25px 40px rgba(0, 0, 0, 0.7)) drop-shadow(0 4px 18px rgba(198, 139, 89, 0.3))",
                 }}
-                onLoad={singer.onLoad}
+                onLoad={onSingerLoad}
+                onError={onSingerError}
               />
             </div>
           </div>

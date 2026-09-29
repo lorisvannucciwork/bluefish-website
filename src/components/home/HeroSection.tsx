@@ -4,7 +4,7 @@ import { siteConfig } from "@/data/siteConfig";
 import { SkeletonOverlay, useImageLoaded } from "@/components/ui/ImageSkeleton";
 
 export default function HeroSection() {
-  const { loaded, onLoad } = useImageLoaded();
+  const { loaded, onLoad, onError, setNode } = useImageLoaded();
 
   return (
     <section
@@ -18,12 +18,14 @@ export default function HeroSection() {
       {/* Background hero image */}
       <SkeletonOverlay loaded={loaded} variant="dark" />
       <img
+        ref={setNode}
         alt="Blue Fish Port Ghalib Marina Waterfront"
         src="/images/hero/hero.webp"
         className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-700 ${
           loaded ? "opacity-100" : "opacity-0"
         }`}
         onLoad={onLoad}
+        onError={onError}
       />
 
       {/* Dark overlay for contrast & readability */}

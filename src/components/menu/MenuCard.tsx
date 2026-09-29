@@ -4,22 +4,24 @@ import { useState } from "react";
 import Image from "next/image";
 import { menuSectionsData, menuCategories, POLICY_NOTE } from "@/data/menuData";
 import { MenuItem } from "@/types";
-import { SkeletonOverlay } from "@/components/ui/ImageSkeleton";
+import { SkeletonOverlay, useImageLoaded } from "@/components/ui/ImageSkeleton";
 
 function DishImage({ src, alt }: { src: string; alt: string }) {
-  const [loaded, setLoaded] = useState(false);
+  const { loaded, onLoad, onError, setNode } = useImageLoaded();
   return (
     <div
       className="relative w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 rounded-2xl sm:rounded-3xl overflow-hidden border-2 border-white shadow-md group-hover:shadow-lg group-hover:border-[#C68B59] transition-all duration-300 shrink-0 bg-[#E8F2F8]"
     >
       <SkeletonOverlay loaded={loaded} className="rounded-2xl sm:rounded-3xl" />
       <Image
+        ref={setNode}
         src={src}
         alt={alt}
         fill
         sizes="(max-width: 640px) 64px, (max-width: 768px) 80px, 96px"
         className="object-cover transition-transform duration-500 group-hover:scale-110"
-        onLoad={() => setLoaded(true)}
+        onLoad={onLoad}
+        onError={onError}
       />
     </div>
   );

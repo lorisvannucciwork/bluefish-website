@@ -5,10 +5,10 @@ import Image from "next/image";
 import { galleryImages } from "@/data/galleryData";
 import GalleryLightbox from "./GalleryLightbox";
 import { Maximize2 } from "lucide-react";
-import { SkeletonOverlay } from "@/components/ui/ImageSkeleton";
+import { SkeletonOverlay, useImageLoaded } from "@/components/ui/ImageSkeleton";
 
-function ShowcaseCard({ image, idx, onClick }: { image: typeof galleryImages[0]; idx: number; onClick: () => void }) {
-  const [loaded, setLoaded] = useState(false);
+function ShowcaseCard({ image: imgData, idx, onClick }: { image: typeof galleryImages[0]; idx: number; onClick: () => void }) {
+  const { loaded, onLoad, onError, setNode } = useImageLoaded();
   return (
     <div
       onClick={onClick}
@@ -22,12 +22,14 @@ function ShowcaseCard({ image, idx, onClick }: { image: typeof galleryImages[0];
       <div className="relative w-full h-72 sm:h-80 overflow-hidden">
         <SkeletonOverlay loaded={loaded} />
         <Image
-          src={image.src}
-          alt={image.title}
+          ref={setNode}
+          src={imgData.src}
+          alt={imgData.title}
           fill
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
           className="object-cover transition-transform duration-700 group-hover:scale-108"
-          onLoad={() => setLoaded(true)}
+          onLoad={onLoad}
+          onError={onError}
         />
         {/* Subtle dark gradient overlay */}
         <div
@@ -52,13 +54,13 @@ function ShowcaseCard({ image, idx, onClick }: { image: typeof galleryImages[0];
         {/* Card Bottom Text */}
         <div className="absolute bottom-5 left-5 right-5 text-white space-y-1 transform transition-transform duration-300">
           <h3 className="text-lg sm:text-xl font-sans font-bold leading-tight text-[#FAF6F0] group-hover:text-[#C68B59] transition-colors duration-300">
-            {image.title}
+            {imgData.title}
           </h3>
           <p
             className="text-xs text-[#FAF6F0]/80 font-light line-clamp-2"
             style={{ fontFamily: "var(--font-montserrat), sans-serif" }}
           >
-            {image.desc}
+            {imgData.desc}
           </p>
         </div>
       </div>

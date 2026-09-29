@@ -1,26 +1,37 @@
 "use client";
 
-import { useState } from "react";
 import Image from "next/image";
-import { SkeletonOverlay } from "@/components/ui/ImageSkeleton";
+import { SkeletonOverlay, useImageLoaded } from "@/components/ui/ImageSkeleton";
 
 export default function GalleryHero() {
-  const [heroBgLoaded, setHeroBgLoaded] = useState(false);
-  const [circleLoaded, setCircleLoaded] = useState(false);
+  const {
+    loaded: heroLoaded,
+    onLoad: onHeroLoad,
+    onError: onHeroError,
+    setNode: setHeroNode,
+  } = useImageLoaded();
+  const {
+    loaded: circleLoaded,
+    onLoad: onCircleLoad,
+    onError: onCircleError,
+    setNode: setCircleNode,
+  } = useImageLoaded();
 
   return (
     <section
       className="relative overflow-hidden font-sans min-h-screen min-h-svh w-full flex flex-col justify-between pt-24 sm:pt-28"
     >
       {/* Background Hero Image */}
-      <SkeletonOverlay loaded={heroBgLoaded} variant="dark" />
+      <SkeletonOverlay loaded={heroLoaded} variant="dark" />
       <img
+        ref={setHeroNode}
         alt="Blue Fish Port Ghalib Marina Waterfront"
         src="/images/hero/hero.webp"
         className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-700 ${
-          heroBgLoaded ? "opacity-100" : "opacity-0"
+          heroLoaded ? "opacity-100" : "opacity-0"
         }`}
-        onLoad={() => setHeroBgLoaded(true)}
+        onLoad={onHeroLoad}
+        onError={onHeroError}
       />
 
       {/* Dark overlay for contrast & readability */}
@@ -90,13 +101,15 @@ export default function GalleryHero() {
               >
                 <SkeletonOverlay loaded={circleLoaded} className="rounded-full" />
                 <Image
+                  ref={setCircleNode}
                   src="/images/gallery/gallery-1.jpg"
                   alt="Blue Fish Port Ghalib Seaview Dining"
                   fill
                   sizes="(max-width: 768px) 260px, 420px"
                   className="object-cover"
                   priority
-                  onLoad={() => setCircleLoaded(true)}
+                  onLoad={onCircleLoad}
+                  onError={onCircleError}
                 />
                 <div
                   className="absolute inset-0 pointer-events-none"
