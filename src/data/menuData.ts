@@ -613,6 +613,7 @@ export const menuSectionsData: MenuSection[] = [
         price: "€3.00",
         desc: "rice, nori & cucumber",
         image: "/images/menu/hoso-cucomber.JPEG",
+
       },
       {
         name: "Hoso Avocado (6 pieces)",
@@ -752,18 +753,21 @@ export const menuSectionsData: MenuSection[] = [
         category: "mains-desserts",
         price: "Chef Special",
         desc: "matcha & white chocolate",
+        image: "/images/menu/tramsu.JPEG",
       },
       {
         name: "Cheesecake",
         category: "mains-desserts",
         price: "Chef Special",
         desc: "yuzu & pistachio",
+        image: "/images/menu/cheesecake.JPEG",
       },
       {
         name: "Panna Cotta",
         category: "mains-desserts",
         price: "Chef Special",
         desc: "coconut, yuzu & mango",
+        image: "/images/menu/panna-cotta-coconut-yuzu-e-mango.JPEG",
       },
     ],
   },
