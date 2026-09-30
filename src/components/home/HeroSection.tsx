@@ -35,7 +35,7 @@ export default function HeroSection() {
       <div className="relative z-10 flex-1 flex flex-col items-center justify-center px-4 text-center md:px-8 mt-12 sm:mt-14">
         <header id="section-heading-hero">
           <h1 className="text-center text-[clamp(1.1rem,5.2vw,3.75rem)] text-white uppercase tracking-[0.1em] sm:tracking-[0.15em] font-normal leading-tight whitespace-nowrap">
-            SEAFOOD<span className="text-[#0084D1] mx-0.5 sm:mx-1">•</span>SUSHI
+            SUSHI<span className="text-[#0084D1] mx-0.5 sm:mx-1">•</span>SEAFOOD
             <span className="text-[#0084D1] mx-0.5 sm:mx-1">•</span>SEAVIEW
           </h1>
           <p
