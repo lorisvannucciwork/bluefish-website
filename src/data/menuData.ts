@@ -50,6 +50,12 @@ export const menuSectionsData: MenuSection[] = [
         image: "/images/menu/panko-salamon.JPEG",
       },
       {
+        name: "Panko Shrimp",
+        category: "starters-bowls",
+        price: "€8.00",
+        desc: "green onion & spicy/ouzo sauce",
+      },
+      {
         name: "Panko Tuna",
         category: "starters-bowls",
         price: "€8.00",
@@ -93,8 +99,8 @@ export const menuSectionsData: MenuSection[] = [
       {
         name: "Miso",
         category: "starters-bowls",
-        price: "€5.00",
-        desc: "broth/dashi, wakame, green onion & tofu cheese",
+        price: "€7.00",
+        desc: "doudh, wakame, green onion & tofu cheese",
         image: "/images/menu/miso.JPEG",
 
       },
@@ -110,7 +116,7 @@ export const menuSectionsData: MenuSection[] = [
         name: "Tom Yum",
         category: "starters-bowls",
         price: "€9.00",
-        desc: "broth/dashi, garlic, ginger, shrimps & japan spicy",
+        desc: "doudh, garlic, ginger, shrimps, mushrooms & japan spicy",
         image: "/images/menu/tom-yum.JPEG",
 
       },
@@ -132,15 +138,15 @@ export const menuSectionsData: MenuSection[] = [
       {
         name: "Crab Salad",
         category: "starters-bowls",
-        price: "€8.00",
+        price: "€10.00",
         desc: "shrimps, avocado, cucumber, caviar & spicy/classic mayo",
         image: "/images/menu/crab-salad.JPEG",
 
       },
       {
-        name: "Ceviche",
+        name: "Seftch",
         category: "starters-bowls",
-        price: "€10.00",
+        price: "€12.00",
         desc: "tuna or salmon, red onion, coriander, cucumber, avocado, cherry tomatoes & hot pepper",
         image: "/images/menu/ceviche.JPEG",
 
@@ -148,15 +154,15 @@ export const menuSectionsData: MenuSection[] = [
       {
         name: "Taco",
         category: "starters-bowls",
-        price: "€6.00",
+        price: "€8.00",
         desc: "octopus, avocado, coriander, cherry tomatoes & balsamic vinegar",
         image: "/images/menu/taco.JPEG",
       },
       {
-        name: "Seaweed & Sesame Mix",
+        name: "Seaweed",
         category: "starters-bowls",
-        price: "€6.00",
-        desc: "fresh seaweed salad tossed with toasted sesame mix",
+        price: "€8.00",
+        desc: "& sesame mix",
         image: "/images/menu/sea-weed.JPEG",
       },
     ],
@@ -170,7 +176,7 @@ export const menuSectionsData: MenuSection[] = [
         name: "Shrimp Noodles",
         category: "starters-bowls",
         price: "€12.00",
-        desc: "bell peppers, carrots, white onion",
+        desc: "bell peppers, carrots, white onion, sesame",
         image: "/images/menu/shrimp-noodles.JPEG",
       },
       {
@@ -183,7 +189,7 @@ export const menuSectionsData: MenuSection[] = [
       {
         name: "Ramen",
         category: "starters-bowls",
-        price: "€10.00",
+        price: "€12.00",
         desc: "shrimps, garlic, ginger, mushrooms and cream",
         image: "/images/menu/ramen.JPEG",
       },
@@ -192,7 +198,7 @@ export const menuSectionsData: MenuSection[] = [
   {
     id: "poke-bowl",
     categoryId: "starters-bowls",
-    title: "Poke Bowl — €18.00",
+    title: "Poke Bowl — €15.00",
     items: [
       {
         name: "Poke Bowl",
@@ -448,12 +454,12 @@ export const menuSectionsData: MenuSection[] = [
   {
     id: "hoso-maki",
     categoryId: "rolls-combos",
-    title: "Hoso Maki (6 pieces) — €8.00",
+    title: "Hoso Maki (6 pieces) — €9.00",
     items: [
       {
         name: "Salmon",
         category: "rolls-combos",
-        price: "€8.00",
+        price: "€9.00",
         desc: "rice & nori",
         image: "/images/menu/hoso-maki-salmon.JPEG",
 
@@ -461,7 +467,7 @@ export const menuSectionsData: MenuSection[] = [
       {
         name: "Tuna",
         category: "rolls-combos",
-        price: "€8.00",
+        price: "€9.00",
         desc: "rice & nori",
         image: "/images/menu/hosomaki-tunaa.JPEG",
 
@@ -469,7 +475,7 @@ export const menuSectionsData: MenuSection[] = [
       {
         name: "Shrimp",
         category: "rolls-combos",
-        price: "€8.00",
+        price: "€9.00",
         desc: "boiled shrimp, rice & nori",
         image: "/images/menu/hoso-maki-shrimp.JPEG",
 
@@ -477,7 +483,7 @@ export const menuSectionsData: MenuSection[] = [
       {
         name: "Eel",
         category: "rolls-combos",
-        price: "€8.00",
+        price: "€9.00",
         desc: "rice, nori, teriyaki sauce & sesame mix",
         image: "/images/menu/hoso-maki-eel.JPEG",
 
@@ -485,14 +491,14 @@ export const menuSectionsData: MenuSection[] = [
       {
         name: "Crab",
         category: "rolls-combos",
-        price: "€8.00",
+        price: "€9.00",
         desc: "rice & nori",
         image: "/images/menu/hoso-maki-crap.JPEG",
       },
       {
         name: "Shrimp Tempura",
         category: "rolls-combos",
-        price: "€8.00",
+        price: "€9.00",
         desc: "rice, nori, teriyaki sauce & sesame mix",
         image: "/images/menu/hosomaki-shrimps-tempura.JPEG",
 
@@ -544,12 +550,12 @@ export const menuSectionsData: MenuSection[] = [
   {
     id: "temaki",
     categoryId: "rolls-combos",
-    title: "Temaki (1 piece) — €9.00",
+    title: "Temaki (1 piece) — €5.00",
     items: [
       {
         name: "Salmon",
         category: "rolls-combos",
-        price: "€9.00",
+        price: "€5.00",
         desc: "rice, nori & avocado",
         image: "/images/menu/temaki-salmon.JPEG",
 
@@ -557,41 +563,41 @@ export const menuSectionsData: MenuSection[] = [
       {
         name: "Tuna",
         category: "rolls-combos",
-        price: "€9.00",
+        price: "€5.00",
         desc: "rice, nori & avocado",
         image: "/images/menu/temaki-tuna.JPEG",
       },
       {
         name: "Crab",
         category: "rolls-combos",
-        price: "€9.00",
+        price: "€5.00",
         desc: "rice, nori & avocado",
         image: "/images/menu/termaki-crab.JPEG",
       },
       {
         name: "Octopus",
         category: "rolls-combos",
-        price: "€9.00",
+        price: "€5.00",
         desc: "rice, nori & avocado",
         image: "/images/menu/temaki-octopus.JPEG",
       },
       {
         name: "Eel",
         category: "rolls-combos",
-        price: "€9.00",
+        price: "€5.00",
         desc: "rice, nori, avocado, sesame & teriyaki sauce",
         image: "/images/menu/temaki-eel.JPEG",
       },
       {
         name: "Boiled Shrimp",
         category: "rolls-combos",
-        price: "€9.00",
+        price: "€5.00",
         desc: "rice, nori & avocado",
       },
       {
         name: "Shrimp Tempura",
         category: "rolls-combos",
-        price: "€9.00",
+        price: "€5.00",
         desc: "rice, nori, avocado, sesame & teriyaki sauce",
         image: "/images/menu/temaki-shrimp-tempura.JPEG",
       },
@@ -749,26 +755,26 @@ export const menuSectionsData: MenuSection[] = [
       {
         name: "Sweet Rolls",
         category: "mains-desserts",
-        price: "Chef Special",
+        price: "€7.00",
       },
       {
         name: "Tiramisu",
         category: "mains-desserts",
-        price: "Chef Special",
+        price: "€7.00",
         desc: "matcha & white chocolate",
         image: "/images/menu/tramsu.JPEG",
       },
       {
         name: "Cheesecake",
         category: "mains-desserts",
-        price: "Chef Special",
+        price: "€5.00",
         desc: "yuzu & pistachio",
         image: "/images/menu/cheesecake.JPEG",
       },
       {
         name: "Panna Cotta",
         category: "mains-desserts",
-        price: "Chef Special",
+        price: "€6.00",
         desc: "coconut, yuzu & mango",
         image: "/images/menu/panna-cotta-coconut-yuzu-e-mango.JPEG",
       },
