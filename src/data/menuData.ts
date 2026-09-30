@@ -307,10 +307,12 @@ export const menuSectionsData: MenuSection[] = [
 
       {
         name: "Octopus", category: "sushi-classics", price: "€12.00",
-        image: "/images/menu/sashimi-octobus.JPEG",
+        image: "/images/menu/sashimi-octobos.JPEG",
       },
       {
         name: "Seabass", category: "sushi-classics", price: "€12.00",
+        image: "/images/menu/sashami-seabass.JPEG",
+
       },
       {
         name: "Fried Salmon",
@@ -485,6 +487,7 @@ export const menuSectionsData: MenuSection[] = [
         category: "rolls-combos",
         price: "€8.00",
         desc: "rice & nori",
+        image: "/images/menu/hoso-maki-crap.JPEG",
       },
       {
         name: "Shrimp Tempura",
