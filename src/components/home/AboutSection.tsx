@@ -70,7 +70,7 @@ export default function AboutSection() {
               <SkeletonOverlay loaded={logoLoaded} className="rounded-t-full rounded-b-3xl" />
               <img
                 ref={setLogoNode}
-                src="/images/gallery/gallery-0.jpg"
+                src="/images/gallery/gallery-8.JPEG"
                 alt="Blue Fish Port Ghalib"
                 className={`w-full h-full object-cover transition-all duration-700 hover:scale-105 ${
                   logoLoaded ? "opacity-100" : "opacity-0"
