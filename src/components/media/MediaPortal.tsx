@@ -109,7 +109,10 @@ export default function MediaPortal() {
                   <p className="text-xs sm:text-sm text-[#0084D1] font-medium">
                     {item.handle}
                   </p>
-                  <p className="text-xs text-[#0B203B]/60 font-light mt-0.5 hidden sm:block">
+                  <p
+                    className="text-xs sm:text-sm text-[#0B203B]/70 font-normal mt-0.5 hidden sm:block font-arapey"
+                    style={{ fontFamily: "var(--font-arapey), Georgia, serif" }}
+                  >
                     {item.description}
                   </p>
                 </div>

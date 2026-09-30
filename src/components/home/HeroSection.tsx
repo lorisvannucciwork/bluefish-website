@@ -38,7 +38,10 @@ export default function HeroSection() {
             SEAFOOD<span className="text-[#0084D1] mx-0.5 sm:mx-1">•</span>SUSHI
             <span className="text-[#0084D1] mx-0.5 sm:mx-1">•</span>SEAVIEW
           </h1>
-          <p className="text-center text-lg lg:text-2xl whitespace-pre-line text-white tracking-[0.15em] mt-3 font-normal">
+          <p
+            className="text-center text-lg lg:text-2xl whitespace-pre-line text-white tracking-[0.15em] mt-3 font-normal font-arapey"
+            style={{ fontFamily: "var(--font-arapey), Georgia, serif" }}
+          >
             {siteConfig.heroSubtitle}
           </p>
         </header>

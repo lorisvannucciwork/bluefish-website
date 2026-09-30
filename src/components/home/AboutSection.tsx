@@ -37,7 +37,10 @@ export default function AboutSection() {
             </div>
 
             {/* Narrative Text */}
-            <div className="space-y-4 text-[#0B203B]/80 text-base sm:text-lg leading-relaxed font-light">
+            <div
+              className="space-y-4 text-[#0B203B]/85 text-lg sm:text-xl leading-relaxed font-normal font-arapey"
+              style={{ fontFamily: "var(--font-arapey), Georgia, serif" }}
+            >
               <p>
                 Rooted on the golden waterfront boardwalk of Port Ghalib Marina, <strong>BLUE FISH</strong>{" "}
                 embodies a bohemian coastal spirit where relaxed barefoot elegance meets the vibrant art of

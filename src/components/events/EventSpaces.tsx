@@ -143,8 +143,8 @@ export default function EventSpaces() {
                     {space.name}
                   </h3>
                   <p
-                    className="text-sm text-[#0B203B]/70 leading-relaxed font-light"
-                    style={{ fontFamily: "var(--font-montserrat), sans-serif" }}
+                    className="text-base text-[#0B203B]/80 leading-relaxed font-normal font-arapey"
+                    style={{ fontFamily: "var(--font-arapey), Georgia, serif" }}
                   >
                     {space.description}
                   </p>

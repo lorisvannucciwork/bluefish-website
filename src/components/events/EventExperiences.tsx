@@ -127,8 +127,8 @@ export default function EventExperiences() {
                       </p>
 
                       <p
-                        className="text-sm sm:text-base text-[#0B203B]/75 leading-relaxed font-light"
-                        style={{ fontFamily: "var(--font-montserrat), sans-serif" }}
+                        className="text-base sm:text-lg text-[#0B203B]/80 leading-relaxed font-normal font-arapey"
+                        style={{ fontFamily: "var(--font-arapey), Georgia, serif" }}
                       >
                         {exp.description}
                       </p>

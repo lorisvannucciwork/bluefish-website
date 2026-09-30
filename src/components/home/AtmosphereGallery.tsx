@@ -22,7 +22,12 @@ function GalleryCard({ img, aspect }: { img: typeof galleryImages[0]; aspect: st
       />
       <div className="absolute inset-0 bg-gradient-to-t from-[#0B203B]/90 via-[#0B203B]/30 to-transparent opacity-80 group-hover:opacity-100 transition-opacity p-6 flex flex-col justify-end text-white">
         <h3 className="text-base font-semibold tracking-wider text-white uppercase">{img.title}</h3>
-        <p className="text-xs text-white/80 font-light mt-1">{img.desc}</p>
+        <p
+          className="text-xs sm:text-sm text-white/90 font-normal mt-1 font-arapey"
+          style={{ fontFamily: "var(--font-arapey), Georgia, serif" }}
+        >
+          {img.desc}
+        </p>
       </div>
     </div>
   );

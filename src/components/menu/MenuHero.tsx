@@ -9,12 +9,6 @@ export default function MenuHero() {
     onError: onHeroError,
     setNode: setHeroNode,
   } = useImageLoaded();
-  const {
-    loaded: plateLoaded,
-    onLoad: onPlateLoad,
-    onError: onPlateError,
-    setNode: setPlateNode,
-  } = useImageLoaded();
 
   return (
     <section
@@ -42,65 +36,39 @@ export default function MenuHero() {
       />
 
       {/* === MAIN CONTENT === */}
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 my-auto w-full">
-        {/* Main headline — split layout */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-center">
-          {/* Left: Main Title */}
-          <div className="lg:col-span-7 text-center lg:text-left flex flex-col items-center lg:items-start">
-            <h1
-              className="font-sans leading-none"
-              style={{
-                fontSize: "clamp(3.5rem, 9.5vw, 7.5rem)",
-                color: "#FAF6F0",
-                lineHeight: 1.0,
-                marginBottom: "1.5rem",
-                textShadow: "0 4px 24px rgba(0,0,0,0.45)",
-              }}
-            >
-              Bluefish{" "}
-              <span style={{ color: "#C68B59" }}>Dish</span>
-              <br />
-              of the Day
-            </h1>
+      <div className="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-20 my-auto w-full text-center flex flex-col items-center justify-center">
+        <h1
+          className="font-sans leading-none tracking-tight"
+          style={{
+            fontSize: "clamp(3.5rem, 8.5vw, 6.5rem)",
+            color: "#FAF6F0",
+            lineHeight: 1.05,
+            marginBottom: "1rem",
+            textShadow: "0 4px 24px rgba(0,0,0,0.45)",
+          }}
+        >
+          BlueFish <span style={{ color: "#C68B59" }}>Menu</span>
+        </h1>
 
-            <p
-              style={{
-                fontSize: "clamp(1.1rem, 2vw, 1.4rem)",
-                color: "rgba(250,246,240,0.85)",
-                fontFamily: "var(--font-montserrat), sans-serif",
-                lineHeight: 1.6,
-                textShadow: "0 2px 12px rgba(0,0,0,0.4)",
-              }}
-            >
-              is{" "}
-              <span
-                style={{
-                  color: "#C68B59",
-                  fontWeight: 600,
-                  letterSpacing: "0.15em",
-                }}
-              >
-                Mix SeaFood
-              </span>
-            </p>
-          </div>
-
-          {/* Right: Plate Element */}
-          <div className="lg:col-span-5 flex items-center justify-center lg:justify-end">
-            <div className="relative w-64 h-64 sm:w-80 sm:h-80 lg:w-[350px] lg:h-[350px] xl:w-[420px] xl:h-[420px] drop-shadow-[0_25px_40px_rgba(0,0,0,0.6)]">
-              <SkeletonOverlay loaded={plateLoaded} className="rounded-full" />
-              <img
-                ref={setPlateNode}
-                src="/images/elements/plate.webp"
-                alt="Blue Fish Artisanal Plate"
-                className={`w-full h-full object-contain pointer-events-none select-none transition-transform duration-700 hover:scale-105 ${plateLoaded ? "opacity-100" : "opacity-0"
-                  }`}
-                onLoad={onPlateLoad}
-                onError={onPlateError}
-              />
-            </div>
-          </div>
-        </div>
+        <p
+          className="uppercase tracking-[0.2em] font-normal"
+          style={{
+            fontSize: "clamp(1.15rem, 2.5vw, 1.85rem)",
+            color: "#FAF6F0",
+            fontFamily: "var(--font-arapey), Georgia, serif",
+            textShadow: "0 2px 14px rgba(0,0,0,0.5)",
+          }}
+        >
+          SUSHI
+          <span className="text-[#0084D1] mx-2.5 sm:mx-3.5 text-[0.6em] align-middle leading-none inline-block">
+            •
+          </span>
+          SEAFOOD
+          <span className="text-[#0084D1] mx-2.5 sm:mx-3.5 text-[0.6em] align-middle leading-none inline-block">
+            •
+          </span>
+          SEAVIEW
+        </p>
       </div>
 
       {/* === WAVE BOTTOM BORDER === */}

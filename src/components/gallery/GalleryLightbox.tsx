@@ -162,7 +162,10 @@ export default function GalleryLightbox({
             <h2 className="text-lg sm:text-xl font-bold tracking-wide text-[#FAF6F0]">
               {currentImage.title}
             </h2>
-            <p className="text-xs sm:text-sm text-[#FAF6F0]/75 font-light max-w-2xl mt-0.5">
+            <p
+              className="text-sm sm:text-base text-[#FAF6F0]/85 font-normal max-w-2xl mt-0.5 font-arapey"
+              style={{ fontFamily: "var(--font-arapey), Georgia, serif" }}
+            >
               {currentImage.desc}
             </p>
           </div>

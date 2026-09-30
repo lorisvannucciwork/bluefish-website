@@ -57,8 +57,8 @@ function ShowcaseCard({ image: imgData, idx, onClick }: { image: typeof galleryI
             {imgData.title}
           </h3>
           <p
-            className="text-xs text-[#FAF6F0]/80 font-light line-clamp-2"
-            style={{ fontFamily: "var(--font-montserrat), sans-serif" }}
+            className="text-xs sm:text-sm text-[#FAF6F0]/90 font-normal line-clamp-2 font-arapey"
+            style={{ fontFamily: "var(--font-arapey), Georgia, serif" }}
           >
             {imgData.desc}
           </p>
