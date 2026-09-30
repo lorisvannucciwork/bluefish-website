@@ -13,6 +13,11 @@
 
   --font-sans: var(--font-caveat-brush), cursive, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   --font-montserrat: var(--font-montserrat), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-arapey: var(--font-arapey), Georgia, serif;
+}
+
+.font-arapey {
+  font-family: var(--font-arapey), Georgia, serif;
 }
 
 :root {

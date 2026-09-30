@@ -97,7 +97,10 @@ export default function MenuCard() {
                 <div className="flex flex-col items-center justify-center text-center">
                   <div className="w-full flex items-center justify-center gap-4">
                     <div className="flex-1 h-px bg-[#C68B59]/35 max-w-[80px] sm:max-w-[150px]"></div>
-                    <h2 className="text-3xl sm:text-4xl text-[#4c6f92] font-normal tracking-[0.1em]">
+                    <h2
+                      className="text-3xl sm:text-4xl text-[#4c6f92] font-normal tracking-[0.05em]"
+                      style={{ fontFamily: "var(--font-arapey), Georgia, serif" }}
+                    >
                       {section.title}
                     </h2>
                     <div className="flex-1 h-px bg-[#C68B59]/35 max-w-[80px] sm:max-w-[150px]"></div>
@@ -117,18 +120,29 @@ export default function MenuCard() {
                       {/* Dish Details */}
                       <div className="flex-1 min-w-0 flex flex-col justify-center">
                         <div className="flex items-baseline justify-between gap-3">
-                          <h3 className="text-xl sm:text-2xl md:text-3xl font-normal text-[#4c6f92] tracking-wide group-hover:text-[#C68B59] transition-colors">
+                          <h3
+                            className="text-xl sm:text-2xl md:text-3xl font-normal text-[#4c6f92] tracking-wide group-hover:text-[#C68B59] transition-colors"
+                            style={{ fontFamily: "var(--font-arapey), Georgia, serif" }}
+                          >
                             {item.name}
                           </h3>
-                          <span className="text-xl sm:text-2xl md:text-3xl font-normal text-[#4c6f92] shrink-0">
+                          <span
+                            className="text-xl sm:text-2xl md:text-3xl font-normal text-[#4c6f92] shrink-0"
+                            style={{ fontFamily: "var(--font-arapey), Georgia, serif" }}
+                          >
                             {item.price}
                           </span>
                         </div>
 
                         {/* Ingredients / Description */}
-                        <p className="text-base sm:text-lg md:text-xl text-[#4c6f92] leading-tight mt-0.5">
-                          {item.desc}
-                        </p>
+                        {item.desc && (
+                          <p
+                            className="text-base sm:text-lg md:text-xl text-[#4c6f92] leading-tight mt-0.5 lowercase"
+                            style={{ fontFamily: "var(--font-arapey), Georgia, serif" }}
+                          >
+                            {item.desc.toLowerCase()}
+                          </p>
+                        )}
                       </div>
                     </div>
                   ))}
@@ -138,10 +152,10 @@ export default function MenuCard() {
           </div>
 
           {/* ---------------------------------------------------- */}
-          {/* Card Footnote in 1st Font                            */}
+          {/* Card Footnote in Arapey                              */}
           {/* ---------------------------------------------------- */}
           <div className="mt-14 sm:mt-16 pt-8 border-t border-[#C68B59]/25 flex flex-col sm:flex-row items-center justify-between gap-3 text-sm sm:text-base text-[#4c6f92]">
-            <p className="italic font-sans">
+            <p className="italic" style={{ fontFamily: "var(--font-arapey), Georgia, serif" }}>
               * {POLICY_NOTE}
             </p>
             <p className="text-[#C68B59] text-base sm:text-lg">

@@ -369,15 +369,15 @@ export default function MenuCatalog() {
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-[#C68B59]/25 pb-4">
                   <div>
                     <h3
-                      className="font-sans text-2xl sm:text-3xl lg:text-4xl tracking-wide"
-                      style={{ color: "#4c6f92" }}
+                      className="text-2xl sm:text-3xl lg:text-4xl tracking-wide"
+                      style={{ color: "#4c6f92", fontFamily: "var(--font-arapey), Georgia, serif" }}
                     >
                       {section.title}
                     </h3>
                     {section.subtitle && (
                       <p
                         className="text-sm italic mt-1"
-                        style={{ color: "#4c6f92", fontFamily: "var(--font-montserrat), sans-serif" }}
+                        style={{ color: "#4c6f92", fontFamily: "var(--font-arapey), Georgia, serif" }}
                       >
                         {section.subtitle}
                       </p>
@@ -423,10 +423,16 @@ export default function MenuCatalog() {
                         <div>
                           {/* Title & Price Header */}
                           <div className="flex items-start justify-between gap-3">
-                            <h4 className="font-sans text-xl sm:text-2xl font-normal tracking-tight text-[#4c6f92] group-hover:text-[#C68B59] transition-colors duration-300 leading-snug">
+                            <h4
+                              className="text-xl sm:text-2xl font-normal tracking-wide text-[#4c6f92] group-hover:text-[#C68B59] transition-colors duration-300 leading-snug"
+                              style={{ fontFamily: "var(--font-arapey), Georgia, serif" }}
+                            >
                               {item.name}
                             </h4>
-                            <span className="shrink-0 font-sans font-medium text-lg sm:text-xl text-[#4c6f92] tracking-tight">
+                            <span
+                              className="shrink-0 font-medium text-lg sm:text-xl text-[#4c6f92] tracking-tight"
+                              style={{ fontFamily: "var(--font-arapey), Georgia, serif" }}
+                            >
                               {item.price}
                             </span>
                           </div>
@@ -440,14 +446,13 @@ export default function MenuCatalog() {
                           {/* Description */}
                           {item.desc && (
                             <p
-                              className="text-xs sm:text-sm font-light leading-relaxed line-clamp-2 transition-colors"
+                              className="text-sm sm:text-base font-light leading-relaxed line-clamp-2 transition-colors lowercase"
                               style={{
                                 color: "#4c6f92",
-                                fontFamily: "var(--font-montserrat), sans-serif",
-                                fontWeight: 300,
+                                fontFamily: "var(--font-arapey), Georgia, serif",
                               }}
                             >
-                              {item.desc}
+                              {item.desc.toLowerCase()}
                             </p>
                           )}
                         </div>
@@ -487,11 +492,11 @@ export default function MenuCatalog() {
                   <div className="flex items-center gap-3">
                     <div>
                       <h3
-                        className="font-sans"
                         style={{
-                          fontSize: "clamp(1.4rem, 3vw, 2rem)",
+                          fontSize: "clamp(1.5rem, 3.2vw, 2.2rem)",
                           color: "#4c6f92",
-                          letterSpacing: "0.05em",
+                          letterSpacing: "0.03em",
+                          fontFamily: "var(--font-arapey), Georgia, serif",
                         }}
                       >
                         {section.title}
@@ -499,7 +504,7 @@ export default function MenuCatalog() {
                       {section.subtitle && (
                         <p
                           className="text-xs sm:text-sm italic mt-0.5"
-                          style={{ color: "#4c6f92", fontFamily: "var(--font-montserrat), sans-serif" }}
+                          style={{ color: "#4c6f92", fontFamily: "var(--font-arapey), Georgia, serif" }}
                         >
                           {section.subtitle}
                         </p>
@@ -522,63 +527,44 @@ export default function MenuCatalog() {
                         (e.currentTarget as HTMLElement).style.background = "transparent";
                       }}
                     >
-                      <div className="flex items-center gap-4 sm:gap-6 flex-1 min-w-0 pr-4">
-                        {/* Optional Thumbnail in List View */}
-                        {item.image && (
-                          <div
-                            className="relative w-16 h-16 sm:w-20 sm:h-20 rounded-2xl overflow-hidden shrink-0 border border-[#C68B59]/25 shadow-sm group-hover:border-[#C68B59] transition-all"
-                            style={{ background: "#FAF6F0" }}
-                          >
-                            <Image
-                              src={item.image}
-                              alt={item.name}
-                              fill
-                              sizes="80px"
-                              className={`transition-transform duration-500 group-hover:scale-110 ${
-                                item.image.endsWith(".png")
-                                  ? "object-contain p-1.5"
-                                  : "object-cover"
-                              }`}
-                            />
-                          </div>
-                        )}
-
-                        {/* Text */}
-                        <div className="flex-1 min-w-0">
+                      {/* Text */}
+                      <div className="flex-1 min-w-0 pr-4">
                           <h4
-                            className="font-sans transition-colors duration-200 group-hover:text-[#C68B59]"
+                            className="transition-colors duration-200 group-hover:text-[#C68B59]"
                             style={{
-                              fontSize: "clamp(1.05rem, 2vw, 1.35rem)",
+                              fontSize: "clamp(1.15rem, 2.2vw, 1.45rem)",
                               color: "#4c6f92",
                               lineHeight: 1.3,
+                              fontFamily: "var(--font-arapey), Georgia, serif",
                             }}
                           >
                             {item.name}
                           </h4>
                           {item.desc && (
                             <p
+                              className="lowercase"
                               style={{
-                                fontSize: "0.82rem",
+                                fontSize: "0.95rem",
                                 color: "#4c6f92",
                                 lineHeight: 1.5,
                                 marginTop: "3px",
-                                fontFamily: "var(--font-montserrat), sans-serif",
+                                fontFamily: "var(--font-arapey), Georgia, serif",
                                 fontWeight: 300,
                               }}
                             >
-                              {item.desc}
+                              {item.desc.toLowerCase()}
                             </p>
                           )}
                         </div>
-                      </div>
 
                       {/* Price */}
                       <div className="flex items-center gap-3 shrink-0">
                         <span
-                          className="font-sans font-medium"
+                          className="font-medium"
                           style={{
                             fontSize: "1.35rem",
                             color: "#4c6f92",
+                            fontFamily: "var(--font-arapey), Georgia, serif",
                           }}
                         >
                           {item.price}
@@ -604,8 +590,8 @@ export default function MenuCatalog() {
           }}
         >
           <p
-            className="text-xs sm:text-sm italic tracking-wide"
-            style={{ color: "#4c6f92", fontFamily: "var(--font-montserrat), sans-serif" }}
+            className="text-sm italic tracking-wide"
+            style={{ color: "#4c6f92", fontFamily: "var(--font-arapey), Georgia, serif" }}
           >
             * Policy note: {POLICY_NOTE}
           </p>

@@ -25,6 +25,23 @@ const montserrat = localFont({
   display: "swap",
 });
 
+const arapey = localFont({
+  src: [
+    {
+      path: "./fonts/Arapey-Regular.ttf",
+      weight: "400",
+      style: "normal",
+    },
+    {
+      path: "./fonts/Arapey-Italic.ttf",
+      weight: "400",
+      style: "italic",
+    },
+  ],
+  variable: "--font-arapey",
+  display: "swap",
+});
+
 export const metadata: Metadata = {
   title: "Blue Fish | Seafood • Sushi • Seaview Dining",
   description:
@@ -41,7 +58,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${caveatBrush.variable} ${montserrat.variable} scroll-smooth`}>
+    <html lang="en" className={`${caveatBrush.variable} ${montserrat.variable} ${arapey.variable} scroll-smooth`}>
       <body className="font-sans antialiased bg-[#F4F8FC] text-[#0B203B] selection:bg-[#0084D1]/20 selection:text-[#0084D1]">
         {children}
       </body>
