@@ -619,6 +619,7 @@ export const menuSectionsData: MenuSection[] = [
         category: "rolls-combos",
         price: "€3.00",
         desc: "rice, nori & avocado",
+        image: "/images/menu/hoso-avocado.JPEG",
       },
       {
         name: "Oshi Green (3 pieces)",
