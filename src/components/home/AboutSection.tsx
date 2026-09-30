@@ -65,14 +65,14 @@ export default function AboutSection() {
 
           {/* Right Arched Boho Photo Showcase */}
           <div className="lg:col-span-6 relative flex flex-col items-center justify-center mt-8 lg:mt-0">
-            {/* Main Arched Photo / Logo Showcase */}
+            {/* Main Arched Photo Showcase */}
             <div className="relative w-full max-w-md aspect-[3/4] rounded-t-full rounded-b-3xl overflow-hidden border-4 border-white shadow-2xl bg-[#E5E7EB] flex items-center justify-center">
               <SkeletonOverlay loaded={logoLoaded} className="rounded-t-full rounded-b-3xl" />
               <img
                 ref={setLogoNode}
-                src="/logo.webp"
-                alt="Blue Fish Logo"
-                className={`w-full h-full object-contain p-10 sm:p-14 bg-[#E5E7EB] transition-all duration-700 hover:scale-105 ${
+                src="/images/gallery/gallery-0.jpg"
+                alt="Blue Fish Port Ghalib"
+                className={`w-full h-full object-cover transition-all duration-700 hover:scale-105 ${
                   logoLoaded ? "opacity-100" : "opacity-0"
                 }`}
                 onLoad={onLogoLoad}
