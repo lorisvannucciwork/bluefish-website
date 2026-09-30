@@ -42,13 +42,15 @@ export default function AboutSection() {
               style={{ fontFamily: "var(--font-arapey), Georgia, serif" }}
             >
               <p>
-                Rooted on the golden waterfront boardwalk of Port Ghalib Marina, <strong>BLUE FISH</strong>{" "}
-                embodies a bohemian coastal spirit where relaxed barefoot elegance meets the vibrant art of
-                Japanese sushi precision and Red Sea ocean gastronomy.
+                Perched right on the Red Sea shore in Port Ghalib, <strong>Blue Fish</strong> is where fresh
+                sushi meets an unforgettable sea view. Enjoy expertly crafted rolls, nigiri, and sashimi made
+                from the freshest ingredients, all served just steps from the sparkling water.
               </p>
               <p>
-                Immerse yourself in sun-dappled bamboo cabanas, hand-crafted rattan textures, and ambient
-                music as the afternoon golden hour seamlessly flows into intimate twilight dining under the stars.
+                Whether you&apos;re planning a romantic sunset dinner, a relaxed evening with friends, or a
+                special family celebration, our calm atmosphere and panoramic views set the perfect scene.
+                Watch the sun sink into the horizon as you savor each bite, accompanied by refreshing drinks
+                and attentive service.
               </p>
             </div>
 
