@@ -397,7 +397,7 @@ export const menuSectionsData: MenuSection[] = [
         category: "sushi-classics",
         price: "€12.00",
         desc: "rice, nori, smoked salmon, raw salmon, avocado, cheese, cucumber, teriyaki sauce & sesame mix",
-        image: "/images/menu/ura-maki-special-philadelphia.JPEG",
+        image: "/images/menu/Philadelphia.JPEG",
       },
       {
         name: "Rambo",
@@ -446,7 +446,7 @@ export const menuSectionsData: MenuSection[] = [
         category: "sushi-classics",
         price: "€12.00",
         desc: "crispy rice, shrimp tempura, avocado, teriyaki sauce & nori",
-        image: "/images/menu/ura-maki-special-crispy-shrim-tempura.JPEG",
+        image: "/images/menu/ura-maki-special-tempura.JPEG",
       },
     ],
   },
