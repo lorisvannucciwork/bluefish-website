@@ -795,21 +795,13 @@ export default function DeliveryExperience() {
                 "0 14px 40px rgba(198,139,89,0.28), 0 4px 16px rgba(11,32,59,0.06)";
             }}
           >
-            <div className="flex items-center gap-3.5">
-              <span
-                className="w-8 h-8 rounded-full text-white text-xs font-bold flex items-center justify-center shadow-xs shrink-0"
-                style={{ background: "linear-gradient(135deg, #C68B59 0%, #B07442 100%)" }}
-              >
-                {totalItemsCount}
-              </span>
-              <div className="text-left">
-                <p className="text-[11px] uppercase tracking-wider font-semibold text-[#C68B59]">
-                  Delivery Bag
-                </p>
-                <p className="text-sm sm:text-base font-bold text-[#0B203B]">
-                  {totalItemsCount} item{totalItemsCount > 1 ? "s" : ""} • €{subtotal.toFixed(2)}
-                </p>
-              </div>
+            <div className="text-left">
+              <p className="text-[11px] uppercase tracking-wider font-semibold text-[#C68B59]">
+                Delivery Bag
+              </p>
+              <p className="text-sm sm:text-base font-bold text-[#0B203B]">
+                {totalItemsCount} item{totalItemsCount > 1 ? "s" : ""} • €{subtotal.toFixed(2)}
+              </p>
             </div>
 
             <div
