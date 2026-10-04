@@ -166,6 +166,8 @@ export default function DeliveryExperience() {
   const [copiedText, setCopiedText] = useState(false);
   const [submittedOrder, setSubmittedOrder] = useState<string | null>(null);
   const [formErrors, setFormErrors] = useState<{ fullName?: boolean; destination?: boolean }>({});
+  const [showClearWarning, setShowClearWarning] = useState(false);
+  const [isBarDismissed, setIsBarDismissed] = useState(false);
 
   // Checkout Form State
   const [form, setForm] = useState<OrderForm>({
@@ -414,6 +416,7 @@ export default function DeliveryExperience() {
 
   // Cart operations
   const addToCart = (item: { name: string; price: string; category: string; image?: string; unitPrice: number }) => {
+    setIsBarDismissed(false);
     setCart((prev) => {
       const existing = prev.find((i) => i.name === item.name);
       if (existing) {
@@ -913,53 +916,100 @@ export default function DeliveryExperience() {
       {/* 3. FLOATING BOTTOM BAG BAR (Appears when items are in bag)         */}
       {/* ================================================================= */}
       {cart.length > 0 && !isDrawerOpen && (
-        <aside
-          aria-label="Delivery bag preview"
-          className="fixed bottom-5 inset-x-4 sm:inset-x-auto sm:right-8 sm:w-auto z-40 animate-in fade-in slide-in-from-bottom-5 duration-300"
-        >
-          <button
-            type="button"
-            onClick={() => {
-              setSubmittedOrder(null);
-              setIsDrawerOpen(true);
-            }}
-            className="w-full sm:w-auto flex items-center justify-between gap-5 sm:gap-7 px-6 py-3.5 rounded-full shadow-2xl cursor-pointer transition-all duration-300"
-            style={{
-              background: "linear-gradient(135deg, #FFFFFF 0%, #FFFDF9 60%, #FAF4EB 100%)",
-              border: "1px solid rgba(0, 0, 0, 0.06)",
-              boxShadow: "0 12px 36px rgba(11, 32, 59, 0.12), 0 3px 10px rgba(0, 0, 0, 0.04)",
-            }}
-            onMouseEnter={(e) => {
-              (e.currentTarget as HTMLElement).style.transform = "translateY(-3px)";
-              (e.currentTarget as HTMLElement).style.boxShadow =
-                "0 18px 45px rgba(11, 32, 59, 0.18), 0 5px 16px rgba(0, 0, 0, 0.06)";
-            }}
-            onMouseLeave={(e) => {
-              (e.currentTarget as HTMLElement).style.transform = "translateY(0)";
-              (e.currentTarget as HTMLElement).style.boxShadow =
-                "0 12px 36px rgba(11, 32, 59, 0.12), 0 3px 10px rgba(0, 0, 0, 0.04)";
-            }}
-          >
-            <div className="text-left">
-              <p className="text-[11px] uppercase tracking-wider font-semibold text-[#C68B59]">
-                Delivery Bag
-              </p>
-              <p className="text-sm sm:text-base font-bold text-[#0B203B]">
-                {totalItemsCount} item{totalItemsCount > 1 ? "s" : ""} • €{subtotal.toFixed(2)}
-              </p>
-            </div>
-
-            <div
-              className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-white px-5 py-2.5 rounded-full shadow-sm transition-transform hover:scale-105"
-              style={{
-                background: "linear-gradient(135deg, #0084D1 0%, #006AA8 100%)",
-              }}
+        <>
+          {isBarDismissed ? (
+            <aside
+              aria-label="Restore delivery bag"
+              className="fixed bottom-5 right-4 sm:right-8 z-40 animate-in fade-in zoom-in-95 duration-200"
             >
-              <span>Checkout Order</span>
-              <ArrowRight className="w-4 h-4 text-white" />
-            </div>
-          </button>
-        </aside>
+              <button
+                type="button"
+                onClick={() => setIsBarDismissed(false)}
+                className="flex items-center gap-2.5 px-4 py-3 rounded-full bg-white shadow-2xl border border-slate-200/90 hover:border-[#C68B59]/50 text-[#0B203B] cursor-pointer transition-all hover:scale-105"
+                title="Open Delivery Bag"
+                aria-label="Open Delivery Bag"
+              >
+                <div className="relative">
+                  <Utensils className="w-4 h-4 text-[#C68B59]" />
+                  <span className="absolute -top-2 -right-2.5 w-4 h-4 rounded-full bg-[#0084D1] text-white text-[10px] font-bold flex items-center justify-center">
+                    {totalItemsCount}
+                  </span>
+                </div>
+                <span className="text-xs sm:text-sm font-bold text-[#0B203B]">
+                  €{subtotal.toFixed(2)}
+                </span>
+                <ArrowRight className="w-3.5 h-3.5 text-[#0084D1]" />
+              </button>
+            </aside>
+          ) : (
+            <aside
+              aria-label="Delivery bag preview"
+              className="fixed bottom-5 inset-x-4 sm:inset-x-auto sm:right-8 sm:w-auto z-40 animate-in fade-in slide-in-from-bottom-5 duration-300"
+            >
+              <div
+                className="w-full sm:w-auto flex items-center justify-between gap-3 sm:gap-5 pl-5 pr-3 py-2.5 rounded-full shadow-2xl transition-all duration-300"
+                style={{
+                  background: "linear-gradient(135deg, #FFFFFF 0%, #FFFDF9 60%, #FAF4EB 100%)",
+                  border: "1px solid rgba(0, 0, 0, 0.06)",
+                  boxShadow: "0 12px 36px rgba(11, 32, 59, 0.12), 0 3px 10px rgba(0, 0, 0, 0.04)",
+                }}
+              >
+                {/* Clickable Cart Info & Checkout CTA */}
+                <button
+                  type="button"
+                  onClick={() => {
+                    setSubmittedOrder(null);
+                    setIsDrawerOpen(true);
+                  }}
+                  className="flex items-center gap-4 sm:gap-6 text-left cursor-pointer group"
+                >
+                  <div>
+                    <p className="text-[11px] uppercase tracking-wider font-semibold text-[#C68B59]">
+                      Delivery Bag
+                    </p>
+                    <p className="text-sm sm:text-base font-bold text-[#0B203B] group-hover:text-[#0084D1] transition-colors">
+                      {totalItemsCount} item{totalItemsCount > 1 ? "s" : ""} • €{subtotal.toFixed(2)}
+                    </p>
+                  </div>
+
+                  <div
+                    className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-white px-4 sm:px-5 py-2 sm:py-2.5 rounded-full shadow-sm transition-transform group-hover:scale-105"
+                    style={{
+                      background: "linear-gradient(135deg, #0084D1 0%, #006AA8 100%)",
+                    }}
+                  >
+                    <span>Checkout Order</span>
+                    <ArrowRight className="w-4 h-4 text-white" />
+                  </div>
+                </button>
+
+                {/* Sibling Actions: Clear & Close */}
+                <div className="flex items-center gap-1.5 pl-2 border-l border-slate-200/80">
+                  <button
+                    type="button"
+                    onClick={() => setShowClearWarning(true)}
+                    className="px-2.5 py-1.5 rounded-full text-xs font-semibold text-rose-600 hover:bg-rose-50 transition-colors flex items-center gap-1 cursor-pointer"
+                    title="Clear Delivery Bag"
+                    aria-label="Clear Delivery Bag"
+                  >
+                    <Trash2 className="w-3.5 h-3.5" />
+                    <span className="hidden sm:inline">Clear</span>
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={() => setIsBarDismissed(true)}
+                    className="w-7 h-7 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-500 hover:text-[#0B203B] flex items-center justify-center transition-colors cursor-pointer shrink-0"
+                    title="Dismiss delivery bar"
+                    aria-label="Dismiss delivery bar"
+                  >
+                    <X className="w-3.5 h-3.5" />
+                  </button>
+                </div>
+              </div>
+            </aside>
+          )}
+        </>
       )}
 
       {/* ================================================================= */}
@@ -1078,7 +1128,7 @@ export default function DeliveryExperience() {
                       </h4>
                       <button
                         type="button"
-                        onClick={clearCart}
+                        onClick={() => setShowClearWarning(true)}
                         className="text-xs text-rose-600 hover:underline cursor-pointer"
                       >
                         Clear Bag
@@ -1682,6 +1732,61 @@ export default function DeliveryExperience() {
                 </div>
               </div>
             )}
+          </div>
+        </div>
+      )}
+
+      {/* ================================================================= */}
+      {/* 5. CLEAR BAG CONFIRMATION WARNING MODAL                           */}
+      {/* ================================================================= */}
+      {showClearWarning && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-xs animate-in fade-in duration-200">
+          <div
+            className="w-full max-w-sm rounded-3xl p-6 text-center space-y-4 shadow-2xl border border-[#C68B59]/30 bg-[#FFFDF9] animate-in zoom-in-95 duration-200"
+            role="alertdialog"
+            aria-modal="true"
+            aria-labelledby="clear-bag-dialog-title"
+            aria-describedby="clear-bag-dialog-desc"
+          >
+            <div className="w-14 h-14 rounded-2xl bg-rose-50 text-rose-600 flex items-center justify-center mx-auto border border-rose-200/60 shadow-xs">
+              <Trash2 className="w-7 h-7" />
+            </div>
+
+            <div className="space-y-1.5">
+              <h3
+                id="clear-bag-dialog-title"
+                className="text-2xl text-[#0B203B]"
+                style={{ fontFamily: "var(--font-arapey), Georgia, serif" }}
+              >
+                Clear Delivery Bag?
+              </h3>
+              <p
+                id="clear-bag-dialog-desc"
+                className="text-xs sm:text-sm text-[#4c6f92] leading-relaxed"
+              >
+                Are you sure you want to remove all {totalItemsCount} dish{totalItemsCount > 1 ? "es" : ""} from your delivery bag? This action cannot be undone.
+              </p>
+            </div>
+
+            <div className="flex items-center gap-3 pt-2">
+              <button
+                type="button"
+                onClick={() => setShowClearWarning(false)}
+                className="flex-1 py-2.5 px-4 rounded-xl border border-slate-200 text-xs sm:text-sm font-semibold text-[#0B203B] hover:bg-slate-100 transition-colors cursor-pointer"
+              >
+                Cancel
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  clearCart();
+                  setShowClearWarning(false);
+                }}
+                className="flex-1 py-2.5 px-4 rounded-xl bg-rose-600 hover:bg-rose-700 text-white text-xs sm:text-sm font-semibold transition-colors shadow-md cursor-pointer"
+              >
+                Yes, Clear Bag
+              </button>
+            </div>
           </div>
         </div>
       )}
