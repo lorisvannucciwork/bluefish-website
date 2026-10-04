@@ -375,6 +375,7 @@ export default function DeliveryExperience() {
   // Clean reset function for bag
   const clearCart = () => {
     setCart([]);
+    setIsBarDismissed(false);
     try {
       localStorage.removeItem(CART_STORAGE_KEY);
     } catch {
@@ -416,7 +417,6 @@ export default function DeliveryExperience() {
 
   // Cart operations
   const addToCart = (item: { name: string; price: string; category: string; image?: string; unitPrice: number }) => {
-    setIsBarDismissed(false);
     setCart((prev) => {
       const existing = prev.find((i) => i.name === item.name);
       if (existing) {
