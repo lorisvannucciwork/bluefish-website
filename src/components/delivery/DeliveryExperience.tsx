@@ -1059,9 +1059,10 @@ export default function DeliveryExperience() {
             <button
               type="button"
               onClick={closeDrawer}
-              className="w-9 h-9 rounded-full bg-slate-100 hover:bg-slate-200 text-[#0B203B] flex items-center justify-center transition-colors cursor-pointer"
+              className="p-1.5 text-[#0B203B] hover:text-[#C68B59] transition-colors cursor-pointer"
+              aria-label="Close delivery order drawer"
             >
-              <X className="w-5 h-5" />
+              <X className="w-6 h-6" />
             </button>
           </div>
 
