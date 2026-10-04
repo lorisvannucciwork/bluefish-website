@@ -77,14 +77,9 @@ export default function MediaPortal() {
                 <div className="w-12 h-12 rounded-xl bg-[#0084D1]/15 border border-[#0084D1]/30 flex items-center justify-center text-[#0084D1] shrink-0 group-hover:bg-[#0084D1] group-hover:text-white transition-colors duration-300">
                   <Truck className="w-6 h-6" />
                 </div>
-                <div>
-                  <span className="text-xl sm:text-2xl font-bold tracking-wide text-[#0B203B] group-hover:text-[#0084D1] transition-colors block">
-                    Order Delivery Online
-                  </span>
-                  <span className="text-xs sm:text-sm text-[#4c6f92]">
-                    Fresh sushi & seafood to your hotel, yacht, or villa
-                  </span>
-                </div>
+                <span className="text-xl sm:text-2xl font-bold tracking-wide text-[#0B203B] group-hover:text-[#0084D1] transition-colors">
+                  Order Delivery Online
+                </span>
               </div>
               <div className="w-10 h-10 rounded-full bg-[#0B203B]/5 border border-[#0B203B]/10 flex items-center justify-center shrink-0 group-hover:bg-[#0084D1] group-hover:translate-x-1 transition-all duration-300">
                 <ArrowRight className="w-5 h-5 text-[#0B203B] group-hover:text-white transition-colors" />
@@ -101,14 +96,9 @@ export default function MediaPortal() {
                 <div className="w-12 h-12 rounded-xl bg-[#C68B59]/15 border border-[#C68B59]/30 flex items-center justify-center text-[#C68B59] shrink-0 group-hover:bg-[#C68B59] group-hover:text-white transition-colors duration-300">
                   <Utensils className="w-6 h-6" />
                 </div>
-                <div>
-                  <span className="text-xl sm:text-2xl font-bold tracking-wide text-[#0B203B] group-hover:text-[#C68B59] transition-colors block">
-                    View Digital Menu
-                  </span>
-                  <span className="text-xs sm:text-sm text-[#4c6f92]">
-                    Explore our dine-in dishes, platters & drinks
-                  </span>
-                </div>
+                <span className="text-xl sm:text-2xl font-bold tracking-wide text-[#0B203B] group-hover:text-[#C68B59] transition-colors">
+                  View Digital Menu
+                </span>
               </div>
               <div className="w-10 h-10 rounded-full bg-[#0B203B]/5 border border-[#0B203B]/10 flex items-center justify-center shrink-0 group-hover:bg-[#0084D1] group-hover:translate-x-1 transition-all duration-300">
                 <ArrowRight className="w-5 h-5 text-[#0B203B] group-hover:text-white transition-colors" />
