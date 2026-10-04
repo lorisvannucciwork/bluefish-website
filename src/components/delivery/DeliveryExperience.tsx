@@ -31,8 +31,6 @@ import {
   DELIVERY_PHONE,
   DELIVERY_PHONE_INTL,
   DELIVERY_WHATSAPP_CLEAN,
-  DELIVERY_HOURS,
-  DELIVERY_AVG_TIME,
 } from "@/data/deliveryData";
 import DeliveryFaq from "./DeliveryFaq";
 
@@ -358,68 +356,6 @@ export default function DeliveryExperience() {
       />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 py-12 sm:py-16 space-y-12">
-        {/* ================================================================= */}
-        {/* 1. DELIVERY LIVE STATUS BAR & DIRECT HOTLINE BANNER               */}
-        {/* ================================================================= */}
-        <div
-          className="p-5 sm:p-6 rounded-3xl flex flex-col md:flex-row items-center justify-between gap-5 transition-all duration-300"
-          style={{
-            background: "linear-gradient(135deg, rgba(255,255,255,0.85) 0%, rgba(253,251,247,0.85) 100%)",
-            border: "1px solid rgba(198,139,89,0.25)",
-            backdropFilter: "blur(12px)",
-            boxShadow: "0 8px 30px rgba(11,32,59,0.04)",
-          }}
-        >
-          <div className="flex items-center gap-4 text-center md:text-left">
-            <div
-              className="w-12 h-12 rounded-2xl flex items-center justify-center shrink-0 text-white shadow-md"
-              style={{ background: "linear-gradient(135deg, #0084D1 0%, #005F99 100%)" }}
-            >
-              <Sailboat className="w-6 h-6" />
-            </div>
-            <div>
-              <div className="flex items-center justify-center md:justify-start gap-2">
-                <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-ping" />
-                <h3 className="font-semibold text-base sm:text-lg text-[#0B203B]">
-                  Port Ghalib Delivery Active
-                </h3>
-              </div>
-              <p className="text-xs sm:text-sm text-[#4c6f92]">
-                Delivering fresh sushi, seafood & drinks to Pickalbatros, Jaz, Marina Lodge, yachts & private villas.
-              </p>
-            </div>
-          </div>
-
-          <div className="flex items-center gap-3 shrink-0">
-            <a
-              href={`tel:${DELIVERY_PHONE_INTL.replace(/\s+/g, "")}`}
-              className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs sm:text-sm font-medium transition-all duration-300"
-              style={{
-                background: "rgba(11,32,59,0.06)",
-                color: "#0B203B",
-                border: "1px solid rgba(11,32,59,0.12)",
-              }}
-            >
-              <Phone className="w-4 h-4 text-[#C68B59]" />
-              <span>{DELIVERY_PHONE}</span>
-            </a>
-
-            <a
-              href={`https://wa.me/${DELIVERY_WHATSAPP_CLEAN}?text=${encodeURIComponent(
-                "Hello Blue Fish, I would like to order delivery to my location in Port Ghalib."
-              )}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs sm:text-sm font-medium text-white transition-all duration-300 shadow-sm"
-              style={{
-                background: "#25D366",
-              }}
-            >
-              <MessageCircle className="w-4 h-4" />
-              <span>WhatsApp Chat</span>
-            </a>
-          </div>
-        </div>
 
         {/* ================================================================= */}
         {/* 2. FILTER CONTROLS — CATEGORIES + SEARCH                          */}
@@ -723,37 +659,48 @@ export default function DeliveryExperience() {
           <button
             type="button"
             onClick={() => setIsDrawerOpen(true)}
-            className="w-full sm:w-auto flex items-center justify-between gap-6 px-6 py-4 rounded-full text-white shadow-2xl cursor-pointer transition-all duration-300"
+            className="w-full sm:w-auto flex items-center justify-between gap-5 sm:gap-7 px-6 py-3.5 rounded-full shadow-2xl cursor-pointer transition-all duration-300"
             style={{
-              background: "linear-gradient(135deg, #0B203B 0%, #17375E 100%)",
-              border: "1.5px solid rgba(198,139,89,0.5)",
-              boxShadow: "0 12px 35px rgba(11,32,59,0.35)",
+              background: "linear-gradient(135deg, #FFFFFF 0%, #FFFDF9 60%, #FAF4EB 100%)",
+              border: "2px solid #C68B59",
+              boxShadow: "0 14px 40px rgba(198,139,89,0.28), 0 4px 16px rgba(11,32,59,0.06)",
             }}
             onMouseEnter={(e) => {
               (e.currentTarget as HTMLElement).style.transform = "translateY(-3px)";
+              (e.currentTarget as HTMLElement).style.boxShadow =
+                "0 20px 45px rgba(198,139,89,0.4), 0 6px 20px rgba(11,32,59,0.08)";
             }}
             onMouseLeave={(e) => {
               (e.currentTarget as HTMLElement).style.transform = "translateY(0)";
+              (e.currentTarget as HTMLElement).style.boxShadow =
+                "0 14px 40px rgba(198,139,89,0.28), 0 4px 16px rgba(11,32,59,0.06)";
             }}
           >
-            <div className="flex items-center gap-3">
-              <div className="relative">
-                <ShoppingBag className="w-6 h-6 text-[#C68B59]" />
-                <span className="absolute -top-1 -right-2 w-5 h-5 rounded-full bg-[#0084D1] text-white text-[11px] font-bold flex items-center justify-center border-2 border-[#0B203B]">
-                  {totalItemsCount}
-                </span>
-              </div>
+            <div className="flex items-center gap-3.5">
+              <span
+                className="w-8 h-8 rounded-full text-white text-xs font-bold flex items-center justify-center shadow-xs shrink-0"
+                style={{ background: "linear-gradient(135deg, #C68B59 0%, #B07442 100%)" }}
+              >
+                {totalItemsCount}
+              </span>
               <div className="text-left">
-                <p className="text-xs uppercase tracking-wider text-[#C68B59]">Delivery Bag</p>
-                <p className="text-sm font-semibold text-white">
+                <p className="text-[11px] uppercase tracking-wider font-semibold text-[#C68B59]">
+                  Delivery Bag
+                </p>
+                <p className="text-sm sm:text-base font-bold text-[#0B203B]">
                   {totalItemsCount} item{totalItemsCount > 1 ? "s" : ""} • €{subtotal.toFixed(2)}
                 </p>
               </div>
             </div>
 
-            <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-white bg-white/10 px-4 py-2 rounded-full">
+            <div
+              className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-white px-5 py-2.5 rounded-full shadow-sm transition-transform hover:scale-105"
+              style={{
+                background: "linear-gradient(135deg, #0084D1 0%, #006AA8 100%)",
+              }}
+            >
               <span>Checkout Order</span>
-              <ArrowRight className="w-4 h-4 text-[#C68B59]" />
+              <ArrowRight className="w-4 h-4 text-white" />
             </div>
           </button>
         </aside>
