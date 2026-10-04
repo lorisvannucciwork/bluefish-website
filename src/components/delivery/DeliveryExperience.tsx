@@ -63,6 +63,38 @@ function parsePrice(priceStr: string): number {
   return isNaN(num) ? 0 : num;
 }
 
+// ─── HELPER: 12-Hour format converter for custom time picker ────────────────
+function format12Hour(timeStr: string): string {
+  if (!timeStr) return "7:00 PM";
+  const [hStr, mStr] = timeStr.split(":");
+  let hour = parseInt(hStr, 10);
+  if (isNaN(hour)) hour = 19;
+  const minute = mStr || "00";
+  const period = hour >= 12 ? "PM" : "AM";
+  const displayHour = hour === 0 ? 12 : hour > 12 ? hour - 12 : hour;
+  return `${displayHour}:${minute} ${period}`;
+}
+
+function formatHourLabel(timeStr: string): string {
+  if (!timeStr) return "7 PM";
+  let hour = parseInt(timeStr.split(":")[0], 10);
+  if (isNaN(hour)) hour = 19;
+  const period = hour >= 12 ? "PM" : "AM";
+  const displayHour = hour === 0 ? 12 : hour > 12 ? hour - 12 : hour;
+  return `${displayHour} ${period}`;
+}
+
+const presetTimes = [
+  { value: "13:00", label: "1:00 PM" },
+  { value: "14:30", label: "2:30 PM" },
+  { value: "18:00", label: "6:00 PM" },
+  { value: "19:00", label: "7:00 PM" },
+  { value: "19:30", label: "7:30 PM" },
+  { value: "20:00", label: "8:00 PM" },
+  { value: "20:30", label: "8:30 PM" },
+  { value: "21:30", label: "9:30 PM" },
+];
+
 // ─── Visual Dish Thumbnail Component ─────────────────────────────────────────
 function DeliveryDishVisual({ src, alt }: { src?: string; alt: string }) {
   const { loaded, onLoad, onError, setNode } = useImageLoaded();
@@ -133,11 +165,51 @@ export default function DeliveryExperience() {
     paymentMethod: "cash",
   });
 
-  // Close dropdown on click outside
+  // Custom UI dropdown states & refs
+  const [isDeliveryTimeOpen, setIsDeliveryTimeOpen] = useState(false);
+  const [isPaymentOpen, setIsPaymentOpen] = useState(false);
+  const deliveryTimeRef = useRef<HTMLDivElement>(null);
+  const paymentRef = useRef<HTMLDivElement>(null);
+
+  // Stepper handlers for custom time UI
+  const adjustHour = (delta: number) => {
+    let hour = parseInt(form.scheduledTime.split(":")[0], 10);
+    if (isNaN(hour)) hour = 19;
+    const minute = form.scheduledTime.split(":")[1] || "00";
+    let newHour = hour + delta;
+    if (newHour > 23) newHour = 12;
+    if (newHour < 12) newHour = 23;
+    setForm((prev) => ({
+      ...prev,
+      scheduledTime: `${String(newHour).padStart(2, "0")}:${minute}`,
+    }));
+  };
+
+  const adjustMinute = (delta: number) => {
+    const hour = form.scheduledTime.split(":")[0] || "19";
+    let minute = parseInt(form.scheduledTime.split(":")[1], 10);
+    if (isNaN(minute)) minute = 0;
+    let newMin = minute + delta;
+    if (newMin >= 60) newMin = 0;
+    if (newMin < 0) newMin = 45;
+    setForm((prev) => ({
+      ...prev,
+      scheduledTime: `${hour}:${String(newMin).padStart(2, "0")}`,
+    }));
+  };
+
+  // Close dropdowns on click outside
   useEffect(() => {
     function handleClickOutside(event: MouseEvent | TouchEvent) {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+      const target = event.target as Node;
+      if (dropdownRef.current && !dropdownRef.current.contains(target)) {
         setIsDropdownOpen(false);
+      }
+      if (deliveryTimeRef.current && !deliveryTimeRef.current.contains(target)) {
+        setIsDeliveryTimeOpen(false);
+      }
+      if (paymentRef.current && !paymentRef.current.contains(target)) {
+        setIsPaymentOpen(false);
       }
     }
     document.addEventListener("mousedown", handleClickOutside);
@@ -274,8 +346,8 @@ export default function DeliveryExperience() {
     msg += `🏨 *Destination Details:* ${form.destinationDetails || "Please ask guest"}\n`;
     msg += `⏰ *Delivery Timing:* ${
       form.deliveryTime === "asap"
-        ? "ASAP (30-45 minutes)"
-        : `Scheduled for: ${form.scheduledTime}`
+        ? "ASAP"
+        : `Scheduled for: ${format12Hour(form.scheduledTime)} (${form.scheduledTime})`
     }\n`;
     msg += `💳 *Payment Method:* ${paymentLabels[form.paymentMethod]}\n`;
     msg += `═════════════════════════════\n`;
@@ -1038,56 +1110,275 @@ export default function DeliveryExperience() {
 
                     {/* Timing & Payment Row */}
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                      {/* Custom Delivery Time Dropdown */}
                       <div className="space-y-1">
                         <label className="text-xs font-semibold text-[#0B203B]">Delivery Time</label>
-                        <select
-                          value={form.deliveryTime}
-                          onChange={(e) =>
-                            setForm({
-                              ...form,
-                              deliveryTime: e.target.value as "asap" | "scheduled",
-                            })
-                          }
-                          className="w-full px-3 py-2.5 rounded-xl text-xs sm:text-sm bg-white border border-[#C68B59]/30 focus:outline-none cursor-pointer"
-                        >
-                          <option value="asap">ASAP (30–45 mins)</option>
-                          <option value="scheduled">Schedule for later today</option>
-                        </select>
+                        <div className="relative" ref={deliveryTimeRef}>
+                          <button
+                            type="button"
+                            onClick={() => setIsDeliveryTimeOpen((prev) => !prev)}
+                            className="w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs sm:text-sm bg-white border transition-all text-left cursor-pointer"
+                            style={{
+                              borderColor: isDeliveryTimeOpen ? "#C68B59" : "rgba(198,139,89,0.3)",
+                              boxShadow: isDeliveryTimeOpen
+                                ? "0 0 0 2px rgba(198,139,89,0.2)"
+                                : "0 1px 3px rgba(11,32,59,0.03)",
+                            }}
+                          >
+                            <span className="font-medium text-[#0B203B] truncate">
+                              {form.deliveryTime === "asap" ? "ASAP" : "Schedule for later today"}
+                            </span>
+                            <ChevronDown
+                              className="w-4 h-4 text-[#C68B59] transition-transform duration-200 shrink-0 ml-1.5"
+                              style={{ transform: isDeliveryTimeOpen ? "rotate(180deg)" : "rotate(0deg)" }}
+                            />
+                          </button>
+
+                          {isDeliveryTimeOpen && (
+                            <div
+                              className="absolute left-0 top-[calc(100%+6px)] w-full rounded-2xl p-1.5 z-40 shadow-xl border border-[#C68B59]/30 bg-[#FFFDF9] space-y-1 animate-in fade-in zoom-in-95 duration-150"
+                              style={{
+                                boxShadow: "0 12px 30px rgba(11,32,59,0.15), 0 4px 10px rgba(198,139,89,0.1)",
+                              }}
+                            >
+                              <button
+                                type="button"
+                                onClick={() => {
+                                  setForm({ ...form, deliveryTime: "asap" });
+                                  setIsDeliveryTimeOpen(false);
+                                }}
+                                className="w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs sm:text-sm text-left transition-colors cursor-pointer"
+                                style={{
+                                  background: form.deliveryTime === "asap" ? "#FAF4EC" : "transparent",
+                                  color: form.deliveryTime === "asap" ? "#0B203B" : "#4c6f92",
+                                  fontWeight: form.deliveryTime === "asap" ? 600 : 400,
+                                }}
+                              >
+                                <span>ASAP</span>
+                                {form.deliveryTime === "asap" && (
+                                  <Check className="w-3.5 h-3.5 text-[#C68B59] shrink-0" />
+                                )}
+                              </button>
+
+                              <button
+                                type="button"
+                                onClick={() => {
+                                  setForm({ ...form, deliveryTime: "scheduled" });
+                                  setIsDeliveryTimeOpen(false);
+                                }}
+                                className="w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs sm:text-sm text-left transition-colors cursor-pointer"
+                                style={{
+                                  background: form.deliveryTime === "scheduled" ? "#FAF4EC" : "transparent",
+                                  color: form.deliveryTime === "scheduled" ? "#0B203B" : "#4c6f92",
+                                  fontWeight: form.deliveryTime === "scheduled" ? 600 : 400,
+                                }}
+                              >
+                                <span>Schedule for later today</span>
+                                {form.deliveryTime === "scheduled" && (
+                                  <Check className="w-3.5 h-3.5 text-[#C68B59] shrink-0" />
+                                )}
+                              </button>
+                            </div>
+                          )}
+                        </div>
                       </div>
 
-                      {form.deliveryTime === "scheduled" ? (
-                        <div className="space-y-1">
-                          <label className="text-xs font-semibold text-[#0B203B]">
-                            Select Time
-                          </label>
-                          <input
-                            type="time"
-                            value={form.scheduledTime}
-                            onChange={(e) => setForm({ ...form, scheduledTime: e.target.value })}
-                            className="w-full px-3 py-2.5 rounded-xl text-xs sm:text-sm bg-white border border-[#C68B59]/30 focus:outline-none"
-                          />
-                        </div>
-                      ) : (
-                        <div className="space-y-1">
-                          <label className="text-xs font-semibold text-[#0B203B]">
-                            Payment on Arrival
-                          </label>
-                          <select
-                            value={form.paymentMethod}
-                            onChange={(e) =>
-                              setForm({
-                                ...form,
-                                paymentMethod: e.target.value as "cash" | "card",
-                              })
-                            }
-                            className="w-full px-3 py-2.5 rounded-xl text-xs sm:text-sm bg-white border border-[#C68B59]/30 focus:outline-none cursor-pointer"
+                      {/* Custom Payment on Arrival Dropdown */}
+                      <div className="space-y-1">
+                        <label className="text-xs font-semibold text-[#0B203B]">Payment on Arrival</label>
+                        <div className="relative" ref={paymentRef}>
+                          <button
+                            type="button"
+                            onClick={() => setIsPaymentOpen((prev) => !prev)}
+                            className="w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs sm:text-sm bg-white border transition-all text-left cursor-pointer"
+                            style={{
+                              borderColor: isPaymentOpen ? "#C68B59" : "rgba(198,139,89,0.3)",
+                              boxShadow: isPaymentOpen
+                                ? "0 0 0 2px rgba(198,139,89,0.2)"
+                                : "0 1px 3px rgba(11,32,59,0.03)",
+                            }}
                           >
-                            <option value="cash">Cash (EGP, EUR, USD)</option>
-                            <option value="card">Card Machine (Visa/Mastercard)</option>
-                          </select>
+                            <span className="font-medium text-[#0B203B] truncate">
+                              {form.paymentMethod === "cash"
+                                ? "Cash (EGP, EUR, USD)"
+                                : "Card Machine (Visa/Mastercard)"}
+                            </span>
+                            <ChevronDown
+                              className="w-4 h-4 text-[#C68B59] transition-transform duration-200 shrink-0 ml-1.5"
+                              style={{ transform: isPaymentOpen ? "rotate(180deg)" : "rotate(0deg)" }}
+                            />
+                          </button>
+
+                          {isPaymentOpen && (
+                            <div
+                              className="absolute left-0 top-[calc(100%+6px)] w-full rounded-2xl p-1.5 z-40 shadow-xl border border-[#C68B59]/30 bg-[#FFFDF9] space-y-1 animate-in fade-in zoom-in-95 duration-150"
+                              style={{
+                                boxShadow: "0 12px 30px rgba(11,32,59,0.15), 0 4px 10px rgba(198,139,89,0.1)",
+                              }}
+                            >
+                              <button
+                                type="button"
+                                onClick={() => {
+                                  setForm({ ...form, paymentMethod: "cash" });
+                                  setIsPaymentOpen(false);
+                                }}
+                                className="w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs sm:text-sm text-left transition-colors cursor-pointer"
+                                style={{
+                                  background: form.paymentMethod === "cash" ? "#FAF4EC" : "transparent",
+                                  color: form.paymentMethod === "cash" ? "#0B203B" : "#4c6f92",
+                                  fontWeight: form.paymentMethod === "cash" ? 600 : 400,
+                                }}
+                              >
+                                <span>Cash (EGP, EUR, USD)</span>
+                                {form.paymentMethod === "cash" && (
+                                  <Check className="w-3.5 h-3.5 text-[#C68B59] shrink-0" />
+                                )}
+                              </button>
+
+                              <button
+                                type="button"
+                                onClick={() => {
+                                  setForm({ ...form, paymentMethod: "card" });
+                                  setIsPaymentOpen(false);
+                                }}
+                                className="w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs sm:text-sm text-left transition-colors cursor-pointer"
+                                style={{
+                                  background: form.paymentMethod === "card" ? "#FAF4EC" : "transparent",
+                                  color: form.paymentMethod === "card" ? "#0B203B" : "#4c6f92",
+                                  fontWeight: form.paymentMethod === "card" ? 600 : 400,
+                                }}
+                              >
+                                <span>Card Machine (Visa/Mastercard)</span>
+                                {form.paymentMethod === "card" && (
+                                  <Check className="w-3.5 h-3.5 text-[#C68B59] shrink-0" />
+                                )}
+                              </button>
+                            </div>
+                          )}
                         </div>
-                      )}
+                      </div>
                     </div>
+
+                    {/* Custom UI for Scheduled Time Selection */}
+                    {form.deliveryTime === "scheduled" && (
+                      <div
+                        className="p-3.5 rounded-2xl border border-[#C68B59]/30 space-y-3 transition-all animate-in fade-in slide-in-from-top-2 duration-200"
+                        style={{
+                          background:
+                            "linear-gradient(135deg, rgba(255, 255, 255, 0.98) 0%, rgba(250, 244, 236, 0.9) 100%)",
+                          boxShadow: "0 4px 15px rgba(11, 32, 59, 0.04)",
+                        }}
+                      >
+                        {/* Selected Time Display Header */}
+                        <div className="flex items-center justify-between">
+                          <div className="flex items-center gap-2">
+                            <div className="w-7 h-7 rounded-lg flex items-center justify-center bg-[#C68B59]/15 text-[#C68B59]">
+                              <Clock className="w-3.5 h-3.5" />
+                            </div>
+                            <div>
+                              <p className="text-[11px] font-semibold text-[#0B203B] uppercase tracking-wider">
+                                Scheduled Arrival Time
+                              </p>
+                              <p className="text-[11px] text-[#4c6f92]">Daily service 12:00 PM – 11:30 PM</p>
+                            </div>
+                          </div>
+
+                          <div className="px-3 py-1 rounded-xl bg-[#0B203B] text-[#FAF6F0] font-semibold text-xs sm:text-sm tracking-wide shadow-sm flex items-center gap-1.5">
+                            <span>{format12Hour(form.scheduledTime)}</span>
+                            <span className="text-[10px] text-[#C68B59] font-normal">({form.scheduledTime})</span>
+                          </div>
+                        </div>
+
+                        {/* Interactive Hour & Minute Stepper */}
+                        <div className="grid grid-cols-2 gap-2 pt-0.5">
+                          {/* Hour Stepper */}
+                          <div className="p-2 rounded-xl bg-white border border-[#C68B59]/25 flex items-center justify-between shadow-xs">
+                            <button
+                              type="button"
+                              onClick={() => adjustHour(-1)}
+                              className="w-7 h-7 rounded-lg flex items-center justify-center bg-[#FAF4EC] hover:bg-[#C68B59]/20 text-[#0B203B] transition-colors cursor-pointer"
+                              aria-label="Previous Hour"
+                            >
+                              <Minus className="w-3.5 h-3.5 text-[#C68B59]" />
+                            </button>
+                            <div className="text-center px-1">
+                              <span className="block text-[9px] uppercase tracking-wider text-[#4c6f92] font-medium">
+                                Hour
+                              </span>
+                              <span className="text-xs sm:text-sm font-semibold text-[#0B203B]">
+                                {formatHourLabel(form.scheduledTime)}
+                              </span>
+                            </div>
+                            <button
+                              type="button"
+                              onClick={() => adjustHour(1)}
+                              className="w-7 h-7 rounded-lg flex items-center justify-center bg-[#FAF4EC] hover:bg-[#C68B59]/20 text-[#0B203B] transition-colors cursor-pointer"
+                              aria-label="Next Hour"
+                            >
+                              <Plus className="w-3.5 h-3.5 text-[#C68B59]" />
+                            </button>
+                          </div>
+
+                          {/* Minute Stepper */}
+                          <div className="p-2 rounded-xl bg-white border border-[#C68B59]/25 flex items-center justify-between shadow-xs">
+                            <button
+                              type="button"
+                              onClick={() => adjustMinute(-15)}
+                              className="w-7 h-7 rounded-lg flex items-center justify-center bg-[#FAF4EC] hover:bg-[#C68B59]/20 text-[#0B203B] transition-colors cursor-pointer"
+                              aria-label="Previous 15 Minutes"
+                            >
+                              <Minus className="w-3.5 h-3.5 text-[#C68B59]" />
+                            </button>
+                            <div className="text-center px-1">
+                              <span className="block text-[9px] uppercase tracking-wider text-[#4c6f92] font-medium">
+                                Minute
+                              </span>
+                              <span className="text-xs sm:text-sm font-semibold text-[#0B203B]">
+                                :{form.scheduledTime.split(":")[1] || "00"}
+                              </span>
+                            </div>
+                            <button
+                              type="button"
+                              onClick={() => adjustMinute(15)}
+                              className="w-7 h-7 rounded-lg flex items-center justify-center bg-[#FAF4EC] hover:bg-[#C68B59]/20 text-[#0B203B] transition-colors cursor-pointer"
+                              aria-label="Next 15 Minutes"
+                            >
+                              <Plus className="w-3.5 h-3.5 text-[#C68B59]" />
+                            </button>
+                          </div>
+                        </div>
+
+                        {/* Quick Preset Dining Slots */}
+                        <div className="space-y-1.5 pt-0.5">
+                          <span className="block text-[10px] font-semibold text-[#4c6f92] uppercase tracking-wider">
+                            Popular Dining Times
+                          </span>
+                          <div className="grid grid-cols-4 gap-1.5">
+                            {presetTimes.map((preset) => {
+                              const isSelected = form.scheduledTime === preset.value;
+                              return (
+                                <button
+                                  key={preset.value}
+                                  type="button"
+                                  onClick={() => setForm({ ...form, scheduledTime: preset.value })}
+                                  className="py-1.5 px-1 rounded-lg text-center text-[11px] font-medium transition-all cursor-pointer"
+                                  style={{
+                                    background: isSelected ? "#C68B59" : "rgba(255,255,255,0.9)",
+                                    color: isSelected ? "#FAF6F0" : "#0B203B",
+                                    border: isSelected
+                                      ? "1px solid #C68B59"
+                                      : "1px solid rgba(198,139,89,0.25)",
+                                    boxShadow: isSelected ? "0 2px 8px rgba(198,139,89,0.3)" : "none",
+                                  }}
+                                >
+                                  {preset.label}
+                                </button>
+                              );
+                            })}
+                          </div>
+                        </div>
+                      </div>
+                    )}
 
                     {/* Special requests */}
                     <div className="space-y-1">
