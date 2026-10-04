@@ -964,9 +964,6 @@ export default function DeliveryExperience() {
                   className="flex items-center gap-4 sm:gap-6 text-left cursor-pointer group"
                 >
                   <div>
-                    <p className="text-[11px] uppercase tracking-wider font-semibold text-[#C68B59]">
-                      Delivery Bag
-                    </p>
                     <p className="text-sm sm:text-base font-bold text-[#0B203B] group-hover:text-[#0084D1] transition-colors">
                       {totalItemsCount} item{totalItemsCount > 1 ? "s" : ""} • €{subtotal.toFixed(2)}
                     </p>
