@@ -161,6 +161,12 @@ export default function DeliveryExperience() {
   // Cart & Drawer State
   const [cart, setCart] = useState<CartItem[]>([]);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const closeDrawer = () => {
+    setIsDrawerOpen(false);
+    setTimeout(() => {
+      setSubmittedOrder(null);
+    }, 500);
+  };
   const [editingNoteFor, setEditingNoteFor] = useState<string | null>(null);
   const [itemNoteInput, setItemNoteInput] = useState("");
   const [copiedText, setCopiedText] = useState(false);
@@ -1012,49 +1018,52 @@ export default function DeliveryExperience() {
       {/* ================================================================= */}
       {/* 4. SLIDE-OVER CHECKOUT DRAWER / MODAL                            */}
       {/* ================================================================= */}
-      {isDrawerOpen && (
-        <div className="fixed inset-0 z-50 overflow-hidden flex justify-end">
-          {/* Backdrop */}
-          <div
-            className="fixed inset-0 bg-black/60 backdrop-blur-sm transition-opacity"
-            onClick={() => {
-              setIsDrawerOpen(false);
-              setSubmittedOrder(null);
-            }}
-          />
+      <div
+        className={`fixed inset-0 z-50 overflow-hidden flex justify-end transition-[visibility] duration-500 ${
+          isDrawerOpen
+            ? "visible pointer-events-auto"
+            : "invisible pointer-events-none delay-500 max-md:hidden max-md:delay-0"
+        }`}
+      >
+        {/* Backdrop */}
+        <div
+          className={`fixed inset-0 bg-black/60 backdrop-blur-sm transition-opacity duration-500 ease-out ${
+            isDrawerOpen ? "opacity-100" : "opacity-0"
+          }`}
+          onClick={closeDrawer}
+        />
 
-          {/* Drawer Container */}
-          <div
-            className="relative w-full max-w-xl bg-[#FAF7F2] h-full shadow-2xl flex flex-col z-50 overflow-hidden"
-            style={{ borderLeft: "1px solid rgba(198,139,89,0.3)" }}
-          >
-            {/* Drawer Header */}
-            <div className="p-5 sm:p-6 bg-white border-b border-[#C68B59]/20 flex items-center justify-between">
-              <div>
-                <h3
-                  className="text-xl sm:text-2xl text-[#0B203B]"
-                  style={{ fontFamily: "var(--font-arapey), Georgia, serif" }}
-                >
-                  Your Delivery Order
-                </h3>
-                <p className="text-xs text-[#4c6f92]">
-                  {submittedOrder
-                    ? "Order Submitted • Bag Reset"
-                    : `${totalItemsCount} dish${totalItemsCount > 1 ? "es" : ""} • WhatsApp checkout`}
-                </p>
-              </div>
-
-              <button
-                type="button"
-                onClick={() => {
-                  setIsDrawerOpen(false);
-                  setSubmittedOrder(null);
-                }}
-                className="w-9 h-9 rounded-full bg-slate-100 hover:bg-slate-200 text-[#0B203B] flex items-center justify-center transition-colors cursor-pointer"
+        {/* Drawer Container */}
+        <div
+          className={`relative w-full max-w-xl bg-[#FAF7F2] h-full shadow-2xl flex flex-col z-50 overflow-hidden max-md:transition-none md:transition-transform md:duration-500 md:ease-[cubic-bezier(0.16,1,0.3,1)] ${
+            isDrawerOpen ? "md:translate-x-0" : "md:translate-x-full"
+          }`}
+          style={{ borderLeft: "1px solid rgba(198,139,89,0.3)" }}
+        >
+          {/* Drawer Header */}
+          <div className="p-5 sm:p-6 bg-white border-b border-[#C68B59]/20 flex items-center justify-between">
+            <div>
+              <h3
+                className="text-xl sm:text-2xl text-[#0B203B]"
+                style={{ fontFamily: "var(--font-arapey), Georgia, serif" }}
               >
-                <X className="w-5 h-5" />
-              </button>
+                Your Delivery Order
+              </h3>
+              <p className="text-xs text-[#4c6f92]">
+                {submittedOrder
+                  ? "Order Submitted • Bag Reset"
+                  : `${totalItemsCount} dish${totalItemsCount > 1 ? "es" : ""} • WhatsApp checkout`}
+              </p>
             </div>
+
+            <button
+              type="button"
+              onClick={closeDrawer}
+              className="w-9 h-9 rounded-full bg-slate-100 hover:bg-slate-200 text-[#0B203B] flex items-center justify-center transition-colors cursor-pointer"
+            >
+              <X className="w-5 h-5" />
+            </button>
+          </div>
 
             {/* Drawer Scrollable Content */}
             <div
@@ -1080,10 +1089,7 @@ export default function DeliveryExperience() {
                   <div className="pt-2 flex flex-col sm:flex-row gap-3 justify-center">
                     <button
                       type="button"
-                      onClick={() => {
-                        setSubmittedOrder(null);
-                        setIsDrawerOpen(false);
-                      }}
+                      onClick={closeDrawer}
                       className="px-6 py-2.5 rounded-full text-white text-xs sm:text-sm font-medium transition-transform hover:scale-105 cursor-pointer shadow-md"
                       style={{ background: "#0B203B" }}
                     >
@@ -1108,7 +1114,7 @@ export default function DeliveryExperience() {
                   <p className="text-lg text-[#4c6f92]">Your delivery bag is currently empty.</p>
                   <button
                     type="button"
-                    onClick={() => setIsDrawerOpen(false)}
+                    onClick={closeDrawer}
                     className="px-6 py-2.5 rounded-full text-white text-sm cursor-pointer"
                     style={{ background: "#0B203B" }}
                   >
@@ -1731,7 +1737,6 @@ export default function DeliveryExperience() {
             )}
           </div>
         </div>
-      )}
 
       {/* ================================================================= */}
       {/* 5. CLEAR BAG CONFIRMATION WARNING MODAL                           */}
