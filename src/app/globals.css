@@ -121,3 +121,12 @@ body {
   width: 0;
   height: 0;
 }
+
+/* Hide floating delivery bag elements whenever the mobile navigation menu is open */
+body[data-mobile-menu-open="true"] aside[aria-label="Restore delivery bag"],
+body[data-mobile-menu-open="true"] aside[aria-label="Delivery bag preview"] {
+  display: none !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+  visibility: hidden !important;
+}

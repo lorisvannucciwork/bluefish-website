@@ -34,11 +34,17 @@ export default function Navbar({ variant = "transparent" }: NavbarProps) {
   useEffect(() => {
     if (mobileMenuOpen) {
       document.body.style.overflow = "hidden";
+      document.body.setAttribute("data-mobile-menu-open", "true");
+      window.dispatchEvent(new CustomEvent("mobile-menu-toggle", { detail: { open: true } }));
     } else {
       document.body.style.overflow = "";
+      document.body.removeAttribute("data-mobile-menu-open");
+      window.dispatchEvent(new CustomEvent("mobile-menu-toggle", { detail: { open: false } }));
     }
     return () => {
       document.body.style.overflow = "";
+      document.body.removeAttribute("data-mobile-menu-open");
+      window.dispatchEvent(new CustomEvent("mobile-menu-toggle", { detail: { open: false } }));
     };
   }, [mobileMenuOpen]);
 
@@ -65,7 +71,7 @@ export default function Navbar({ variant = "transparent" }: NavbarProps) {
   return (
     <>
       <div
-        className={`fixed top-0 left-0 z-50 w-full transition-all duration-300 ${
+        className={`fixed top-0 left-0 z-[60] w-full transition-all duration-300 ${
           mobileMenuOpen
             ? "bg-transparent py-4 text-[#0B203B]"
             : isSolid
@@ -153,7 +159,7 @@ export default function Navbar({ variant = "transparent" }: NavbarProps) {
       </div>
 
       <div
-        className={`fixed inset-0 z-40 min-[1100px]:hidden transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] flex flex-col justify-between overflow-y-auto bg-[#FAF6F0] ${
+        className={`fixed inset-0 z-[55] min-[1100px]:hidden transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] flex flex-col justify-between overflow-y-auto bg-[#FAF6F0] ${
           mobileMenuOpen
             ? "opacity-100 pointer-events-auto translate-y-0 visible"
             : "opacity-0 pointer-events-none -translate-y-4 invisible"

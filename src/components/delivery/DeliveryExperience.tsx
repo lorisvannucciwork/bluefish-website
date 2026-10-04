@@ -174,6 +174,7 @@ export default function DeliveryExperience() {
   const [formErrors, setFormErrors] = useState<{ fullName?: boolean; destination?: boolean }>({});
   const [showClearWarning, setShowClearWarning] = useState(false);
   const [isBarDismissed, setIsBarDismissed] = useState(false);
+  const [isMobileNavOpen, setIsMobileNavOpen] = useState(false);
 
   // Checkout Form State
   const [form, setForm] = useState<OrderForm>({
@@ -269,6 +270,33 @@ export default function DeliveryExperience() {
       document.body.style.overflow = "";
     };
   }, [isDrawerOpen]);
+
+  // Sync with mobile navbar menu so floating bag bar is hidden when mobile nav is open
+  useEffect(() => {
+    const handleMobileMenuToggle = (e: Event) => {
+      const customEvent = e as CustomEvent<{ open: boolean }>;
+      setIsMobileNavOpen(Boolean(customEvent.detail?.open));
+    };
+
+    if (typeof document !== "undefined" && document.body.getAttribute("data-mobile-menu-open") === "true") {
+      setIsMobileNavOpen(true);
+    }
+
+    const observer = new MutationObserver(() => {
+      const isOpen = document.body.getAttribute("data-mobile-menu-open") === "true";
+      setIsMobileNavOpen(isOpen);
+    });
+
+    if (typeof document !== "undefined" && document.body) {
+      observer.observe(document.body, { attributes: true, attributeFilter: ["data-mobile-menu-open"] });
+    }
+    window.addEventListener("mobile-menu-toggle", handleMobileMenuToggle);
+
+    return () => {
+      observer.disconnect();
+      window.removeEventListener("mobile-menu-toggle", handleMobileMenuToggle);
+    };
+  }, []);
 
   // ─── LOCALSTORAGE CART PERSISTENCE & AUTO-RESET ────────────────────────────
   const isCartHydratedRef = useRef(false);
@@ -921,12 +949,12 @@ export default function DeliveryExperience() {
       {/* ================================================================= */}
       {/* 3. FLOATING BOTTOM BAG BAR (Appears when items are in bag)         */}
       {/* ================================================================= */}
-      {cart.length > 0 && !isDrawerOpen && (
+      {cart.length > 0 && !isDrawerOpen && !isMobileNavOpen && (
         <>
           {isBarDismissed ? (
             <aside
               aria-label="Restore delivery bag"
-              className="fixed bottom-5 right-4 sm:right-8 z-40 animate-in fade-in zoom-in-95 duration-200"
+              className="fixed bottom-5 right-4 sm:right-8 z-40 animate-in fade-in zoom-in-95 duration-200 [body[data-mobile-menu-open='true']_&]:hidden"
             >
               <button
                 type="button"
@@ -950,7 +978,7 @@ export default function DeliveryExperience() {
           ) : (
             <aside
               aria-label="Delivery bag preview"
-              className="fixed bottom-5 inset-x-4 sm:inset-x-auto sm:right-8 sm:w-auto z-40 animate-in fade-in slide-in-from-bottom-5 duration-300"
+              className="fixed bottom-5 inset-x-4 sm:inset-x-auto sm:right-8 sm:w-auto z-40 animate-in fade-in slide-in-from-bottom-5 duration-300 [body[data-mobile-menu-open='true']_&]:hidden"
             >
               <div
                 className="w-full sm:w-auto flex items-center justify-between gap-3 sm:gap-5 pl-5 pr-3 py-2.5 rounded-full shadow-2xl transition-all duration-300"
