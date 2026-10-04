@@ -113,27 +113,27 @@ export default function Navbar({ variant = "transparent" }: NavbarProps) {
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
               aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
               aria-expanded={mobileMenuOpen}
-              className={`min-[1100px]:hidden relative z-50 cursor-pointer w-11 h-11 sm:w-12 sm:h-12 rounded-full flex flex-col items-center justify-center gap-1.5 transition-all duration-300 ${
+              className={`min-[1100px]:hidden relative z-50 cursor-pointer p-2 flex flex-col items-center justify-center gap-1.5 transition-colors duration-300 ${
                 mobileMenuOpen
-                  ? "bg-[#0B203B] text-[#FAF6F0] border border-[#C68B59]/50 shadow-xl scale-105"
+                  ? "text-[#0B203B] hover:text-[#C68B59]"
                   : isSolid
-                  ? "bg-[#0B203B]/5 border border-[#0B203B]/20 text-[#0B203B] hover:bg-[#0084D1]/10 hover:border-[#0084D1] hover:text-[#0084D1]"
-                  : "bg-white/15 backdrop-blur-md border border-white/30 text-white hover:bg-white/25 hover:border-white shadow-sm"
+                  ? "text-[#0B203B] hover:text-[#0084D1]"
+                  : "text-white hover:text-white/80 drop-shadow-sm"
               }`}
               type="button"
             >
               <span
-                className={`w-5 h-[2px] bg-current rounded-full transition-all duration-300 ease-out origin-center ${
+                className={`w-6 h-[2px] bg-current rounded-full transition-all duration-300 ease-out origin-center ${
                   mobileMenuOpen ? "rotate-45 translate-y-[8px]" : ""
                 }`}
               />
               <span
-                className={`w-5 h-[2px] bg-current rounded-full transition-all duration-200 ease-out ${
+                className={`w-6 h-[2px] bg-current rounded-full transition-all duration-200 ease-out ${
                   mobileMenuOpen ? "opacity-0 scale-x-0" : ""
                 }`}
               />
               <span
-                className={`w-5 h-[2px] bg-current rounded-full transition-all duration-300 ease-out origin-center ${
+                className={`w-6 h-[2px] bg-current rounded-full transition-all duration-300 ease-out origin-center ${
                   mobileMenuOpen ? "-rotate-45 -translate-y-[8px]" : ""
                 }`}
               />
