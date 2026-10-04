@@ -10,7 +10,6 @@ import {
   Trash2,
   ChevronDown,
   X,
-  MessageCircle,
   Clock,
   MapPin,
   Check,
@@ -32,7 +31,6 @@ import {
   DELIVERY_PHONE_INTL,
   DELIVERY_WHATSAPP_CLEAN,
 } from "@/data/deliveryData";
-import DeliveryFaq from "./DeliveryFaq";
 
 // ─── CART TYPES ─────────────────────────────────────────────────────────────
 export interface CartItem {
@@ -162,30 +160,37 @@ export default function DeliveryExperience() {
     };
   }, [isDrawerOpen]);
 
-  // Flatten all items across all sections
-  const allItems = useMemo(() => {
-    return menuSectionsData.flatMap((section) =>
-      section.items.map((item) => ({
-        ...item,
-        sectionTitle: section.title,
-        unitPrice: parsePrice(item.price),
-      }))
-    );
-  }, []);
+  // Group displayed sections by activeCategory and search query
+  const displayedSections = useMemo(() => {
+    const q = searchQuery.toLowerCase().trim();
 
-  // Filter items by category and search
-  const filteredItems = useMemo(() => {
-    return allItems.filter((item) => {
-      const matchesCategory = activeCategory === "all" || item.category === activeCategory;
-      const q = searchQuery.toLowerCase().trim();
-      const matchesSearch =
-        !q ||
-        item.name.toLowerCase().includes(q) ||
-        (item.desc && item.desc.toLowerCase().includes(q)) ||
-        item.sectionTitle.toLowerCase().includes(q);
-      return matchesCategory && matchesSearch;
-    });
-  }, [allItems, activeCategory, searchQuery]);
+    return menuSectionsData
+      .filter((sec) => activeCategory === "all" || sec.categoryId === activeCategory)
+      .map((sec) => {
+        const matchingItems = sec.items.filter((item) => {
+          if (!q) return true;
+          return (
+            item.name.toLowerCase().includes(q) ||
+            (item.desc && item.desc.toLowerCase().includes(q)) ||
+            sec.title.toLowerCase().includes(q)
+          );
+        });
+
+        return {
+          ...sec,
+          items: matchingItems.map((item) => ({
+            ...item,
+            sectionTitle: sec.title,
+            unitPrice: parsePrice(item.price),
+          })),
+        };
+      })
+      .filter((sec) => sec.items.length > 0);
+  }, [activeCategory, searchQuery]);
+
+  const totalFilteredCount = useMemo(() => {
+    return displayedSections.reduce((sum, sec) => sum + sec.items.length, 0);
+  }, [displayedSections]);
 
   // Cart operations
   const addToCart = (item: { name: string; price: string; category: string; image?: string; unitPrice: number }) => {
@@ -356,9 +361,8 @@ export default function DeliveryExperience() {
       />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 py-12 sm:py-16 space-y-12">
-
         {/* ================================================================= */}
-        {/* 2. FILTER CONTROLS — CATEGORIES + SEARCH                          */}
+        {/* 1. FILTER CONTROLS — CATEGORIES + SEARCH                          */}
         {/* ================================================================= */}
         <div className="space-y-4">
           <div
@@ -455,7 +459,7 @@ export default function DeliveryExperience() {
                 type="text"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="Search sushi, soup, roll, dish..."
+                placeholder="Enter dish name or ingredients here..."
                 className="w-full pl-10 pr-9 py-2.5 rounded-xl text-sm text-[#0B203B] placeholder-[#4c6f92]/50 focus:outline-none transition-all duration-300"
                 style={{
                   background: "rgba(255,255,255,0.9)",
@@ -477,7 +481,7 @@ export default function DeliveryExperience() {
           {/* Active filter indication */}
           <div className="flex items-center justify-between text-xs text-[#4c6f92]/80 px-2">
             <span>
-              Showing <strong>{filteredItems.length}</strong> available delivery dishes
+              Showing <strong>{totalFilteredCount}</strong> available delivery dishes
             </span>
             {cart.length > 0 && (
               <button
@@ -495,9 +499,9 @@ export default function DeliveryExperience() {
         </div>
 
         {/* ================================================================= */}
-        {/* 3. DISHES GRID WITH ADD-TO-BAG BUTTONS                            */}
+        {/* 2. MENU DISHES DISPLAY — Grouped by Category & Section           */}
         {/* ================================================================= */}
-        {filteredItems.length === 0 ? (
+        {totalFilteredCount === 0 ? (
           <div
             className="text-center py-16 rounded-3xl space-y-4"
             style={{
@@ -518,138 +522,163 @@ export default function DeliveryExperience() {
             </button>
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
-            {filteredItems.map((item, idx) => {
-              const qty = getItemQuantity(item.name);
-              const inCart = qty > 0;
-
-              return (
-                <div
-                  key={`${item.name}-${idx}`}
-                  className="group relative flex flex-col justify-between transition-all duration-500 rounded-[2rem] overflow-hidden"
-                  style={{
-                    background: inCart
-                      ? "linear-gradient(165deg, #FFFFFF 0%, #FBF6EE 100%)"
-                      : "linear-gradient(165deg, #FFFFFF 0%, #FDFBF7 60%, #FAF5ED 100%)",
-                    border: inCart
-                      ? "1.5px solid rgba(198,139,89,0.6)"
-                      : "1px solid rgba(198,139,89,0.22)",
-                    boxShadow: inCart
-                      ? "0 14px 35px -10px rgba(198,139,89,0.18)"
-                      : "0 10px 30px -10px rgba(11,32,59,0.07)",
-                    padding: item.image ? "0.875rem" : "1.75rem 1.5rem",
-                  }}
-                >
-                  {/* Top visual image */}
-                  {item.image && <DeliveryDishVisual src={item.image} alt={item.name} />}
-
-                  {/* Dish Details */}
-                  <div
-                    className={`flex flex-col justify-between flex-1 ${
-                      item.image ? "p-3 sm:p-4 pt-3" : "p-0"
-                    }`}
-                  >
-                    <div>
-                      {/* Name & Price */}
-                      <div className="flex items-start justify-between gap-3">
-                        <h4
-                          className="text-xl sm:text-2xl font-normal tracking-wide text-[#4c6f92] group-hover:text-[#C68B59] transition-colors leading-snug"
-                          style={{ fontFamily: "var(--font-arapey), Georgia, serif" }}
-                        >
-                          {item.name}
-                        </h4>
-                        <span
-                          className="shrink-0 font-medium text-lg sm:text-xl text-[#4c6f92] tracking-tight"
-                          style={{ fontFamily: "var(--font-arapey), Georgia, serif" }}
-                        >
-                          {item.price}
-                        </span>
-                      </div>
-
-                      {/* Golden accent bar */}
-                      <div
-                        className="w-7 h-[1.5px] rounded-full my-2.5 transition-all duration-500 group-hover:w-12"
-                        style={{ background: "rgba(198,139,89,0.35)" }}
-                      />
-
-                      {/* Description */}
-                      {item.desc && (
-                        <p className="text-xs sm:text-sm font-light text-[#4c6f92]/80 leading-relaxed line-clamp-2 lowercase mb-3">
-                          {item.desc}
-                        </p>
-                      )}
-                    </div>
-
-                    {/* Bottom Action: Add to Bag or Quantity Controller */}
-                    <div className="pt-3 border-t border-[#C68B59]/15 flex items-center justify-between gap-2">
-                      <span className="text-[11px] uppercase tracking-wider text-[#C68B59] font-medium">
-                        {item.sectionTitle}
-                      </span>
-
-                      {qty === 0 ? (
-                        <button
-                          type="button"
-                          onClick={() => addToCart(item)}
-                          className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full text-xs font-semibold tracking-wider uppercase transition-all duration-300 cursor-pointer shadow-sm"
-                          style={{
-                            background: "linear-gradient(135deg, #0084D1 0%, #006AA8 100%)",
-                            color: "#FFFFFF",
-                          }}
-                          onMouseEnter={(e) => {
-                            (e.currentTarget as HTMLElement).style.transform = "scale(1.03)";
-                          }}
-                          onMouseLeave={(e) => {
-                            (e.currentTarget as HTMLElement).style.transform = "scale(1)";
-                          }}
-                        >
-                          <Plus className="w-3.5 h-3.5" />
-                          <span>Add to Bag</span>
-                        </button>
-                      ) : (
-                        <div
-                          className="flex items-center gap-2 px-2 py-1 rounded-full"
-                          style={{
-                            background: "#FAF4EC",
-                            border: "1px solid rgba(198,139,89,0.5)",
-                          }}
-                        >
-                          <button
-                            type="button"
-                            onClick={() => updateQuantity(item.name, -1)}
-                            className="w-7 h-7 rounded-full flex items-center justify-center text-[#4c6f92] hover:bg-[#C68B59] hover:text-white transition-colors cursor-pointer"
-                            aria-label="Decrease quantity"
-                          >
-                            <Minus className="w-3.5 h-3.5" />
-                          </button>
-                          <span className="font-semibold text-sm text-[#0B203B] px-1 min-w-[20px] text-center">
-                            {qty}
-                          </span>
-                          <button
-                            type="button"
-                            onClick={() => updateQuantity(item.name, 1)}
-                            className="w-7 h-7 rounded-full flex items-center justify-center text-[#4c6f92] hover:bg-[#C68B59] hover:text-white transition-colors cursor-pointer"
-                            aria-label="Increase quantity"
-                          >
-                            <Plus className="w-3.5 h-3.5" />
-                          </button>
-                        </div>
-                      )}
-                    </div>
+          <div className="space-y-16">
+            {displayedSections.map((section) => (
+              <div key={section.id} className="space-y-8">
+                {/* Section Header */}
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-[#C68B59]/25 pb-4">
+                  <div>
+                    <h3
+                      className="text-2xl sm:text-3xl lg:text-4xl tracking-wide text-[#4c6f92]"
+                      style={{ fontFamily: "var(--font-arapey), Georgia, serif" }}
+                    >
+                      {section.title}
+                    </h3>
+                    {section.subtitle && (
+                      <p
+                        className="text-sm italic mt-1 text-[#4c6f92]/80"
+                        style={{ fontFamily: "var(--font-arapey), Georgia, serif" }}
+                      >
+                        {section.subtitle}
+                      </p>
+                    )}
                   </div>
+                  <span className="text-xs uppercase tracking-widest font-semibold text-[#C68B59]">
+                    {section.items.length} {section.items.length === 1 ? "dish" : "dishes"}
+                  </span>
                 </div>
-              );
-            })}
+
+                {/* Dishes Grid */}
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+                  {section.items.map((item, idx) => {
+                    const qty = getItemQuantity(item.name);
+                    const inCart = qty > 0;
+
+                    return (
+                      <div
+                        key={`${item.name}-${idx}`}
+                        className="group relative flex flex-col justify-between transition-all duration-500 rounded-[2rem] overflow-hidden"
+                        style={{
+                          background: inCart
+                            ? "linear-gradient(165deg, #FFFFFF 0%, #FBF6EE 100%)"
+                            : "linear-gradient(165deg, #FFFFFF 0%, #FDFBF7 60%, #FAF5ED 100%)",
+                          border: inCart
+                            ? "1.5px solid rgba(198,139,89,0.6)"
+                            : "1px solid rgba(198,139,89,0.22)",
+                          boxShadow: inCart
+                            ? "0 14px 35px -10px rgba(198,139,89,0.18)"
+                            : "0 10px 30px -10px rgba(11,32,59,0.07)",
+                          padding: item.image ? "0.875rem" : "1.75rem 1.5rem",
+                        }}
+                      >
+                        {/* Top visual image */}
+                        {item.image && <DeliveryDishVisual src={item.image} alt={item.name} />}
+
+                        {/* Dish Details */}
+                        <div
+                          className={`flex flex-col justify-between flex-1 ${
+                            item.image ? "p-3 sm:p-4 pt-3" : "p-0"
+                          }`}
+                        >
+                          <div>
+                            {/* Name & Price */}
+                            <div className="flex items-start justify-between gap-3">
+                              <h4
+                                className="text-xl sm:text-2xl font-normal tracking-wide text-[#4c6f92] group-hover:text-[#C68B59] transition-colors leading-snug"
+                                style={{ fontFamily: "var(--font-arapey), Georgia, serif" }}
+                              >
+                                {item.name}
+                              </h4>
+                              <span
+                                className="shrink-0 font-medium text-lg sm:text-xl text-[#4c6f92] tracking-tight"
+                                style={{ fontFamily: "var(--font-arapey), Georgia, serif" }}
+                              >
+                                {item.price}
+                              </span>
+                            </div>
+
+                            {/* Golden accent bar */}
+                            <div
+                              className="w-7 h-[1.5px] rounded-full my-2.5 transition-all duration-500 group-hover:w-12"
+                              style={{ background: "rgba(198,139,89,0.35)" }}
+                            />
+
+                            {/* Description */}
+                            {item.desc && (
+                              <p className="text-xs sm:text-sm font-light text-[#4c6f92]/80 leading-relaxed line-clamp-2 lowercase mb-3">
+                                {item.desc}
+                              </p>
+                            )}
+                          </div>
+
+                          {/* Bottom Action: Add to Bag or Quantity Controller */}
+                          <div className="pt-3 border-t border-[#C68B59]/15 flex items-center justify-between gap-2">
+                            <span className="text-[11px] uppercase tracking-wider text-[#C68B59] font-medium">
+                              {section.title}
+                            </span>
+
+                            {qty === 0 ? (
+                              <button
+                                type="button"
+                                onClick={() => addToCart(item)}
+                                className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full text-xs font-semibold tracking-wider uppercase transition-all duration-300 cursor-pointer shadow-sm"
+                                style={{
+                                  background: "linear-gradient(135deg, #0084D1 0%, #006AA8 100%)",
+                                  color: "#FFFFFF",
+                                }}
+                                onMouseEnter={(e) => {
+                                  (e.currentTarget as HTMLElement).style.transform = "scale(1.03)";
+                                }}
+                                onMouseLeave={(e) => {
+                                  (e.currentTarget as HTMLElement).style.transform = "scale(1)";
+                                }}
+                              >
+                                <Plus className="w-3.5 h-3.5" />
+                                <span>Add to Bag</span>
+                              </button>
+                            ) : (
+                              <div
+                                className="flex items-center gap-2 px-2 py-1 rounded-full"
+                                style={{
+                                  background: "#FAF4EC",
+                                  border: "1px solid rgba(198,139,89,0.5)",
+                                }}
+                              >
+                                <button
+                                  type="button"
+                                  onClick={() => updateQuantity(item.name, -1)}
+                                  className="w-7 h-7 rounded-full flex items-center justify-center text-[#4c6f92] hover:bg-[#C68B59] hover:text-white transition-colors cursor-pointer"
+                                  aria-label="Decrease quantity"
+                                >
+                                  <Minus className="w-3.5 h-3.5" />
+                                </button>
+                                <span className="font-semibold text-sm text-[#0B203B] px-1 min-w-[20px] text-center">
+                                  {qty}
+                                </span>
+                                <button
+                                  type="button"
+                                  onClick={() => updateQuantity(item.name, 1)}
+                                  className="w-7 h-7 rounded-full flex items-center justify-center text-[#4c6f92] hover:bg-[#C68B59] hover:text-white transition-colors cursor-pointer"
+                                  aria-label="Increase quantity"
+                                >
+                                  <Plus className="w-3.5 h-3.5" />
+                                </button>
+                              </div>
+                            )}
+                          </div>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            ))}
           </div>
         )}
-
-        {/* ================================================================= */}
-        {/* 4. PACKAGING STANDARDS & DELIVERY FAQ COMPONENT                   */}
-        {/* ================================================================= */}
-        <DeliveryFaq />
       </div>
 
       {/* ================================================================= */}
-      {/* 5. FLOATING BOTTOM BAG BAR (Appears when items are in bag)         */}
+      {/* 3. FLOATING BOTTOM BAG BAR (Appears when items are in bag)         */}
       {/* ================================================================= */}
       {cart.length > 0 && !isDrawerOpen && (
         <aside
@@ -707,7 +736,7 @@ export default function DeliveryExperience() {
       )}
 
       {/* ================================================================= */}
-      {/* 6. SLIDE-OVER CHECKOUT DRAWER / MODAL                            */}
+      {/* 4. SLIDE-OVER CHECKOUT DRAWER / MODAL                            */}
       {/* ================================================================= */}
       {isDrawerOpen && (
         <div className="fixed inset-0 z-50 overflow-hidden flex justify-end">
@@ -754,7 +783,7 @@ export default function DeliveryExperience() {
                   <button
                     type="button"
                     onClick={() => setIsDrawerOpen(false)}
-                    className="px-6 py-2.5 rounded-full text-white text-sm"
+                    className="px-6 py-2.5 rounded-full text-white text-sm cursor-pointer"
                     style={{ background: "#0B203B" }}
                   >
                     Browse Menu Dishes
@@ -771,7 +800,7 @@ export default function DeliveryExperience() {
                       <button
                         type="button"
                         onClick={() => setCart([])}
-                        className="text-xs text-rose-600 hover:underline"
+                        className="text-xs text-rose-600 hover:underline cursor-pointer"
                       >
                         Clear Bag
                       </button>
@@ -822,7 +851,7 @@ export default function DeliveryExperience() {
                                   type="text"
                                   value={itemNoteInput}
                                   onChange={(e) => setItemNoteInput(e.target.value)}
-                                  placeholder="e.g. no spicy, extra ginger"
+                                  placeholder="Enter specific instructions for this dish here..."
                                   className="flex-1 text-xs px-2.5 py-1.5 rounded-lg border border-[#C68B59]/30 focus:outline-none bg-[#FAF7F2]"
                                 />
                                 <button
@@ -861,7 +890,7 @@ export default function DeliveryExperience() {
                                       onClick={() => updateQuantity(item.name, -1)}
                                       className="w-6 h-6 flex items-center justify-center text-slate-600 hover:text-[#C68B59] cursor-pointer"
                                     >
-                                      <Minus className="w-3 h-3" />
+                                      <Minus className="w-3.5 h-3.5" />
                                     </button>
                                     <span className="text-xs font-semibold px-1.5 text-[#0B203B]">
                                       {item.quantity}
@@ -871,7 +900,7 @@ export default function DeliveryExperience() {
                                       onClick={() => updateQuantity(item.name, 1)}
                                       className="w-6 h-6 flex items-center justify-center text-slate-600 hover:text-[#C68B59] cursor-pointer"
                                     >
-                                      <Plus className="w-3 h-3" />
+                                      <Plus className="w-3.5 h-3.5" />
                                     </button>
                                   </div>
 
@@ -908,7 +937,7 @@ export default function DeliveryExperience() {
                           type="text"
                           value={form.fullName}
                           onChange={(e) => setForm({ ...form, fullName: e.target.value })}
-                          placeholder="e.g. Alexander Green"
+                          placeholder="Enter your full name here..."
                           className={`w-full px-3.5 py-2.5 rounded-xl text-sm bg-white border transition-colors focus:outline-none ${
                             formErrors.fullName
                               ? "border-rose-500 ring-1 ring-rose-500"
@@ -928,7 +957,7 @@ export default function DeliveryExperience() {
                           type="tel"
                           value={form.phone}
                           onChange={(e) => setForm({ ...form, phone: e.target.value })}
-                          placeholder="+20 / +39 / +44 ..."
+                          placeholder="Enter your phone or WhatsApp number here..."
                           className="w-full px-3.5 py-2.5 rounded-xl text-sm bg-white border border-[#C68B59]/30 focus:outline-none"
                         />
                       </div>
@@ -987,12 +1016,12 @@ export default function DeliveryExperience() {
                         onChange={(e) => setForm({ ...form, destinationDetails: e.target.value })}
                         placeholder={
                           form.destinationType === "resort"
-                            ? "e.g. Pickalbatros Oasis, Room 412"
+                            ? "Enter your resort name and room number here..."
                             : form.destinationType === "yacht"
-                            ? "e.g. Yacht 'Blue Horizon', Pier C - Berth 14"
+                            ? "Enter your boat name and pier or berth number here..."
                             : form.destinationType === "residence"
-                            ? "e.g. Villa 24, Marina View South"
-                            : "e.g. Picking up in 25 minutes at restaurant"
+                            ? "Enter your villa or apartment address here..."
+                            : "Enter your estimated pickup time here..."
                         }
                         className={`w-full px-3.5 py-2.5 rounded-xl text-sm bg-white border transition-colors focus:outline-none ${
                           formErrors.destination
@@ -1069,7 +1098,7 @@ export default function DeliveryExperience() {
                         rows={2}
                         value={form.specialNotes}
                         onChange={(e) => setForm({ ...form, specialNotes: e.target.value })}
-                        placeholder="e.g. Chopsticks for 3 people, extra wasabi, allergic to peanuts..."
+                        placeholder="Enter any special requests, allergies, or cutlery notes here..."
                         className="w-full px-3 py-2 rounded-xl text-xs sm:text-sm bg-white border border-[#C68B59]/30 focus:outline-none resize-none"
                       />
                     </div>
@@ -1118,7 +1147,6 @@ export default function DeliveryExperience() {
                     (e.currentTarget as HTMLElement).style.transform = "translateY(0)";
                   }}
                 >
-                  <MessageCircle className="w-5 h-5" />
                   <span>Send Order via WhatsApp ({DELIVERY_PHONE})</span>
                 </button>
 
@@ -1126,7 +1154,7 @@ export default function DeliveryExperience() {
                   <button
                     type="button"
                     onClick={copyOrderText}
-                    className="inline-flex items-center gap-1 hover:text-[#0B203B] transition-colors"
+                    className="inline-flex items-center gap-1 hover:text-[#0B203B] transition-colors cursor-pointer"
                   >
                     <Copy className="w-3.5 h-3.5" />
                     <span>{copiedText ? "Order Copied to Clipboard!" : "Copy Order Summary"}</span>
