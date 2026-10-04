@@ -84,15 +84,17 @@ function formatHourLabel(timeStr: string): string {
   return `${displayHour} ${period}`;
 }
 
+const OPENING_HOURS = [17, 18, 19, 20, 21, 22, 23, 0, 1];
+
 const presetTimes = [
-  { value: "13:00", label: "1:00 PM" },
-  { value: "14:30", label: "2:30 PM" },
-  { value: "18:00", label: "6:00 PM" },
-  { value: "19:00", label: "7:00 PM" },
+  { value: "17:30", label: "5:30 PM" },
+  { value: "18:30", label: "6:30 PM" },
   { value: "19:30", label: "7:30 PM" },
-  { value: "20:00", label: "8:00 PM" },
   { value: "20:30", label: "8:30 PM" },
   { value: "21:30", label: "9:30 PM" },
+  { value: "22:30", label: "10:30 PM" },
+  { value: "23:30", label: "11:30 PM" },
+  { value: "00:30", label: "12:30 AM" },
 ];
 
 // ─── Visual Dish Thumbnail Component ─────────────────────────────────────────
@@ -171,14 +173,25 @@ export default function DeliveryExperience() {
   const deliveryTimeRef = useRef<HTMLDivElement>(null);
   const paymentRef = useRef<HTMLDivElement>(null);
 
-  // Stepper handlers for custom time UI
+  // Stepper handlers for custom time UI (5:00 PM – 1:00 AM)
   const adjustHour = (delta: number) => {
     let hour = parseInt(form.scheduledTime.split(":")[0], 10);
     if (isNaN(hour)) hour = 19;
-    const minute = form.scheduledTime.split(":")[1] || "00";
-    let newHour = hour + delta;
-    if (newHour > 23) newHour = 12;
-    if (newHour < 12) newHour = 23;
+    let minute = form.scheduledTime.split(":")[1] || "00";
+
+    let idx = OPENING_HOURS.indexOf(hour);
+    if (idx === -1) idx = 2; // fallback to 19 (7 PM)
+
+    let newIdx = idx + delta;
+    if (newIdx >= OPENING_HOURS.length) newIdx = 0;
+    if (newIdx < 0) newIdx = OPENING_HOURS.length - 1;
+
+    const newHour = OPENING_HOURS[newIdx];
+    // If hour is 1 AM, cap minutes at 00
+    if (newHour === 1 && parseInt(minute, 10) > 0) {
+      minute = "00";
+    }
+
     setForm((prev) => ({
       ...prev,
       scheduledTime: `${String(newHour).padStart(2, "0")}:${minute}`,
@@ -186,7 +199,12 @@ export default function DeliveryExperience() {
   };
 
   const adjustMinute = (delta: number) => {
-    const hour = form.scheduledTime.split(":")[0] || "19";
+    const hour = parseInt(form.scheduledTime.split(":")[0], 10);
+    // If it's 1 AM, closing time is 01:00
+    if (hour === 1) {
+      setForm((prev) => ({ ...prev, scheduledTime: "01:00" }));
+      return;
+    }
     let minute = parseInt(form.scheduledTime.split(":")[1], 10);
     if (isNaN(minute)) minute = 0;
     let newMin = minute + delta;
@@ -194,7 +212,7 @@ export default function DeliveryExperience() {
     if (newMin < 0) newMin = 45;
     setForm((prev) => ({
       ...prev,
-      scheduledTime: `${hour}:${String(newMin).padStart(2, "0")}`,
+      scheduledTime: `${String(isNaN(hour) ? 19 : hour).padStart(2, "0")}:${String(newMin).padStart(2, "0")}`,
     }));
   };
 
@@ -1279,7 +1297,6 @@ export default function DeliveryExperience() {
                               <p className="text-[11px] font-semibold text-[#0B203B] uppercase tracking-wider">
                                 Scheduled Arrival Time
                               </p>
-                              <p className="text-[11px] text-[#4c6f92]">Daily service 12:00 PM – 11:30 PM</p>
                             </div>
                           </div>
 

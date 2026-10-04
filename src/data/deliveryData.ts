@@ -8,7 +8,7 @@ export interface DeliveryZone {
 export const DELIVERY_PHONE = "01109789626";
 export const DELIVERY_PHONE_INTL = "+20 110 978 9626";
 export const DELIVERY_WHATSAPP_CLEAN = "201109789626";
-export const DELIVERY_HOURS = "12:00 PM – 11:30 PM (Daily)";
+export const DELIVERY_HOURS = "5:00 PM – 1:00 AM (Daily)";
 export const DELIVERY_AVG_TIME = "30–45 Mins";
 
 export const deliveryZones: DeliveryZone[] = [
@@ -98,6 +98,6 @@ export const deliveryFaqs = [
   },
   {
     q: "What are the daily delivery hours?",
-    a: "We deliver 7 days a week from 12:00 PM (Noon) until 11:30 PM. Pre-orders for sunset dining and boat trips can also be placed in advance.",
+    a: "We deliver 7 days a week from 5:00 PM until 1:00 AM. Pre-orders for sunset dining and evening boat trips can also be placed in advance.",
   },
 ];
