@@ -50,6 +50,11 @@ export const metadata: Metadata = {
   icons: {
     icon: "/favicon.ico",
   },
+  other: {
+    google: "notranslate",
+    googlebot: "notranslate",
+    "Content-Language": "en",
+  },
 };
 
 export default function RootLayout({
@@ -58,8 +63,20 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${caveatBrush.variable} ${montserrat.variable} ${arapey.variable} scroll-smooth`}>
-      <body className="font-sans antialiased bg-[#F4F8FC] text-[#0B203B] selection:bg-[#0084D1]/20 selection:text-[#0084D1]">
+    <html
+      lang="en"
+      className={`${caveatBrush.variable} ${montserrat.variable} ${arapey.variable} scroll-smooth notranslate`}
+      translate="no"
+    >
+      <head>
+        <meta name="google" content="notranslate" />
+        <meta name="googlebot" content="notranslate" />
+        <meta httpEquiv="Content-Language" content="en" />
+      </head>
+      <body
+        translate="no"
+        className="font-sans antialiased bg-[#F4F8FC] text-[#0B203B] selection:bg-[#0084D1]/20 selection:text-[#0084D1] notranslate"
+      >
         {children}
       </body>
     </html>

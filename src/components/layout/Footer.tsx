@@ -32,10 +32,6 @@ export default function Footer() {
           <Link href="/media" className="hover:text-[#C68B59] transition-colors">
             Media
           </Link>
-          <span className="text-[#C68B59]/30">•</span>
-          <Link href="/medal" className="hover:text-[#C68B59] transition-colors">
-            Medal
-          </Link>
         </div>
       </div>
     </footer>
