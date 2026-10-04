@@ -1745,10 +1745,6 @@ export default function DeliveryExperience() {
             aria-labelledby="clear-bag-dialog-title"
             aria-describedby="clear-bag-dialog-desc"
           >
-            <div className="w-14 h-14 rounded-2xl bg-rose-50 text-rose-600 flex items-center justify-center mx-auto border border-rose-200/60 shadow-xs">
-              <Trash2 className="w-7 h-7" />
-            </div>
-
             <div className="space-y-1.5">
               <h3
                 id="clear-bag-dialog-title"
