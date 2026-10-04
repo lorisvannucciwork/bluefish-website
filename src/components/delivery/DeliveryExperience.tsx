@@ -1047,7 +1047,7 @@ export default function DeliveryExperience() {
       {/* 4. SLIDE-OVER CHECKOUT DRAWER / MODAL                            */}
       {/* ================================================================= */}
       <div
-        className={`fixed inset-0 z-50 overflow-hidden flex justify-end transition-[visibility] duration-500 ${
+        className={`fixed inset-0 z-[70] overflow-hidden flex justify-end transition-[visibility] duration-500 ${
           isDrawerOpen
             ? "visible pointer-events-auto"
             : "invisible pointer-events-none delay-500 max-md:hidden max-md:delay-0"
@@ -1063,13 +1063,13 @@ export default function DeliveryExperience() {
 
         {/* Drawer Container */}
         <div
-          className={`relative w-full max-w-xl bg-[#FAF7F2] h-full shadow-2xl flex flex-col z-50 overflow-hidden max-md:transition-none md:transition-transform md:duration-500 md:ease-[cubic-bezier(0.16,1,0.3,1)] ${
+          className={`relative w-full max-w-xl bg-[#FAF7F2] h-full shadow-2xl flex flex-col z-[70] overflow-hidden max-md:transition-none md:transition-transform md:duration-500 md:ease-[cubic-bezier(0.16,1,0.3,1)] ${
             isDrawerOpen ? "md:translate-x-0" : "md:translate-x-full"
           }`}
           style={{ borderLeft: "1px solid rgba(198,139,89,0.3)" }}
         >
           {/* Drawer Header */}
-          <div className="p-5 sm:p-6 bg-white border-b border-[#C68B59]/20 flex items-center justify-between">
+          <div className="shrink-0 sticky top-0 z-20 p-5 sm:p-6 bg-white border-b border-[#C68B59]/20 flex items-center justify-between">
             <div>
               <h3
                 className="text-xl sm:text-2xl text-[#0B203B]"
@@ -1087,7 +1087,8 @@ export default function DeliveryExperience() {
             <button
               type="button"
               onClick={closeDrawer}
-              className="p-1.5 text-[#0B203B] hover:text-[#C68B59] transition-colors cursor-pointer"
+              className="p-2 -mr-1.5 text-[#0B203B] hover:text-[#C68B59] transition-colors cursor-pointer flex items-center justify-center rounded-lg hover:bg-slate-100"
+              title="Close delivery order drawer"
               aria-label="Close delivery order drawer"
             >
               <X className="w-6 h-6" />
@@ -1269,10 +1270,11 @@ export default function DeliveryExperience() {
                                   <button
                                     type="button"
                                     onClick={() => removeItem(item.name)}
-                                    className="text-slate-400 hover:text-rose-500 transition-colors p-1"
+                                    className="text-slate-400 hover:text-rose-500 hover:bg-rose-50 rounded-lg p-1 transition-colors cursor-pointer"
                                     title="Remove item"
+                                    aria-label={`Remove ${item.name} from bag`}
                                   >
-                                    <Trash2 className="w-4 h-4" />
+                                    <X className="w-4 h-4" />
                                   </button>
                                 </div>
                               </>
@@ -1771,7 +1773,7 @@ export default function DeliveryExperience() {
       {/* 5. CLEAR BAG CONFIRMATION WARNING MODAL                           */}
       {/* ================================================================= */}
       {showClearWarning && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-xs animate-in fade-in duration-200">
+        <div className="fixed inset-0 z-[80] flex items-center justify-center p-4 bg-black/50 backdrop-blur-xs animate-in fade-in duration-200">
           <div
             className="w-full max-w-sm rounded-3xl p-6 text-center space-y-4 shadow-2xl border border-[#C68B59]/30 bg-[#FFFDF9] animate-in zoom-in-95 duration-200"
             role="alertdialog"
