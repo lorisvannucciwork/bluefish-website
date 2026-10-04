@@ -114,7 +114,7 @@ export default function MediaPortal() {
               key={item.name}
               href={item.url}
               target="_blank"
-              rel="noreferrer"
+              rel="noopener noreferrer"
               className={`group flex items-center justify-between p-5 sm:p-6 rounded-2xl bg-white border border-[#C68B59]/25 shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-0.5 cursor-pointer ${item.accentBg}`}
             >
               <div className="flex items-center gap-4">

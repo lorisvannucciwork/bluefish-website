@@ -55,7 +55,7 @@ export default function SocialLinks({
           key={social.platform}
           href={social.url}
           target="_blank"
-          rel="noreferrer"
+          rel="noopener noreferrer"
           className={`flex items-center justify-center transition-all duration-300 cursor-pointer ${getButtonStyles()}`}
           aria-label={social.label}
         >

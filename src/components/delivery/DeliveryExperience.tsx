@@ -64,6 +64,12 @@ function parsePrice(priceStr: string): number {
   return isNaN(num) ? 0 : num;
 }
 
+// ─── HELPER: Text input sanitizer (removes control chars & caps length) ──────
+function sanitizeText(val: string, maxLen: number): string {
+  if (!val) return "";
+  return val.replace(/[\u0000-\u0008\u000B-\u001F\u007F-\u009F]/g, "").trim().slice(0, maxLen);
+}
+
 // ─── HELPER: 12-Hour format converter for custom time picker ────────────────
 function format12Hour(timeStr: string): string {
   if (!timeStr) return "7:00 PM";
@@ -281,15 +287,21 @@ export default function DeliveryExperience() {
       }
 
       if (Array.isArray(parsed.items)) {
-        return parsed.items.filter(
-          (i: unknown) =>
-            i &&
-            typeof i === "object" &&
-            typeof (i as CartItem).name === "string" &&
-            typeof (i as CartItem).unitPrice === "number" &&
-            typeof (i as CartItem).quantity === "number" &&
-            (i as CartItem).quantity > 0
-        ) as CartItem[];
+        return parsed.items
+          .filter((i: unknown): i is CartItem => {
+            if (!i || typeof i !== "object") return false;
+            const item = i as Record<string, unknown>;
+            const hasValidName = typeof item.name === "string" && item.name.trim().length > 0 && item.name.length <= 120;
+            const hasValidPrice = typeof item.unitPrice === "number" && Number.isFinite(item.unitPrice) && item.unitPrice >= 0 && item.unitPrice <= 10000;
+            const hasValidQty = typeof item.quantity === "number" && Number.isInteger(item.quantity) && item.quantity > 0 && item.quantity <= 99;
+            const hasValidNote = item.note === undefined || (typeof item.note === "string" && item.note.length <= 200);
+            return Boolean(hasValidName && hasValidPrice && hasValidQty && hasValidNote);
+          })
+          .map((item: CartItem) => ({
+            ...item,
+            name: sanitizeText(item.name, 120),
+            note: item.note ? sanitizeText(item.note, 200) : undefined,
+          }));
       }
     } catch {
       try {
@@ -476,12 +488,17 @@ export default function DeliveryExperience() {
       card: "Card Machine on Delivery",
     };
 
+    const cleanName = sanitizeText(form.fullName, 60) || "Guest";
+    const cleanPhone = sanitizeText(form.phone, 25) || "Not specified";
+    const cleanDest = sanitizeText(form.destinationDetails, 150) || "Please ask guest";
+    const cleanNotes = sanitizeText(form.specialNotes, 250);
+
     let msg = `🌊 *BLUE FISH PORT GHALIB - DELIVERY ORDER* 🌊\n`;
     msg += `═════════════════════════════\n`;
-    msg += `👤 *Customer Name:* ${form.fullName || "Guest"}\n`;
-    msg += `📞 *WhatsApp / Phone:* ${form.phone || "Not specified"}\n`;
+    msg += `👤 *Customer Name:* ${cleanName}\n`;
+    msg += `📞 *WhatsApp / Phone:* ${cleanPhone}\n`;
     msg += `📍 *Delivery Zone:* ${destinationLabels[form.destinationType]}\n`;
-    msg += `🏨 *Destination Details:* ${form.destinationDetails || "Please ask guest"}\n`;
+    msg += `🏨 *Destination Details:* ${cleanDest}\n`;
     msg += `⏰ *Delivery Timing:* ${
       form.deliveryTime === "asap"
         ? "As fast as possible"
@@ -493,9 +510,10 @@ export default function DeliveryExperience() {
 
     cart.forEach((item, idx) => {
       const lineTotal = (item.unitPrice * item.quantity).toFixed(2);
-      msg += `${idx + 1}. *${item.quantity}x ${item.name}* (€${item.unitPrice.toFixed(2)}) = €${lineTotal}\n`;
+      const safeName = sanitizeText(item.name, 100);
+      msg += `${idx + 1}. *${item.quantity}x ${safeName}* (€${item.unitPrice.toFixed(2)}) = €${lineTotal}\n`;
       if (item.note) {
-        msg += `   ↳ _Note: ${item.note}_\n`;
+        msg += `   ↳ _Note: ${sanitizeText(item.note, 120)}_\n`;
       }
     });
 
@@ -506,8 +524,8 @@ export default function DeliveryExperience() {
     msg += `🧾 *Estimated Total:* €${subtotal.toFixed(2)}\n`;
     msg += `═════════════════════════════\n`;
 
-    if (form.specialNotes && form.specialNotes.trim()) {
-      msg += `📝 *Special Requests / Cutlery:*\n${form.specialNotes.trim()}\n`;
+    if (cleanNotes) {
+      msg += `📝 *Special Requests / Cutlery:*\n${cleanNotes}\n`;
       msg += `═════════════════════════════\n`;
     }
 
@@ -672,6 +690,7 @@ export default function DeliveryExperience() {
                 type="text"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
+                maxLength={80}
                 placeholder="Enter dish name or ingredients here..."
                 className="w-full pl-10 pr-9 py-2.5 rounded-xl text-sm text-[#0B203B] placeholder-[#4c6f92]/50 focus:outline-none transition-all duration-300"
                 style={{
@@ -1111,6 +1130,7 @@ export default function DeliveryExperience() {
                                   type="text"
                                   value={itemNoteInput}
                                   onChange={(e) => setItemNoteInput(e.target.value)}
+                                  maxLength={120}
                                   placeholder="Enter specific instructions for this dish here..."
                                   className="flex-1 text-xs px-2.5 py-1.5 rounded-lg border border-[#C68B59]/30 focus:outline-none bg-[#FAF7F2]"
                                 />
@@ -1197,6 +1217,7 @@ export default function DeliveryExperience() {
                           type="text"
                           value={form.fullName}
                           onChange={(e) => setForm({ ...form, fullName: e.target.value })}
+                          maxLength={60}
                           placeholder="Enter your full name here..."
                           className={`w-full px-3.5 py-2.5 rounded-xl text-sm bg-white border transition-colors focus:outline-none ${
                             formErrors.fullName
@@ -1217,6 +1238,7 @@ export default function DeliveryExperience() {
                           type="tel"
                           value={form.phone}
                           onChange={(e) => setForm({ ...form, phone: e.target.value })}
+                          maxLength={25}
                           placeholder="Enter your phone or WhatsApp number here..."
                           className="w-full px-3.5 py-2.5 rounded-xl text-sm bg-white border border-[#C68B59]/30 focus:outline-none"
                         />
@@ -1280,6 +1302,7 @@ export default function DeliveryExperience() {
                         type="text"
                         value={form.destinationDetails}
                         onChange={(e) => setForm({ ...form, destinationDetails: e.target.value })}
+                        maxLength={150}
                         placeholder={
                           form.destinationType === "resort"
                             ? "Enter your resort name and room number here..."
@@ -1586,6 +1609,7 @@ export default function DeliveryExperience() {
                         rows={2}
                         value={form.specialNotes}
                         onChange={(e) => setForm({ ...form, specialNotes: e.target.value })}
+                        maxLength={250}
                         placeholder="Enter any special requests, allergies, or cutlery notes here..."
                         className="w-full px-3 py-2 rounded-xl text-xs sm:text-sm bg-white border border-[#C68B59]/30 focus:outline-none resize-none"
                       />

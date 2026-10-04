@@ -1,0 +1,8 @@
+# Robots.txt for Blue Fish Port Ghalib
+User-agent: *
+Allow: /
+Disallow: /api/
+Disallow: /_next/
+
+# Host
+Host: https://bluefishportghalib.com
