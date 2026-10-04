@@ -1,6 +1,5 @@
 "use client";
 
-import Link from "next/link";
 import { SkeletonOverlay, useImageLoaded } from "@/components/ui/ImageSkeleton";
 
 export default function MenuHero() {
@@ -70,22 +69,6 @@ export default function MenuHero() {
           </span>
           SEAVIEW
         </p>
-
-        <div className="mt-6">
-          <Link
-            href="/delivery"
-            className="inline-flex items-center gap-2.5 px-6 py-2.5 rounded-full text-xs sm:text-sm font-semibold tracking-wider uppercase transition-all duration-300 backdrop-blur-md shadow-lg hover:scale-105"
-            style={{
-              background: "rgba(255, 255, 255, 0.16)",
-              border: "1px solid rgba(198, 139, 89, 0.6)",
-              color: "#FAF6F0",
-            }}
-          >
-            <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-            <span>Order Delivery to Hotel or Yacht</span>
-            <span className="text-[#C68B59] font-bold">→</span>
-          </Link>
-        </div>
       </div>
 
       {/* === WAVE BOTTOM BORDER === */}
