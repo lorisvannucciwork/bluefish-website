@@ -6,3 +6,6 @@ Disallow: /_next/
 
 # Host
 Host: https://bluefishportghalib.com
+
+# Sitemap
+Sitemap: https://bluefishportghalib.com/sitemap.xml

@@ -43,10 +43,14 @@ const arapey = localFont({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://bluefishportghalib.com"),
   title: "Blue Fish | Seafood • Sushi • Seaview Dining",
   description:
     "Experience the finest seafood, sushi, and sunset dining with panoramic seaviews at Blue Fish Port Ghalib Marina.",
   keywords: ["Blue Fish", "Sushi", "Seafood", "Seaview", "Fine Dining", "Port Ghalib", "Marina"],
+  alternates: {
+    canonical: "/",
+  },
   icons: {
     icon: "/favicon.ico",
   },
