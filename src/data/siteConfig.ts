@@ -2,9 +2,9 @@ import { NavLink, SocialLink } from "@/types";
 
 export const siteConfig = {
   name: "BLUE FISH",
-  title: "Blue Fish | Seafood • Sushi • Seaview Dining",
+  title: "Blue Fish | Sushi • Seafood • Seaview",
   description:
-    "Experience the finest seafood, sushi, and sunset dining with panoramic seaviews at Blue Fish Port Ghalib Marina.",
+    "Experience the finest sushi, seafood, and sunset dining with panoramic seaviews at Blue Fish Port Ghalib Marina.",
   location: "Marina Waterfront Boardwalk • Port Ghalib",
   heroSubtitle: "PORTGHALIB | MARINA",
   navLinks: [

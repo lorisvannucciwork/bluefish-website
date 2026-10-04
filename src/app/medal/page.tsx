@@ -6,7 +6,7 @@ import Footer from "@/components/layout/Footer";
 export const metadata: Metadata = {
   title: "Medal | Blue Fish Port Ghalib Marina",
   description:
-    "Discover Blue Fish Port Ghalib across social media, view our full digital dining menu, and explore authentic Red Sea seafood and sushi.",
+    "Discover Blue Fish Port Ghalib across social media, view our full digital dining menu, and explore authentic sushi, seafood, and seaview dining.",
   openGraph: {
     title: "Medal Hub | Blue Fish Port Ghalib Marina",
     description:

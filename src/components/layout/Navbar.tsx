@@ -239,7 +239,7 @@ export default function Navbar({ variant = "transparent" }: NavbarProps) {
                 Blue Fish
               </div>
               <div className="font-montserrat text-[10px] tracking-[0.2em] text-[#C68B59] uppercase mt-0.5 font-medium">
-                Red Sea Gastronomy
+                Sushi • Seafood • Seaview
               </div>
             </div>
           </div>
