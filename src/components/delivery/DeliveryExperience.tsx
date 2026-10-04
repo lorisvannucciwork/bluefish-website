@@ -926,18 +926,18 @@ export default function DeliveryExperience() {
             className="w-full sm:w-auto flex items-center justify-between gap-5 sm:gap-7 px-6 py-3.5 rounded-full shadow-2xl cursor-pointer transition-all duration-300"
             style={{
               background: "linear-gradient(135deg, #FFFFFF 0%, #FFFDF9 60%, #FAF4EB 100%)",
-              border: "2px solid #C68B59",
-              boxShadow: "0 14px 40px rgba(198,139,89,0.28), 0 4px 16px rgba(11,32,59,0.06)",
+              border: "1px solid rgba(0, 0, 0, 0.06)",
+              boxShadow: "0 12px 36px rgba(11, 32, 59, 0.12), 0 3px 10px rgba(0, 0, 0, 0.04)",
             }}
             onMouseEnter={(e) => {
               (e.currentTarget as HTMLElement).style.transform = "translateY(-3px)";
               (e.currentTarget as HTMLElement).style.boxShadow =
-                "0 20px 45px rgba(198,139,89,0.4), 0 6px 20px rgba(11,32,59,0.08)";
+                "0 18px 45px rgba(11, 32, 59, 0.18), 0 5px 16px rgba(0, 0, 0, 0.06)";
             }}
             onMouseLeave={(e) => {
               (e.currentTarget as HTMLElement).style.transform = "translateY(0)";
               (e.currentTarget as HTMLElement).style.boxShadow =
-                "0 14px 40px rgba(198,139,89,0.28), 0 4px 16px rgba(11,32,59,0.06)";
+                "0 12px 36px rgba(11, 32, 59, 0.12), 0 3px 10px rgba(0, 0, 0, 0.04)";
             }}
           >
             <div className="text-left">
