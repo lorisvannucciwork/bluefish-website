@@ -4,7 +4,7 @@ import { useState, useMemo, useRef, useEffect } from "react";
 import Image from "next/image";
 import {
   Search,
-  ShoppingBag,
+  Utensils,
   Plus,
   Minus,
   Trash2,
@@ -724,21 +724,16 @@ export default function DeliveryExperience() {
           >
             {/* Drawer Header */}
             <div className="p-5 sm:p-6 bg-white border-b border-[#C68B59]/20 flex items-center justify-between">
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-xl bg-[#FAF4EC] border border-[#C68B59]/30 flex items-center justify-center text-[#C68B59]">
-                  <ShoppingBag className="w-5 h-5" />
-                </div>
-                <div>
-                  <h3
-                    className="text-xl sm:text-2xl text-[#0B203B]"
-                    style={{ fontFamily: "var(--font-arapey), Georgia, serif" }}
-                  >
-                    Your Delivery Order
-                  </h3>
-                  <p className="text-xs text-[#4c6f92]">
-                    {totalItemsCount} dish{totalItemsCount > 1 ? "es" : ""} • WhatsApp checkout
-                  </p>
-                </div>
+              <div>
+                <h3
+                  className="text-xl sm:text-2xl text-[#0B203B]"
+                  style={{ fontFamily: "var(--font-arapey), Georgia, serif" }}
+                >
+                  Your Delivery Order
+                </h3>
+                <p className="text-xs text-[#4c6f92]">
+                  {totalItemsCount} dish{totalItemsCount > 1 ? "es" : ""} • WhatsApp checkout
+                </p>
               </div>
 
               <button
@@ -754,7 +749,7 @@ export default function DeliveryExperience() {
             <div className="flex-1 overflow-y-auto p-5 sm:p-6 space-y-8">
               {cart.length === 0 ? (
                 <div className="text-center py-16 space-y-4">
-                  <ShoppingBag className="w-12 h-12 text-[#C68B59]/50 mx-auto" />
+                  <Utensils className="w-12 h-12 text-[#C68B59]/50 mx-auto" />
                   <p className="text-lg text-[#4c6f92]">Your delivery bag is currently empty.</p>
                   <button
                     type="button"
@@ -947,7 +942,7 @@ export default function DeliveryExperience() {
                           { id: "resort" as const, label: "Resort / Hotel", Icon: Hotel },
                           { id: "yacht" as const, label: "Yacht / Boat", Icon: Sailboat },
                           { id: "residence" as const, label: "Private Villa", Icon: Home },
-                          { id: "pickup" as const, label: "Marina Pickup", Icon: ShoppingBag },
+                          { id: "pickup" as const, label: "Marina Pickup", Icon: Utensils },
                         ].map(({ id, label, Icon }) => {
                           const isSelected = form.destinationType === id;
                           return (
