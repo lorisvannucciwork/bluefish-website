@@ -60,15 +60,15 @@ export default function DeliveryHero() {
             textShadow: "0 2px 14px rgba(0,0,0,0.5)",
           }}
         >
-          FRESH TO YOUR RESORT
+          SUSHI
           <span className="text-[#0084D1] mx-2.5 sm:mx-3.5 text-[0.6em] align-middle leading-none inline-block">
             •
           </span>
-          MARINA YACHT
+          SEAFOOD
           <span className="text-[#0084D1] mx-2.5 sm:mx-3.5 text-[0.6em] align-middle leading-none inline-block">
             •
           </span>
-          PRIVATE VILLA
+          SEAVIEW
         </p>
       </div>
 
