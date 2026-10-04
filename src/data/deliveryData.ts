@@ -5,9 +5,9 @@ export interface DeliveryZone {
   notes: string;
 }
 
-export const DELIVERY_PHONE = "01206964411";
-export const DELIVERY_PHONE_INTL = "+20 120 696 4411";
-export const DELIVERY_WHATSAPP_CLEAN = "201206964411";
+export const DELIVERY_PHONE = "01109789626";
+export const DELIVERY_PHONE_INTL = "+20 110 978 9626";
+export const DELIVERY_WHATSAPP_CLEAN = "201109789626";
 export const DELIVERY_HOURS = "12:00 PM – 11:30 PM (Daily)";
 export const DELIVERY_AVG_TIME = "30–45 Mins";
 
@@ -69,7 +69,7 @@ export const deliveryHighlights = [
   },
   {
     title: "Instant WhatsApp Checkout",
-    desc: "Submit your order in one click; our team confirms instantly on WhatsApp at 01206964411.",
+    desc: "Submit your order in one click; our team confirms instantly on WhatsApp at 01109789626.",
     icon: "MessageSquare",
   },
   {

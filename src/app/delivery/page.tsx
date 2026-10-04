@@ -7,7 +7,7 @@ import Footer from "@/components/layout/Footer";
 export const metadata: Metadata = {
   title: "Delivery to Resort & Yacht | Blue Fish Port Ghalib Marina",
   description:
-    "Order ocean-fresh seafood, sushi platters, and specialty rolls delivered directly to your Port Ghalib hotel, resort room, or marina yacht berth. Fast WhatsApp ordering: 01206964411.",
+    "Order ocean-fresh seafood, sushi platters, and specialty rolls delivered directly to your Port Ghalib hotel, resort room, or marina yacht berth. Fast WhatsApp ordering: +20 1109789626.",
   keywords: [
     "Blue Fish Delivery",
     "Port Ghalib Food Delivery",
