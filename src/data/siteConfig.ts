@@ -12,6 +12,7 @@ export const siteConfig = {
   navLinks: [
     { label: "Home", href: "/" },
     { label: "Menu", href: "/menu" },
+    { label: "Delivery", href: "/delivery" },
     // { label: "Events", href: "/events" }, // Hidden for now
     // { label: "Gallery", href: "/gallery" }, // Hidden for now
   ] as NavLink[],

@@ -29,6 +29,10 @@ export default function Footer() {
 
         {/* Footer Navigation Links */}
         <div className="flex items-center justify-center gap-8 pt-6 border-t border-[#C68B59]/15 text-xs font-semibold tracking-[0.2em] uppercase text-[#0B203B]/70">
+          <Link href="/delivery" className="hover:text-[#C68B59] transition-colors">
+            Delivery
+          </Link>
+          <span className="text-[#C68B59]/30">•</span>
           <Link href="/media" className="hover:text-[#C68B59] transition-colors">
             Media
           </Link>
