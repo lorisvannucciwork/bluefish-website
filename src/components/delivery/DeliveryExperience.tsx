@@ -1102,7 +1102,7 @@ export default function DeliveryExperience() {
                           ? "Villa Number / Street Address *"
                           : form.destinationType === "outside"
                           ? "Delivery Address Outside Port Ghalib *"
-                          : "Estimated Pickup Time *"}
+                          : "Marina Location *"}
                       </label>
                       <input
                         type="text"
@@ -1119,7 +1119,7 @@ export default function DeliveryExperience() {
                             ? "Enter your villa or apartment address here..."
                             : form.destinationType === "outside"
                             ? "Enter your location or hotel outside Port Ghalib here..."
-                            : "Enter your estimated pickup time here..."
+                            : "Enter Your Marina Location"
                         }
                         className={`w-full px-3.5 py-2.5 rounded-xl text-sm bg-white border transition-colors focus:outline-none ${
                           formErrors.destination

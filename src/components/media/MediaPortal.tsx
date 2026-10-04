@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Utensils, ExternalLink, ArrowRight } from "lucide-react";
+import { Utensils, ExternalLink, ArrowRight, Truck } from "lucide-react";
 
 export default function MediaPortal() {
   const socialChannels = [
@@ -63,20 +63,52 @@ export default function MediaPortal() {
       />
 
       <div className="max-w-2xl mx-auto relative z-10 space-y-6">
-        {/* Bright Digital Menu Action Card */}
-        <div className="relative group">
+        {/* Bright Delivery & Digital Menu Action Cards */}
+        <div className="space-y-3">
+          <Link
+            href="/delivery"
+            className="block p-5 sm:p-6 rounded-2xl bg-white text-[#0B203B] border-2 border-[#0084D1]/40 hover:border-[#0084D1] shadow-md hover:shadow-xl transition-all duration-300 hover:-translate-y-1 cursor-pointer overflow-hidden relative group"
+            style={{
+              background: "linear-gradient(135deg, #FFFFFF 0%, #F5FAFD 100%)",
+            }}
+          >
+            <div className="relative z-10 flex items-center justify-between gap-4">
+              <div className="flex items-center gap-4 sm:gap-5">
+                <div className="w-12 h-12 rounded-xl bg-[#0084D1]/15 border border-[#0084D1]/30 flex items-center justify-center text-[#0084D1] shrink-0 group-hover:bg-[#0084D1] group-hover:text-white transition-colors duration-300">
+                  <Truck className="w-6 h-6" />
+                </div>
+                <div>
+                  <span className="text-xl sm:text-2xl font-bold tracking-wide text-[#0B203B] group-hover:text-[#0084D1] transition-colors block">
+                    Order Delivery Online
+                  </span>
+                  <span className="text-xs sm:text-sm text-[#4c6f92]">
+                    Fresh sushi & seafood to your hotel, yacht, or villa
+                  </span>
+                </div>
+              </div>
+              <div className="w-10 h-10 rounded-full bg-[#0B203B]/5 border border-[#0B203B]/10 flex items-center justify-center shrink-0 group-hover:bg-[#0084D1] group-hover:translate-x-1 transition-all duration-300">
+                <ArrowRight className="w-5 h-5 text-[#0B203B] group-hover:text-white transition-colors" />
+              </div>
+            </div>
+          </Link>
+
           <Link
             href="/menu"
-            className="block p-5 sm:p-6 rounded-2xl bg-white text-[#0B203B] border-2 border-[#C68B59]/30 hover:border-[#0084D1] shadow-md hover:shadow-xl transition-all duration-300 hover:-translate-y-1 cursor-pointer overflow-hidden relative"
+            className="block p-5 sm:p-6 rounded-2xl bg-white text-[#0B203B] border-2 border-[#C68B59]/30 hover:border-[#0084D1] shadow-md hover:shadow-xl transition-all duration-300 hover:-translate-y-1 cursor-pointer overflow-hidden relative group"
           >
             <div className="relative z-10 flex items-center justify-between gap-4">
               <div className="flex items-center gap-4 sm:gap-5">
                 <div className="w-12 h-12 rounded-xl bg-[#C68B59]/15 border border-[#C68B59]/30 flex items-center justify-center text-[#C68B59] shrink-0 group-hover:bg-[#C68B59] group-hover:text-white transition-colors duration-300">
                   <Utensils className="w-6 h-6" />
                 </div>
-                <span className="text-xl sm:text-2xl font-bold tracking-wide text-[#0B203B] group-hover:text-[#C68B59] transition-colors">
-                  View Digital Menu
-                </span>
+                <div>
+                  <span className="text-xl sm:text-2xl font-bold tracking-wide text-[#0B203B] group-hover:text-[#C68B59] transition-colors block">
+                    View Digital Menu
+                  </span>
+                  <span className="text-xs sm:text-sm text-[#4c6f92]">
+                    Explore our dine-in dishes, platters & drinks
+                  </span>
+                </div>
               </div>
               <div className="w-10 h-10 rounded-full bg-[#0B203B]/5 border border-[#0B203B]/10 flex items-center justify-center shrink-0 group-hover:bg-[#0084D1] group-hover:translate-x-1 transition-all duration-300">
                 <ArrowRight className="w-5 h-5 text-[#0B203B] group-hover:text-white transition-colors" />
