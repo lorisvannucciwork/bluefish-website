@@ -20,6 +20,7 @@ import {
   Hotel,
   Sailboat,
   Home,
+  Building2,
   CheckCircle2,
   AlertCircle,
   FileText,
@@ -46,7 +47,7 @@ export interface CartItem {
 interface OrderForm {
   fullName: string;
   phone: string;
-  destinationType: "resort" | "yacht" | "residence" | "pickup";
+  destinationType: "resort" | "yacht" | "apartment" | "residence" | "outside" | "pickup";
   destinationDetails: string;
   deliveryTime: "asap" | "scheduled";
   scheduledTime: string;
@@ -347,7 +348,9 @@ export default function DeliveryExperience() {
     const destinationLabels: Record<string, string> = {
       resort: "Hotel / Resort",
       yacht: "Marina Yacht / Mooring Berth",
-      residence: "Private Villa / Apartment",
+      apartment: "Studio / Apartment (Port Ghalib)",
+      residence: "Private Villa (Port Ghalib)",
+      outside: "Outside Port Ghalib Area",
       pickup: "Marina Takeaway Pickup",
     };
 
@@ -364,7 +367,7 @@ export default function DeliveryExperience() {
     msg += `🏨 *Destination Details:* ${form.destinationDetails || "Please ask guest"}\n`;
     msg += `⏰ *Delivery Timing:* ${
       form.deliveryTime === "asap"
-        ? "ASAP"
+        ? "As fast as possible"
         : `Scheduled for: ${format12Hour(form.scheduledTime)} (${form.scheduledTime})`
     }\n`;
     msg += `💳 *Payment Method:* ${paymentLabels[form.paymentMethod]}\n`;
@@ -1051,11 +1054,13 @@ export default function DeliveryExperience() {
                     {/* Destination Type Selectors */}
                     <div className="space-y-1.5">
                       <label className="text-xs font-semibold text-[#0B203B]">Location Type</label>
-                      <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+                      <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
                         {[
                           { id: "resort" as const, label: "Resort / Hotel", Icon: Hotel },
                           { id: "yacht" as const, label: "Yacht / Boat", Icon: Sailboat },
+                          { id: "apartment" as const, label: "Studio / Apartment", Icon: Building2 },
                           { id: "residence" as const, label: "Private Villa", Icon: Home },
+                          { id: "outside" as const, label: "Outside Port Ghalib", Icon: MapPin },
                           { id: "pickup" as const, label: "Marina Pickup", Icon: Utensils },
                         ].map(({ id, label, Icon }) => {
                           const isSelected = form.destinationType === id;
@@ -1091,8 +1096,12 @@ export default function DeliveryExperience() {
                           ? "Resort Name & Room Number *"
                           : form.destinationType === "yacht"
                           ? "Boat Name & Pier / Berth # *"
+                          : form.destinationType === "apartment"
+                          ? "Studio / Apartment & Building Name *"
                           : form.destinationType === "residence"
                           ? "Villa Number / Street Address *"
+                          : form.destinationType === "outside"
+                          ? "Delivery Address Outside Port Ghalib *"
                           : "Estimated Pickup Time *"}
                       </label>
                       <input
@@ -1104,8 +1113,12 @@ export default function DeliveryExperience() {
                             ? "Enter your resort name and room number here..."
                             : form.destinationType === "yacht"
                             ? "Enter your boat name and pier or berth number here..."
+                            : form.destinationType === "apartment"
+                            ? "Enter your studio/apartment building and unit number here..."
                             : form.destinationType === "residence"
                             ? "Enter your villa or apartment address here..."
+                            : form.destinationType === "outside"
+                            ? "Enter your location or hotel outside Port Ghalib here..."
                             : "Enter your estimated pickup time here..."
                         }
                         className={`w-full px-3.5 py-2.5 rounded-xl text-sm bg-white border transition-colors focus:outline-none ${
@@ -1139,7 +1152,7 @@ export default function DeliveryExperience() {
                             }}
                           >
                             <span className="font-medium text-[#0B203B] truncate">
-                              {form.deliveryTime === "asap" ? "ASAP" : "Schedule for later today"}
+                              {form.deliveryTime === "asap" ? "As fast as possible" : "Schedule for later today"}
                             </span>
                             <ChevronDown
                               className="w-4 h-4 text-[#C68B59] transition-transform duration-200 shrink-0 ml-1.5"
@@ -1167,7 +1180,7 @@ export default function DeliveryExperience() {
                                   fontWeight: form.deliveryTime === "asap" ? 600 : 400,
                                 }}
                               >
-                                <span>ASAP</span>
+                                <span>As fast as possible</span>
                                 {form.deliveryTime === "asap" && (
                                   <Check className="w-3.5 h-3.5 text-[#C68B59] shrink-0" />
                                 )}
