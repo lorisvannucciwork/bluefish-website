@@ -13,8 +13,6 @@ export const siteConfig = {
     { label: "Home", href: "/" },
     { label: "Menu", href: "/menu" },
     { label: "Delivery", href: "/delivery" },
-    // { label: "Events", href: "/events" }, // Hidden for now
-    // { label: "Gallery", href: "/gallery" }, // Hidden for now
   ] as NavLink[],
   socialLinks: [
     { platform: "instagram", url: "https://www.instagram.com/bluefishportghalib", label: "Instagram" },
