@@ -52,6 +52,16 @@ export default function Navbar({ variant = "transparent" }: NavbarProps) {
 
   const isSolid = variant === "solid" || isScrolled;
 
+  const normalizePath = (path?: string | null) => (path ? path.replace(/\/+$/, "") || "/" : "/");
+  const isLinkActive = (href: string) => {
+    const current = normalizePath(pathname);
+    const target = normalizePath(href);
+    if (target === "/") {
+      return current === "/";
+    }
+    return current === target || current.startsWith(target + "/");
+  };
+
   return (
     <>
       <div
@@ -82,7 +92,7 @@ export default function Navbar({ variant = "transparent" }: NavbarProps) {
                 }`}
               >
                 {siteConfig.navLinks.map((link) => {
-                  const isActive = pathname === link.href;
+                  const isActive = isLinkActive(link.href);
                   return (
                     <li key={link.href}>
                       <Link
@@ -156,7 +166,7 @@ export default function Navbar({ variant = "transparent" }: NavbarProps) {
 
         <div className="relative z-10 px-6 sm:px-10 py-6 my-auto space-y-8 flex flex-col items-center justify-center text-center">
           {siteConfig.navLinks.map((link, idx) => {
-            const isActive = pathname === link.href;
+            const isActive = isLinkActive(link.href);
 
             return (
               <div
