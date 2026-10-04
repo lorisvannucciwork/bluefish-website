@@ -98,6 +98,11 @@ const presetTimes = [
   { value: "00:30", label: "12:30 AM" },
 ];
 
+// ─── CART STORAGE & AUTO-RESET CONFIGURATION ────────────────────────────────
+const CART_STORAGE_KEY = "bluefish_delivery_bag_v1";
+// Auto-reset cart after 2 hours of inactivity or if date changes
+const CART_EXPIRY_MS = 2 * 60 * 60 * 1000;
+
 // ─── Visual Dish Thumbnail Component ─────────────────────────────────────────
 function DeliveryDishVisual({ src, alt }: { src?: string; alt: string }) {
   const { loaded, onLoad, onError, setNode } = useImageLoaded();
@@ -250,6 +255,118 @@ export default function DeliveryExperience() {
       document.body.style.overflow = "";
     };
   }, [isDrawerOpen]);
+
+  // ─── LOCALSTORAGE CART PERSISTENCE & AUTO-RESET ────────────────────────────
+  const isCartHydratedRef = useRef(false);
+
+  // Safe loader with auto-reset expiry check
+  const loadCartFromStorage = (): CartItem[] => {
+    if (typeof window === "undefined") return [];
+    try {
+      const raw = localStorage.getItem(CART_STORAGE_KEY);
+      if (!raw) return [];
+      const parsed = JSON.parse(raw);
+      const now = Date.now();
+      const savedAt = typeof parsed?.savedAt === "number" ? parsed.savedAt : 0;
+
+      // Auto-reset if older than 2 hours or saved on a different calendar day
+      const isExpired =
+        !savedAt ||
+        now - savedAt > CART_EXPIRY_MS ||
+        new Date(savedAt).toDateString() !== new Date(now).toDateString();
+
+      if (isExpired) {
+        localStorage.removeItem(CART_STORAGE_KEY);
+        return [];
+      }
+
+      if (Array.isArray(parsed.items)) {
+        return parsed.items.filter(
+          (i: unknown) =>
+            i &&
+            typeof i === "object" &&
+            typeof (i as CartItem).name === "string" &&
+            typeof (i as CartItem).unitPrice === "number" &&
+            typeof (i as CartItem).quantity === "number" &&
+            (i as CartItem).quantity > 0
+        ) as CartItem[];
+      }
+    } catch {
+      try {
+        localStorage.removeItem(CART_STORAGE_KEY);
+      } catch {
+        // ignore
+      }
+    }
+    return [];
+  };
+
+  // Restore cart on client mount & sync across tabs or tab re-focus
+  useEffect(() => {
+    const saved = loadCartFromStorage();
+    if (saved.length > 0) {
+      setCart(saved);
+    }
+    isCartHydratedRef.current = true;
+
+    // Auto-check expiry when user returns to tab
+    const handleVisibilityOrFocus = () => {
+      if (document.visibilityState === "visible") {
+        const fresh = loadCartFromStorage();
+        setCart(fresh);
+      }
+    };
+
+    // Cross-tab synchronization
+    const handleStorage = (e: StorageEvent) => {
+      if (e.key === CART_STORAGE_KEY) {
+        if (!e.newValue) {
+          setCart([]);
+        } else {
+          const fresh = loadCartFromStorage();
+          setCart(fresh);
+        }
+      }
+    };
+
+    window.addEventListener("focus", handleVisibilityOrFocus);
+    document.addEventListener("visibilitychange", handleVisibilityOrFocus);
+    window.addEventListener("storage", handleStorage);
+
+    return () => {
+      window.removeEventListener("focus", handleVisibilityOrFocus);
+      document.removeEventListener("visibilitychange", handleVisibilityOrFocus);
+      window.removeEventListener("storage", handleStorage);
+    };
+  }, []);
+
+  // Save cart to localStorage on state changes (updating savedAt timestamp)
+  useEffect(() => {
+    if (!isCartHydratedRef.current) return;
+    try {
+      if (cart.length === 0) {
+        localStorage.removeItem(CART_STORAGE_KEY);
+      } else {
+        const payload = {
+          items: cart,
+          savedAt: Date.now(),
+        };
+        localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(payload));
+      }
+    } catch {
+      // Ignore quota or private mode write errors
+    }
+  }, [cart]);
+
+  // Clean reset function for bag
+  const clearCart = () => {
+    setCart([]);
+    try {
+      localStorage.removeItem(CART_STORAGE_KEY);
+    } catch {
+      // ignore
+    }
+  };
 
   // Group displayed sections by activeCategory and search query
   const displayedSections = useMemo(() => {
@@ -411,6 +528,9 @@ export default function DeliveryExperience() {
 
     const message = generateWhatsAppMessage();
     setSubmittedOrder(message);
+
+    // Auto-reset delivery bag on order placement
+    clearCart();
 
     const waUrl = `https://wa.me/${DELIVERY_WHATSAPP_CLEAN}?text=${encodeURIComponent(message)}`;
     window.open(waUrl, "_blank", "noopener,noreferrer");
@@ -780,7 +900,10 @@ export default function DeliveryExperience() {
         >
           <button
             type="button"
-            onClick={() => setIsDrawerOpen(true)}
+            onClick={() => {
+              setSubmittedOrder(null);
+              setIsDrawerOpen(true);
+            }}
             className="w-full sm:w-auto flex items-center justify-between gap-5 sm:gap-7 px-6 py-3.5 rounded-full shadow-2xl cursor-pointer transition-all duration-300"
             style={{
               background: "linear-gradient(135deg, #FFFFFF 0%, #FFFDF9 60%, #FAF4EB 100%)",
@@ -828,7 +951,10 @@ export default function DeliveryExperience() {
           {/* Backdrop */}
           <div
             className="fixed inset-0 bg-black/60 backdrop-blur-sm transition-opacity"
-            onClick={() => setIsDrawerOpen(false)}
+            onClick={() => {
+              setIsDrawerOpen(false);
+              setSubmittedOrder(null);
+            }}
           />
 
           {/* Drawer Container */}
@@ -846,13 +972,18 @@ export default function DeliveryExperience() {
                   Your Delivery Order
                 </h3>
                 <p className="text-xs text-[#4c6f92]">
-                  {totalItemsCount} dish{totalItemsCount > 1 ? "es" : ""} • WhatsApp checkout
+                  {submittedOrder
+                    ? "Order Submitted • Bag Reset"
+                    : `${totalItemsCount} dish${totalItemsCount > 1 ? "es" : ""} • WhatsApp checkout`}
                 </p>
               </div>
 
               <button
                 type="button"
-                onClick={() => setIsDrawerOpen(false)}
+                onClick={() => {
+                  setIsDrawerOpen(false);
+                  setSubmittedOrder(null);
+                }}
                 className="w-9 h-9 rounded-full bg-slate-100 hover:bg-slate-200 text-[#0B203B] flex items-center justify-center transition-colors cursor-pointer"
               >
                 <X className="w-5 h-5" />
@@ -864,7 +995,48 @@ export default function DeliveryExperience() {
               className="flex-1 overflow-y-auto p-5 sm:p-6 space-y-8 scrollbar-none"
               style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
             >
-              {cart.length === 0 ? (
+              {submittedOrder ? (
+                <div className="text-center py-12 px-2 space-y-5 animate-in fade-in zoom-in-95 duration-300">
+                  <div className="w-16 h-16 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center mx-auto shadow-sm">
+                    <Check className="w-8 h-8" />
+                  </div>
+                  <div className="space-y-2">
+                    <h4
+                      className="text-2xl text-[#0B203B]"
+                      style={{ fontFamily: "var(--font-arapey), Georgia, serif" }}
+                    >
+                      Order Sent to WhatsApp!
+                    </h4>
+                    <p className="text-xs sm:text-sm text-[#4c6f92] max-w-xs mx-auto">
+                      Your delivery bag has been automatically reset. Send the pre-filled message in WhatsApp to confirm your delivery with our team.
+                    </p>
+                  </div>
+                  <div className="pt-2 flex flex-col sm:flex-row gap-3 justify-center">
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setSubmittedOrder(null);
+                        setIsDrawerOpen(false);
+                      }}
+                      className="px-6 py-2.5 rounded-full text-white text-xs sm:text-sm font-medium transition-transform hover:scale-105 cursor-pointer shadow-md"
+                      style={{ background: "#0B203B" }}
+                    >
+                      Start New Order
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        const waUrl = `https://wa.me/${DELIVERY_WHATSAPP_CLEAN}?text=${encodeURIComponent(submittedOrder)}`;
+                        window.open(waUrl, "_blank", "noopener,noreferrer");
+                      }}
+                      className="px-6 py-2.5 rounded-full text-white text-xs sm:text-sm font-medium transition-transform hover:scale-105 cursor-pointer shadow-md flex items-center justify-center gap-2"
+                      style={{ background: "#25D366" }}
+                    >
+                      <span>Re-open WhatsApp</span>
+                    </button>
+                  </div>
+                </div>
+              ) : cart.length === 0 ? (
                 <div className="text-center py-16 space-y-4">
                   <Utensils className="w-12 h-12 text-[#C68B59]/50 mx-auto" />
                   <p className="text-lg text-[#4c6f92]">Your delivery bag is currently empty.</p>
@@ -887,7 +1059,7 @@ export default function DeliveryExperience() {
                       </h4>
                       <button
                         type="button"
-                        onClick={() => setCart([])}
+                        onClick={clearCart}
                         className="text-xs text-rose-600 hover:underline cursor-pointer"
                       >
                         Clear Bag
