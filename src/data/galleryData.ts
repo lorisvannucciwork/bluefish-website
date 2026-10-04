@@ -1,12 +1,4 @@
-import { GalleryImage, GalleryCategory } from "@/types";
-
-export const galleryCategories: GalleryCategory[] = [
-  { id: "all", name: "All Moments" },
-  { id: "waterfront", name: "Waterfront & Marina" },
-  { id: "interior", name: "Architecture & Interior" },
-  { id: "bar-lounge", name: "Bar & Mixology" },
-  { id: "private-salons", name: "Private Salons" },
-];
+import { GalleryImage } from "@/types";
 
 export const galleryImages: GalleryImage[] = [
   {

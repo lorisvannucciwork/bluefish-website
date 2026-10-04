@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Utensils, ExternalLink, ArrowRight, Truck } from "lucide-react";
+import { Utensils, ArrowRight, Truck, ExternalLink } from "lucide-react";
 
 export default function MediaPortal() {
   const socialChannels = [

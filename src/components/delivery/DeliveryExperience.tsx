@@ -16,13 +16,10 @@ import {
   Copy,
   Phone,
   ArrowRight,
-  Sparkles,
   Hotel,
   Sailboat,
   Home,
   Building2,
-  CheckCircle2,
-  AlertCircle,
   FileText,
 } from "lucide-react";
 import { menuSectionsData, menuCategories } from "@/data/menuData";

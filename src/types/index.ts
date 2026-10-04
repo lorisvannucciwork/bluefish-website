@@ -31,11 +31,6 @@ export interface GalleryImage {
   location?: string;
 }
 
-export interface GalleryCategory {
-  id: string;
-  name: string;
-}
-
 export interface NavLink {
   label: string;
   href: string;
