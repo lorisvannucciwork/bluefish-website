@@ -1,7 +1,6 @@
 import Link from "next/link";
 import Logo from "@/components/ui/Logo";
 import SocialLinks from "@/components/ui/SocialLinks";
-import { siteConfig } from "@/data/siteConfig";
 
 export default function Footer() {
   return (
@@ -13,12 +12,9 @@ export default function Footer() {
       <div className="max-w-7xl mx-auto relative z-10 space-y-10">
         {/* Main Footer Row */}
         <div className="grid grid-cols-1 md:grid-cols-12 gap-10 items-center justify-between">
-          {/* Left: Brand Identity & Poetic Tagline */}
-          <div className="md:col-span-6 space-y-4 text-center md:text-left flex flex-col items-center md:items-start">
+          {/* Left: Brand Identity */}
+          <div className="md:col-span-6 text-center md:text-left flex flex-col items-center md:items-start">
             <Logo variant="footer" className="w-fit" />
-            <p className="text-lg text-[#0B203B]/80 font-normal max-w-md leading-relaxed">
-              {siteConfig.tagline}
-            </p>
           </div>
 
           {/* Right: Warm Social Badges */}
