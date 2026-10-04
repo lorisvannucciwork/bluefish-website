@@ -857,7 +857,10 @@ export default function DeliveryExperience() {
             </div>
 
             {/* Drawer Scrollable Content */}
-            <div className="flex-1 overflow-y-auto p-5 sm:p-6 space-y-8">
+            <div
+              className="flex-1 overflow-y-auto p-5 sm:p-6 space-y-8 scrollbar-none"
+              style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
+            >
               {cart.length === 0 ? (
                 <div className="text-center py-16 space-y-4">
                   <Utensils className="w-12 h-12 text-[#C68B59]/50 mx-auto" />
