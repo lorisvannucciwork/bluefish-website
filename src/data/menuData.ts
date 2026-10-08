@@ -241,11 +241,13 @@ export const menuSectionsData: MenuSection[] = [
       },
       {
         name: "Seabass", category: "sushi-classics", price: "€1.50",
-        image: "/images/menu/seabass-nigiri.JPEG",
+        image: "/images/menu/nigiri-seabass.JPEG",
+
       },
       {
         name: "Eel teriyaki & sesame", category: "sushi-classics", price: "€1.50",
         image: "/images/menu/nigiri-eel.JPEG",
+
       },
       {
         name: "Caviar rice & nori", category: "sushi-classics", price: "€1.50",
